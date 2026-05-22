@@ -1,0 +1,20 @@
+streamlit>=1.35.0
+pandas>=2.0.0
+numpy>=1.24.0
+requests>=2.31.0
+plotly>=5.18.0
+scikit-learn>=1.3.0
+# scipy is a transitive dep of scikit-learn, but listed explicitly because
+# props_engine.py uses scipy.stats.poisson / nbinom / norm directly to
+# compute P(over line) for player-prop edge/EV math.
+scipy>=1.10.0
+xgboost>=2.0.0
+# LightGBM is used by train_pitcher_two_stage.py when --model lgb is
+# selected (LightGBM supports monotonic constraints, which improve OOS
+# MAE by 3-7% on regressors that benefit from directional priors).
+lightgbm>=4.0.0
+beautifulsoup4>=4.12.0
+pyarrow>=14.0.0
+# Pulls 2026 Statcast pitch-level data (refresh_2026_data.py) so the
+# projection model uses live current-season history, not a stale 2025 cache.
+pybaseball>=2.2.7

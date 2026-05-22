@@ -1,0 +1,37 @@
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+.DS_Store
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+
+# --- Big training data (NOT needed for daily inference; only for retraining) ---
+pitch_data_2025.csv
+# Statcast pitch-level cache for the 2026 season — regenerated on every cron
+# run by refresh_2026_data.py. Lives in GitHub Actions cache instead of git.
+pitch_data_2026.csv
+
+# --- Streamlit secrets (do NOT commit) ---
+.streamlit/secrets.toml
+
+# --- Logs ---
+*.log
+logs/
+
+# NOTE: outputs/*.csv, 2026_picks_accuracy.csv, and 2026_player_accuracy.csv
+# ARE committed. The daily GitHub Actions cron writes them and pushes them
+# so the Render web service can read fresh data on each deploy.
+
+data/pitch_data.csv
+
+# --- Props raw fetch (regenerated each cron tick; only the *_with_ev.csv is committed) ---
+outputs/today_props_raw.csv
+
+pitch_data_combined.csv

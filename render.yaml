@@ -1,0 +1,16 @@
+# Render Blueprint — single web service.
+# The daily cron is run by GitHub Actions, NOT Render, to avoid Render's
+# free-tier ephemeral disk problem. See .github/workflows/daily.yml
+services:
+  - type: web
+    name: thebullpenbet
+    runtime: python
+    plan: free                # upgrade to "starter" ($7/mo) for always-on (no spin-down)
+    region: ohio              # closest to ET — change if you want
+    buildCommand: pip install -r requirements-server.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    autoDeploy: true          # redeploy whenever the GitHub repo updates (cron commits CSVs)
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9

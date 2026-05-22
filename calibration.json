@@ -1,0 +1,217 @@
+{
+  "computed_at": "2026-05-21 22:08",
+  "min_n": 30,
+  "n_hitter": 13376,
+  "n_pitcher": 1341,
+  "hitter": {
+    "proj_pa": {
+      "bias": 0.1751,
+      "n": 13376,
+      "applied": true,
+      "reason": "ok"
+    },
+    "proj_hits": {
+      "bias": 0.0367,
+      "n": 13376,
+      "applied": false,
+      "reason": "|bias|<0.05"
+    },
+    "proj_hr": {
+      "bias": -0.0218,
+      "n": 13376,
+      "applied": false,
+      "reason": "|bias|<0.05"
+    },
+    "proj_strikeouts": {
+      "bias": 0.1133,
+      "n": 13376,
+      "applied": true,
+      "reason": "ok"
+    },
+    "proj_walks": {
+      "bias": -0.034,
+      "n": 13376,
+      "applied": false,
+      "reason": "|bias|<0.05"
+    },
+    "proj_runs": {
+      "bias": -0.015,
+      "n": 13376,
+      "applied": false,
+      "reason": "|bias|<0.05"
+    },
+    "proj_rbi": {
+      "bias": -0.0675,
+      "n": 13376,
+      "applied": true,
+      "reason": "ok"
+    }
+  },
+  "pitcher": {
+    "proj_ip": {
+      "bias": -0.3119,
+      "n": 1341,
+      "applied": true,
+      "reason": "ok"
+    },
+    "proj_strikeouts": {
+      "bias": -0.2524,
+      "n": 1341,
+      "applied": true,
+      "reason": "ok"
+    },
+    "proj_walks": {
+      "bias": -0.2043,
+      "n": 1341,
+      "applied": true,
+      "reason": "ok"
+    },
+    "proj_hits_allowed": {
+      "bias": 0.2437,
+      "n": 1341,
+      "applied": true,
+      "reason": "ok"
+    },
+    "proj_runs_allowed": {
+      "bias": 0.1591,
+      "n": 1341,
+      "applied": true,
+      "reason": "ok"
+    }
+  },
+  "hitter_tiers": {
+    "top": {
+      "proj_pa": {
+        "bias": 0.0641,
+        "n": 4452,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_hits": {
+        "bias": 0.0455,
+        "n": 4452,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_hr": {
+        "bias": -0.0288,
+        "n": 4452,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_strikeouts": {
+        "bias": 0.104,
+        "n": 4452,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_walks": {
+        "bias": -0.0802,
+        "n": 4452,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_runs": {
+        "bias": -0.0213,
+        "n": 4452,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_rbi": {
+        "bias": -0.0554,
+        "n": 4452,
+        "applied": true,
+        "reason": "ok"
+      }
+    },
+    "middle": {
+      "proj_pa": {
+        "bias": 0.0916,
+        "n": 4460,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_hits": {
+        "bias": -0.001,
+        "n": 4460,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_hr": {
+        "bias": -0.0282,
+        "n": 4460,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_strikeouts": {
+        "bias": 0.0667,
+        "n": 4460,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_walks": {
+        "bias": -0.0151,
+        "n": 4460,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_runs": {
+        "bias": -0.0111,
+        "n": 4460,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_rbi": {
+        "bias": -0.0847,
+        "n": 4460,
+        "applied": true,
+        "reason": "ok"
+      }
+    },
+    "bottom": {
+      "proj_pa": {
+        "bias": 0.3692,
+        "n": 4464,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_hits": {
+        "bias": 0.0655,
+        "n": 4464,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_hr": {
+        "bias": -0.0085,
+        "n": 4464,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_strikeouts": {
+        "bias": 0.1692,
+        "n": 4464,
+        "applied": true,
+        "reason": "ok"
+      },
+      "proj_walks": {
+        "bias": -0.0069,
+        "n": 4464,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_runs": {
+        "bias": -0.0125,
+        "n": 4464,
+        "applied": false,
+        "reason": "|bias|<0.05"
+      },
+      "proj_rbi": {
+        "bias": -0.0623,
+        "n": 4464,
+        "applied": true,
+        "reason": "ok"
+      }
+    }
+  },
+  "pitcher_tiers": {}
+}

@@ -1,0 +1,166 @@
+name: Daily MLB Update
+
+# Runs at 3 AM, 11 AM, and 5 PM Eastern — every day during baseball season.
+# Why these times:
+#   3 AM  → West Coast games done by ~2 AM ET; safe to grade + run first slate
+#   11 AM → catches day-game lineups (1 PM ET first pitch) + morning line movement
+#   5 PM  → ~90% of night-game lineups confirmed; biggest accuracy boost of the day
+#
+# Schedules below are in UTC because GitHub Actions doesn't support TZ directly.
+#   - 7:00 UTC  = 3 AM ET (DST, March-November)
+#   - 8:00 UTC  = 3 AM ET (Standard time, November-March)
+#   - 15:00 UTC = 11 AM ET (DST)
+#   - 16:00 UTC = 11 AM ET (Standard)
+#   - 21:00 UTC = 5 PM ET (DST)
+#   - 22:00 UTC = 5 PM ET (Standard)
+# All six are listed so the schedule is correct year-round. The pipeline is
+# idempotent (drop_duplicates on game_pk; player snapshots skipped if present),
+# so extra firings during DST transition weeks are harmless.
+on:
+  schedule:
+    # Offset 7 min from hour boundary — GitHub Actions is most congested
+    # at exact :00 UTC, so :07 reliably fires while staying ~3 AM/11 AM/5 PM ET.
+    - cron: '7 7 * * *'    # 3:07 AM ET (DST)
+    - cron: '7 8 * * *'    # 3:07 AM ET (Standard)
+    - cron: '7 15 * * *'   # 11:07 AM ET (DST)
+    - cron: '7 16 * * *'   # 11:07 AM ET (Standard)
+    - cron: '7 21 * * *'   # 5:07 PM ET (DST)
+    - cron: '7 22 * * *'   # 5:07 PM ET (Standard)
+  workflow_dispatch:        # allows you to trigger manually from the Actions tab
+
+permissions:
+  contents: write           # required to commit the updated CSVs back to the repo
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    # Bumped 25 → 90 minutes. The first run after deploying the data refresh
+    # has to:
+    #   - pull ~2 months of 2026 Statcast (~150K pitches, ~5–10 min)
+    #   - rebuild per-game features (~2 min)
+    #   - backfill ~35 days of player projection snapshots (~20–30 min)
+    #   - grade them all against the MLB Stats API (~5–10 min)
+    # Once the pitch cache is warm and snapshots exist, daily runs are <10 min.
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Cache the 2026 pitch-level Statcast data between runs. The file is
+      # gigabyte-scale by season's end, so we don't commit it — but we do
+      # want incremental refreshes (pull only since latest cached date).
+      # The cache key changes daily so a fresh cache is written each day,
+      # but `restore-keys` lets us fall back to yesterday's cache as a base.
+      - name: Cache 2026 Statcast pitch data
+        uses: actions/cache@v4
+        with:
+          path: pitch_data_2026.csv
+          key: pitch-data-2026-${{ github.run_id }}
+          restore-keys: |
+            pitch-data-2026-
+
+      # daily_update.py is the SINGLE entry point. It runs:
+      #   0. 2026 Statcast refresh → rebuild data/*.csv feature files
+      #   1. Game-pick backfill
+      #   2. Today's game model
+      #   3. Game grading
+      #   4. NRFI backfill (past dates)
+      #   5. Today's NRFI predictions → 2026_nrfi_picks.csv
+      #   6. NRFI grading → 2026_nrfi_accuracy.csv
+      #   7. Player snapshot backfill
+      #   8. Today's player projections
+      #   9. Player projection grading
+      #  10. Calibration rebuild + apply
+      - name: Run daily pipeline (data refresh + games + players)
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+        run: python daily_update.py
+
+      - name: Commit fresh outputs
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+          # Stage every artifact the pipeline can touch:
+          #   data/                        → refreshed 2026 per-game features (LFS)
+          #   models/                      → trained model PKL files (nrfi, hitter, pitcher)
+          #   outputs/                     → today's predictions, dated snapshots, nrfi_today.csv
+          #   2026_picks_accuracy.csv      → game pick log
+          #   2026_player_accuracy.csv     → player projection vs actual log
+          #   2026_nrfi_picks.csv          → NRFI pick log (YES/NO lean per game)
+          #   2026_nrfi_accuracy.csv       → NRFI grading results
+          #   calibration.json             → live bias-correction block
+          # The pitch_data_2026.csv cache is gitignored (too large for git);
+          # it lives in the GitHub Actions cache instead.
+          # Stage every artifact the pipeline can touch:
+          #   data/                        → refreshed 2026 per-game features (LFS)
+          #   models/                      → trained model PKL files
+          #   outputs/                     → today's predictions, snapshots, props
+          #   2026_picks_accuracy.csv      → game pick log
+          #   2026_player_accuracy.csv     → player projection vs actual log
+          #   2026_nrfi_picks.csv          → NRFI picks log
+          #   2026_nrfi_accuracy.csv       → NRFI grading
+          #   2026_props_log.csv           → every prop seen (open + close stages)
+          #   2026_props_accuracy.csv      → graded prop picks
+          #   2026_props_clv.csv           → CLV deltas
+          #   calibration.json             → live bias-correction block
+          # Stage everything that exists. Some files (props_accuracy / props_clv /
+          # nrfi_accuracy) are only written once grading has actuals, so we add
+          # them only if present — otherwise `git add <missing>` exits non-zero
+          # and aborts the commit even when the rest of the pipeline succeeded.
+          git add data/ models/ outputs/ || true
+          for f in \
+            2026_picks_accuracy.csv \
+            2026_player_accuracy.csv \
+            2026_nrfi_picks.csv \
+            2026_nrfi_accuracy.csv \
+            2026_props_log.csv \
+            2026_props_accuracy.csv \
+            2026_props_clv.csv \
+            calibration.json; do
+            if [ -f "$f" ]; then
+              git add "$f"
+            else
+              echo "  (skipping $f — not present yet)"
+            fi
+          done
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Daily update — $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          # Retry on race conditions — if the user pushed while we were
+          # running, rebase our data commit on top with `-X theirs` so the
+          # cron's freshly-generated CSVs always win.
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "Push rejected on attempt $attempt; rebasing on origin/main..."
+            git fetch origin main
+            if ! git rebase -X theirs origin/main; then
+              echo "Rebase failed; aborting and retrying..."
+              git rebase --abort || true
+            fi
+            sleep $((attempt * 3))
+          done
+          echo "Failed to push after 5 attempts"
+          exit 1

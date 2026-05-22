@@ -1,0 +1,2613 @@
+<!DOCTYPE html>
+<!--
+  TheBullpenBet — V1 (paywall OFF)
+  ==================================
+  This is a single-file static site. Backend is server.py (FastAPI).
+  Set PAYWALL_ENABLED = true and add Stripe + Supabase keys to enable v2.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TheBullpenBet — MLB Research &amp; Analytics</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="theme-color" content="#0f1923" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:#0f1923; --surface:#1a2535; --surface-2:#243044;
+    --border:rgba(255,255,255,0.07); --border-active:rgba(255,255,255,0.11);
+    --green:#00c853; --green-hover:#00a844; --green-glow:rgba(0,200,83,0.12);
+    --red:#e53935; --yellow:#f0c040;
+    --text-primary:#f0f2f5; --text-secondary:#a0b0c4;
+    --text-muted:#6a7d94; --text-dim:#4a5a6e;
+    --font-display:'Barlow Condensed',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+    --font-body:'Barlow',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--bg);color:var(--text-primary);font-family:var(--font-body);font-weight:400;-webkit-font-smoothing:antialiased;min-height:100vh;}
+  body{overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  input{font-family:inherit;}
+
+  .topbar{position:sticky;top:0;z-index:100;height:56px;background:rgba(15,25,35,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;}
+  .logo{font-family:var(--font-display);font-weight:800;font-size:1.5rem;letter-spacing:0.02em;color:var(--text-primary);}
+  .logo .accent{color:var(--green);}
+  .tagline{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.12em;}
+
+  .tabbar{position:sticky;top:56px;z-index:90;background:var(--bg);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:0 1.5rem;}
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tab{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:0.88rem;letter-spacing:0.05em;color:var(--text-dim);padding:1rem 1.2rem;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s,border-color 0.15s;}
+  .tab:hover:not(.active){color:var(--text-secondary);}
+  .tab.active{color:var(--green);border-bottom-color:var(--green);}
+
+  main{max-width:1400px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+  .panel{display:none;animation:fadein 0.2s ease;}
+  .panel.active{display:block;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-bottom:1.25rem;}
+  .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem;}
+  .stat-label{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;}
+  .stat-value{font-family:var(--font-display);font-weight:700;font-size:2.4rem;line-height:1;color:var(--text-primary);margin-bottom:0.35rem;}
+  .stat-value.green{color:var(--green);}
+  .stat-value.red{color:var(--red);}
+  .stat-sub{font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);}
+
+  .filter-row{display:flex;align-items:center;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap;}
+  .pill{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:0.75rem;letter-spacing:0.05em;padding:0.45rem 0.95rem;border-radius:999px;border:1px solid var(--border-active);color:var(--text-muted);background:transparent;transition:all 0.15s;}
+  .pill:hover:not(.active){color:var(--text-primary);border-color:var(--text-secondary);}
+  .pill.active{background:var(--green);color:var(--bg);border-color:var(--green);}
+  .filter-count{font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);margin-left:auto;}
+
+  .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:0.75rem;}
+  .game-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;cursor:pointer;transition:transform 0.15s,border-color 0.15s,box-shadow 0.15s;}
+  .game-card:hover{transform:translateY(-1px);border-color:var(--border-active);}
+  .game-card.value{border-color:rgba(0,200,83,0.4);box-shadow:0 0 0 1px rgba(0,200,83,0.05) inset,0 4px 24px -10px rgba(0,200,83,0.18);}
+  .game-card.value:hover{border-color:rgba(0,200,83,0.7);}
+  .game-row-1{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;}
+  .game-time{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;}
+  .badge{font-family:var(--font-mono);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.25rem 0.6rem;border-radius:4px;font-weight:500;}
+  .badge-value{background:var(--green-glow);border:1px solid rgba(0,200,83,0.4);color:var(--green);}
+  .badge-pass{background:var(--surface-2);border:1px solid var(--border-active);color:var(--text-dim);}
+  .matchup-row{display:grid;grid-template-columns:1fr auto 1fr;gap:0.75rem;align-items:center;margin-bottom:0.85rem;}
+  .team-block{display:flex;flex-direction:column;gap:0.15rem;}
+  .team-block.home{text-align:right;align-items:flex-end;}
+  .team-abbr{font-family:var(--font-display);font-weight:700;font-size:2rem;color:var(--text-primary);line-height:1;}
+  .team-pitcher{font-family:var(--font-body);font-size:0.7rem;color:var(--text-dim);margin-top:0.2rem;}
+  .team-ml{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-secondary);}
+  .at-divider{font-family:var(--font-mono);color:var(--surface-2);font-size:1rem;}
+  .winprob{height:3px;background:var(--surface-2);border-radius:3px;overflow:hidden;margin-bottom:0.4rem;}
+  .winprob-fill{height:100%;background:var(--green);border-radius:3px;}
+  .winprob-labels{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);}
+  .pick-row{border-top:1px solid rgba(255,255,255,0.06);margin-top:0.65rem;padding-top:0.65rem;display:flex;justify-content:space-between;align-items:flex-start;}
+  .pick-side .pick-label{font-family:var(--font-mono);font-size:0.58rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.25rem;}
+  .pick-side.right{text-align:right;}
+  .pick-value{font-family:var(--font-body);font-weight:600;font-size:0.85rem;color:var(--text-primary);}
+  .pick-value .conf{color:var(--text-muted);font-weight:400;}
+  .ev-value{font-family:var(--font-mono);font-size:0.85rem;font-weight:500;}
+  .ev-value.positive{color:var(--green);}
+  .ev-value.negative{color:var(--red);}
+
+  .back-btn{font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;transition:color 0.15s;}
+  .back-btn:hover{color:var(--green);}
+  .matchup-header{margin-bottom:0.4rem;font-family:var(--font-display);font-weight:800;font-size:2.8rem;line-height:1;color:var(--text-primary);}
+  .matchup-sub{font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem;}
+  .section-header{font-family:var(--font-display);font-weight:700;font-size:0.7rem;color:var(--green);text-transform:uppercase;letter-spacing:0.14em;border-bottom:1px solid rgba(0,200,83,0.3);padding-bottom:0.55rem;margin:1.6rem 0 1rem;}
+  .pitcher-cards{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+  .pitcher-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem;}
+  .pitcher-name{font-family:var(--font-display);font-weight:700;font-size:1.5rem;color:var(--text-primary);line-height:1.1;}
+  .pitcher-sub{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);margin-top:0.2rem;margin-bottom:0.9rem;}
+  .stat-mini-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0.4rem;}
+  .stat-mini{background:var(--surface-2);border-radius:6px;padding:0.55rem 0.3rem;text-align:center;}
+  .stat-mini-label{font-family:var(--font-mono);font-size:0.55rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;}
+  .stat-mini-value{font-family:var(--font-display);font-weight:700;font-size:1.3rem;color:var(--text-primary);line-height:1;}
+  .lineup-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+  .lineup-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1rem;}
+  .lineup-team-name{font-family:var(--font-display);font-weight:700;font-size:1.1rem;color:var(--text-primary);margin-bottom:0.6rem;}
+  .lineup-header,.lineup-row{display:grid;grid-template-columns:22px 30px 1fr 28px 28px 28px 28px;gap:0.4rem;align-items:center;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.035);}
+  .lineup-header{font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;border-bottom-color:var(--border);}
+  .lineup-spot{font-family:var(--font-mono);font-size:0.62rem;color:#8a9db5;}
+  .lineup-pos{font-family:var(--font-mono);font-size:0.58rem;color:var(--text-muted);}
+  .lineup-name{font-size:0.8rem;color:var(--text-primary);font-weight:500;}
+  .lineup-stat{font-family:var(--font-mono);font-size:0.66rem;color:var(--text-secondary);text-align:right;}
+  .ml-line-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;}
+
+  .controls-row{display:flex;align-items:center;flex-wrap:wrap;gap:0.6rem;margin-bottom:1rem;}
+  select{
+    appearance:none;-webkit-appearance:none;-moz-appearance:none;
+    background:var(--surface-2) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23a0b0c4' d='M0 0l5 6 5-6z'/></svg>") no-repeat right 0.85rem center;
+    border:1px solid var(--border-active);color:var(--text-primary);
+    font-family:var(--font-mono);font-size:0.78rem;
+    padding:0.5rem 2.1rem 0.5rem 0.85rem;
+    border-radius:7px;outline:none;transition:border-color 0.15s;
+    cursor:pointer;
+  }
+  select:hover{border-color:var(--text-secondary);}
+  select:focus{border-color:var(--green);}
+  .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .data-table{width:100%;border-collapse:collapse;}
+  .data-table th{background:var(--surface);color:var(--text-dim);font-family:var(--font-mono);font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;text-align:right;padding:0.85rem 0.75rem;border-bottom:1px solid var(--border);font-weight:500;}
+  .data-table th:first-child,.data-table th:nth-child(2),.data-table th:nth-child(3){text-align:left;}
+  .data-table td{padding:0.75rem;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-secondary);text-align:right;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .data-table td:first-child{text-align:left;font-family:var(--font-body);font-size:0.85rem;color:var(--text-primary);font-weight:600;}
+  .data-table td:nth-child(2),.data-table td:nth-child(3){text-align:left;}
+  .data-table tbody tr:hover{background:rgba(255,255,255,0.02);}
+  .matchup-card-section{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem;margin-bottom:1rem;}
+  .matchup-card-header{font-family:var(--font-display);font-weight:700;font-size:1.2rem;color:var(--text-primary);margin-bottom:0.85rem;}
+  .matchup-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;position:relative;}
+  .matchup-cols::before{content:'';position:absolute;left:50%;top:0.6rem;bottom:0.6rem;width:1px;background:var(--border-active);transform:translateX(-50%);}
+  @media (max-width:760px){.matchup-cols::before{display:none;}}
+  .lineup-team-label{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;}
+  .conf-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-left:0.35rem;vertical-align:middle;}
+  .conf-dot.high{background:var(--green);} .conf-dot.med{background:var(--yellow);} .conf-dot.low{background:var(--red);}
+  .conf-text{font-family:var(--font-mono);font-size:0.66rem;font-weight:500;}
+  .conf-text.high{color:var(--green);} .conf-text.med{color:var(--yellow);} .conf-text.low{color:var(--red);}
+
+  /* 20-80 scouting grade */
+  .grade{font-family:var(--font-mono);font-weight:600;display:inline-block;}
+  .grade-elite{color:#00e668;}                  /* 70+ */
+  .grade-plus{color:#00c853;}                   /* 60-69 */
+  .grade-avg{color:#a0b0c4;}                    /* 50-59 */
+  .grade-below{color:#f0c040;}                  /* 40-49 */
+  .grade-poor{color:#e53935;}                   /* <40 */
+  .grade-pill{padding:0.15rem 0.5rem;border-radius:5px;background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:0.78rem;letter-spacing:0.04em;}
+  .hitter-lineup-row{display:grid;grid-template-columns:22px 28px 1fr 28px 28px 28px 28px 28px;gap:0.35rem;align-items:center;padding:0.35rem 0;border-bottom:1px solid rgba(255,255,255,0.035);}
+  .hitter-lineup-row.header{color:var(--text-dim);font-family:var(--font-mono);font-size:0.6rem;text-transform:uppercase;}
+  .hitter-lineup-row .h-name{font-family:var(--font-body);font-size:0.8rem;color:var(--text-primary);font-weight:500;}
+  .hitter-lineup-row .h-stat{font-family:var(--font-mono);font-size:0.66rem;color:var(--text-secondary);text-align:right;}
+  .view-toggle{display:inline-flex;background:var(--surface-2);border:1px solid var(--border-active);border-radius:999px;padding:3px;gap:2px;}
+  .view-toggle button{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:0.72rem;letter-spacing:0.05em;padding:0.4rem 0.85rem;border-radius:999px;color:var(--text-muted);transition:all 0.15s;}
+  .view-toggle button.active{background:var(--green);color:var(--bg);}
+
+  .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.4rem;margin-bottom:1.25rem;}
+  .chart-title{font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:var(--text-primary);}
+  .chart-sub{font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1rem;}
+  .chart-svg{width:100%;height:200px;display:block;}
+  .picks-table-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.2rem;}
+  .picks-table-title{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--text-primary);margin-bottom:0.85rem;}
+  .picks-table{width:100%;border-collapse:collapse;}
+  .picks-table th{text-align:left;font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;padding:0.55rem 0.5rem;border-bottom:1px solid var(--border);font-weight:500;}
+  .picks-table td{padding:0.6rem 0.5rem;font-family:var(--font-mono);font-size:0.74rem;color:var(--text-secondary);border-bottom:1px solid rgba(255,255,255,0.035);}
+  .picks-table .check{color:var(--green);font-weight:700;}
+  .picks-table .x{color:var(--red);font-weight:700;}
+
+  .spinner{width:40px;height:40px;border:3px solid var(--surface-2);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite;margin:3rem auto;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .empty-state{text-align:center;padding:3rem 1rem;color:var(--text-muted);font-size:0.85rem;}
+
+  /* Sub-tab navigation (used inside the Season Accuracy panel) */
+  .subtabbar{display:flex;gap:0.4rem;border-bottom:1px solid var(--border);margin-bottom:1.25rem;overflow-x:auto;scrollbar-width:none;}
+  .subtabbar::-webkit-scrollbar{display:none;}
+  .subtab{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:0.78rem;letter-spacing:0.06em;color:var(--text-dim);padding:0.7rem 1rem;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s,border-color 0.15s;}
+  .subtab:hover:not(.active){color:var(--text-secondary);}
+  .subtab.active{color:var(--green);border-bottom-color:var(--green);}
+  .subpanel{display:none;animation:fadein 0.18s ease;}
+  .subpanel.active{display:block;}
+
+  /* Player detail modal — opens when a player name is clicked anywhere on the site */
+  .player-link{cursor:pointer;border-bottom:1px dotted rgba(255,255,255,0.15);transition:color 0.12s,border-color 0.12s;}
+  .player-link:hover{color:var(--green);border-bottom-color:var(--green);}
+  .modal-overlay{position:fixed;inset:0;background:rgba(5,10,17,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:1000;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:2rem 1rem;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--surface);border:1px solid var(--border-active);border-radius:14px;width:100%;max-width:980px;padding:1.5rem;color:var(--text-secondary);box-shadow:0 30px 80px -20px rgba(0,0,0,0.6);animation:modalIn 0.2s ease;}
+  @keyframes modalIn{from{transform:translateY(8px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;border-bottom:1px solid var(--border);padding-bottom:0.85rem;margin-bottom:1rem;}
+  .modal-name{font-family:var(--font-display);font-weight:800;font-size:2rem;color:var(--text-primary);line-height:1;}
+  .modal-meta{font-family:var(--font-mono);font-size:0.74rem;color:var(--text-muted);margin-top:0.4rem;text-transform:uppercase;letter-spacing:0.06em;}
+  .modal-close{background:transparent;border:1px solid var(--border-active);color:var(--text-muted);width:36px;height:36px;border-radius:8px;font-size:1.2rem;cursor:pointer;transition:color 0.12s,border-color 0.12s,background 0.12s;}
+  .modal-close:hover{color:var(--text-primary);border-color:var(--text-secondary);background:rgba(255,255,255,0.04);}
+  .modal-loading{padding:2.5rem;text-align:center;color:var(--text-muted);}
+  .modal-section-title{font-family:var(--font-display);font-weight:700;font-size:0.78rem;color:var(--green);text-transform:uppercase;letter-spacing:0.12em;border-bottom:1px solid rgba(0,200,83,0.25);padding-bottom:0.5rem;margin:1.4rem 0 0.85rem;}
+  .modal-charts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;}
+  .mini-chart{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:0.85rem 0.9rem;}
+  .mini-chart-label{font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.45rem;}
+  .mini-chart-svg{width:100%;height:110px;display:block;}
+  .mini-chart-foot{display:flex;justify-content:space-between;align-items:baseline;margin-top:0.45rem;}
+  .mini-chart-num{font-family:var(--font-display);font-weight:700;font-size:1.25rem;color:var(--text-primary);line-height:1;}
+  .mini-chart-sub{font-family:var(--font-mono);font-size:0.62rem;color:var(--text-muted);}
+  .recent-games-tbl{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:0.74rem;}
+  .recent-games-tbl th{text-align:right;color:var(--text-dim);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;padding:0.5rem 0.45rem;border-bottom:1px solid var(--border);font-weight:500;}
+  .recent-games-tbl th:first-child,.recent-games-tbl th:nth-child(2),.recent-games-tbl th:nth-child(3){text-align:left;}
+  .recent-games-tbl td{padding:0.45rem;color:var(--text-secondary);text-align:right;border-bottom:1px solid rgba(255,255,255,0.035);}
+  .recent-games-tbl td:first-child,.recent-games-tbl td:nth-child(2),.recent-games-tbl td:nth-child(3){text-align:left;color:var(--text-primary);}
+  .splits-grid{display:grid;grid-template-columns:1fr repeat(4,minmax(70px,1fr));gap:0;}
+  .splits-grid .sh{font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;padding:0.55rem 0.55rem;border-bottom:1px solid var(--border);}
+  .splits-grid .sc{font-family:var(--font-mono);font-size:0.78rem;color:var(--text-secondary);padding:0.55rem 0.55rem;border-bottom:1px solid rgba(255,255,255,0.035);}
+  .splits-grid .sh:not(:first-child),.splits-grid .sc:not(:first-child){text-align:right;}
+  .splits-grid .row-label{color:var(--text-primary);font-family:var(--font-body);font-size:0.85rem;font-weight:600;text-transform:none;letter-spacing:0;}
+  .splits-grid .group-divider{grid-column:1/-1;height:0;border-top:1px solid var(--border);margin:0.15rem 0 0;}
+  @media (max-width:760px){
+    .modal{padding:1rem;}
+    .modal-name{font-size:1.5rem;}
+    .splits-grid{grid-template-columns:1fr repeat(4,minmax(54px,1fr));font-size:0.66rem;}
+    .splits-grid .sh,.splits-grid .sc{padding:0.45rem 0.3rem;font-size:0.66rem;}
+    .recent-games-tbl{font-size:0.66rem;}
+    .recent-games-tbl th,.recent-games-tbl td{padding:0.4rem 0.3rem;}
+  }
+
+  /* Player accuracy: "What this means" interpretation card */
+  .interpret-grid{display:grid;grid-template-columns:1fr;gap:0.6rem;margin-top:0.4rem;}
+  .interpret-row{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.6fr;gap:0.85rem;align-items:center;padding:0.7rem 0.85rem;background:var(--surface-2);border-left:3px solid var(--border-active);border-radius:6px;}
+  .interpret-row.good{border-left-color:var(--green);}
+  .interpret-row.warn{border-left-color:var(--yellow);}
+  .interpret-row.bad{border-left-color:var(--red);}
+  .interpret-stat{font-family:var(--font-display);font-weight:700;font-size:0.95rem;color:var(--text-primary);text-transform:capitalize;}
+  .interpret-cell{font-family:var(--font-mono);font-size:0.74rem;color:var(--text-secondary);}
+  .interpret-cell .label{color:var(--text-dim);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:0.15rem;}
+  .interpret-cell .val{font-family:var(--font-mono);font-size:0.92rem;color:var(--text-primary);font-weight:500;}
+  .interpret-cell.good .val{color:var(--green);}
+  .interpret-cell.warn .val{color:var(--yellow);}
+  .interpret-cell.bad .val{color:var(--red);}
+  .interpret-note{font-family:var(--font-body);font-size:0.78rem;color:var(--text-secondary);line-height:1.5;}
+  .interpret-overall{margin-top:1rem;padding:0.85rem 1rem;border-radius:8px;font-family:var(--font-body);font-size:0.92rem;line-height:1.55;color:var(--text-secondary);}
+  .interpret-overall.good{background:rgba(0,200,83,0.07);border:1px solid rgba(0,200,83,0.25);}
+  .interpret-overall.warn{background:rgba(240,192,64,0.06);border:1px solid rgba(240,192,64,0.25);}
+  .interpret-overall.bad{background:rgba(229,57,53,0.07);border:1px solid rgba(229,57,53,0.25);}
+  .interpret-overall strong{color:var(--text-primary);}
+  @media (max-width:760px){
+    .interpret-row{grid-template-columns:1fr;gap:0.4rem;}
+  }
+
+  /* Player accuracy: per-stat metrics table inside a chart-card */
+  .metric-grid{display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:0;margin-top:0.4rem;}
+
+  /* NRFI tab — per-game cards with P(NRFI), pitcher K rate, opposing top-5 OBP/SLG */
+  .nrfi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:0.75rem;margin-top:0.75rem;}
+
+  /* Edge tab — per-prop cards/rows showing line vs projection vs EV */
+  .edge-list{display:flex;flex-direction:column;gap:0.55rem;margin-top:0.6rem;}
+  .edge-row{display:grid;grid-template-columns:1.6fr 0.9fr 1fr 1fr 1.2fr 0.7fr;gap:0.55rem;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.7rem 0.95rem;}
+  .edge-row.value{border-left:3px solid var(--green);}
+  .edge-row.value-low{border-left:3px solid var(--yellow);}
+  .edge-row.pass{border-left:3px solid var(--text-dim);}
+  .edge-player{display:flex;flex-direction:column;gap:0.2rem;}
+  .edge-name{font-family:var(--font-display);font-weight:700;font-size:1rem;color:var(--text-primary);line-height:1.05;}
+  .edge-meta{font-family:var(--font-mono);font-size:0.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;}
+  .edge-market{font-family:var(--font-mono);font-size:0.78rem;color:var(--text-secondary);}
+  .edge-side{font-family:var(--font-display);font-weight:700;font-size:0.85rem;}
+  .edge-side.over{color:var(--green);}
+  .edge-side.under{color:var(--red);}
+  .edge-side.pass{color:var(--text-dim);}
+  .edge-line{font-family:var(--font-mono);font-size:0.75rem;color:var(--text-secondary);}
+  .edge-line .num{color:var(--text-primary);font-weight:600;font-size:0.85rem;}
+  .edge-probs{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-secondary);}
+  .edge-probs .pri{color:var(--text-primary);font-weight:600;}
+  .edge-ev{font-family:var(--font-display);font-weight:800;font-size:1.05rem;text-align:right;}
+  .edge-ev.pos{color:var(--green);}
+  .edge-ev.neg{color:var(--red);}
+  .edge-flag{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:0.62rem;letter-spacing:0.08em;padding:0.18rem 0.55rem;border-radius:999px;display:inline-block;text-align:center;}
+  .edge-flag.value{background:var(--green-glow);border:1px solid rgba(0,200,83,0.4);color:var(--green);}
+  .edge-flag.pass{background:var(--surface-2);border:1px solid var(--border-active);color:var(--text-dim);}
+  /* REVIEW: EV > 30% — almost always model error (missing injury, lineup
+     change, starter swap). Surfaced separately so the user can spot-check
+     instead of treating it as a real edge. */
+  .edge-flag.review{background:rgba(255,165,0,0.10);border:1px solid rgba(255,165,0,0.45);color:#FFA500;}
+  .edge-row.review{border-left:3px solid #FFA500;}
+  .edge-side-block{display:flex;flex-direction:column;align-items:center;gap:0.2rem;}
+  @media (max-width:760px){
+    .edge-row{grid-template-columns:1.6fr 0.8fr 1fr;}
+    .edge-row > .edge-line, .edge-row > .edge-probs{display:none;}
+  }
+  .nrfi-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.05rem 1.15rem;}
+  .nrfi-card.lean-yes{border-left:3px solid var(--green);}
+  .nrfi-card.lean-no{border-left:3px solid var(--red);}
+  .nrfi-card.lean-pass{border-left:3px solid var(--text-dim);}
+  .nrfi-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.7rem;gap:0.5rem;}
+  .nrfi-matchup{font-family:var(--font-display);font-weight:700;font-size:1.4rem;color:var(--text-primary);line-height:1.1;}
+  .nrfi-prob{font-family:var(--font-display);font-weight:800;font-size:2.1rem;line-height:1;}
+  .nrfi-prob.high{color:var(--green);}
+  .nrfi-prob.low{color:var(--red);}
+  .nrfi-prob.mid{color:var(--text-secondary);}
+  .nrfi-lean-pill{font-family:var(--font-display);font-weight:600;text-transform:uppercase;font-size:0.62rem;letter-spacing:0.08em;padding:0.18rem 0.55rem;border-radius:999px;display:inline-block;margin-top:0.2rem;}
+  .nrfi-lean-pill.yes{background:var(--green-glow);border:1px solid rgba(0,200,83,0.4);color:var(--green);}
+  .nrfi-lean-pill.no{background:rgba(229,57,53,0.10);border:1px solid rgba(229,57,53,0.4);color:var(--red);}
+  .nrfi-lean-pill.pass{background:var(--surface-2);border:1px solid var(--border-active);color:var(--text-dim);}
+  .nrfi-side{margin-top:0.6rem;padding:0.6rem 0.7rem;background:var(--surface-2);border-radius:7px;}
+  .nrfi-side-label{font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.2rem;}
+  .nrfi-side-pitcher{font-family:var(--font-body);font-size:0.86rem;color:var(--text-primary);font-weight:600;}
+  .nrfi-side-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin-top:0.45rem;font-family:var(--font-mono);font-size:0.62rem;}
+  .nrfi-side-row .l{color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;font-size:0.55rem;}
+  .nrfi-side-row .v{color:var(--text-primary);font-size:0.78rem;font-weight:500;}
+  .metric-grid .mh{font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;padding:0.55rem 0.5rem;border-bottom:1px solid var(--border);}
+  .metric-grid .mc{font-family:var(--font-mono);font-size:0.74rem;color:var(--text-secondary);padding:0.6rem 0.5rem;border-bottom:1px solid rgba(255,255,255,0.035);}
+  .metric-grid .mname{font-family:var(--font-body);font-size:0.84rem;color:var(--text-primary);font-weight:600;text-transform:capitalize;}
+  .metric-grid .mh:not(:first-child),.metric-grid .mc:not(:first-child){text-align:right;}
+  .metric-grid .mc.bias-pos{color:var(--green);}
+  .metric-grid .mc.bias-neg{color:var(--red);}
+  .player-pill-row{display:flex;gap:0.5rem;margin-bottom:1rem;align-items:center;flex-wrap:wrap;}
+  .player-pill-row .ptype-count{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-dim);margin-left:auto;}
+  @media (max-width:760px){
+    .metric-grid{grid-template-columns:1.2fr repeat(5,1fr);font-size:0.66rem;}
+    .metric-grid .mh,.metric-grid .mc{padding:0.5rem 0.3rem;font-size:0.62rem;}
+    .metric-grid .mname{font-size:0.74rem;}
+  }
+
+  /* Methodology / "How It Works" page */
+  .methodology{max-width:760px;margin:0 auto;color:var(--text-secondary);font-family:var(--font-body);font-size:1rem;line-height:1.7;}
+  .methodology h1{font-family:var(--font-display);font-weight:800;font-size:2.4rem;color:var(--text-primary);margin-bottom:0.5rem;letter-spacing:0.01em;}
+  .methodology .lead{font-size:1.05rem;color:var(--text-secondary);margin-bottom:2.2rem;line-height:1.6;}
+  .methodology h2{font-family:var(--font-display);font-weight:700;font-size:1.45rem;color:var(--text-primary);margin:2.2rem 0 0.7rem;padding-bottom:0.4rem;border-bottom:1px solid rgba(0,200,83,0.25);letter-spacing:0.01em;}
+  .methodology h3{font-family:var(--font-display);font-weight:600;font-size:1.05rem;color:var(--green);margin:1.4rem 0 0.4rem;letter-spacing:0.04em;text-transform:uppercase;}
+  .methodology p{margin-bottom:0.95rem;}
+  .methodology ul{margin:0.4rem 0 1.2rem 1.3rem;padding:0;}
+  .methodology li{margin-bottom:0.45rem;line-height:1.55;}
+  .methodology code,.methodology pre{font-family:var(--font-mono);font-size:0.92rem;color:var(--text-primary);}
+  .methodology pre{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;overflow-x:auto;margin:0.6rem 0 1.4rem;line-height:1.55;}
+  .methodology code{background:rgba(255,255,255,0.05);padding:0.1rem 0.35rem;border-radius:4px;}
+  .methodology pre code{background:none;padding:0;}
+  .methodology strong{color:var(--text-primary);font-weight:600;}
+  .methodology .grade-table{display:grid;grid-template-columns:auto 1fr;gap:0.6rem 1.2rem;margin:0.5rem 0 1.4rem;font-family:var(--font-mono);font-size:0.92rem;}
+  .methodology .grade-table .g{font-weight:700;text-align:right;}
+  .methodology .callout{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:8px;padding:1rem 1.2rem;margin:1.4rem 0;color:var(--text-secondary);font-size:0.95rem;}
+
+  .footer{text-align:center;padding:2rem 1rem;color:var(--text-dim);font-family:var(--font-mono);font-size:0.7rem;line-height:1.6;}
+  .footer .last-updated{color:var(--green);}
+  .footer-disclaimer{max-width:640px;margin:0 auto 0.6rem;color:var(--text-muted);}
+  .footer-meta{color:var(--text-dim);margin-bottom:0.6rem;}
+  .proj-note{font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.7rem 0.95rem;margin-top:0.6rem;line-height:1.5;}
+
+  @media (max-width:760px){
+    main{padding:1.5rem 1rem 4rem;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .stat-value{font-size:2rem;}
+    .game-grid{grid-template-columns:1fr;}
+    .pitcher-cards,.lineup-grid,.matchup-cols,.ml-line-grid{grid-template-columns:1fr;}
+    .matchup-header{font-size:2rem;}
+    .topbar{padding:0 0.85rem;}
+    .tagline{display:none;}
+    .tabbar{padding:0 0.5rem;}
+    .tab{padding:0.85rem 0.85rem;font-size:0.78rem;}
+    .data-table th,.data-table td{padding:0.55rem 0.45rem;font-size:0.66rem;}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">TheBullpen<span class="accent">Bet</span></div>
+  <div class="tagline">MLB Research &amp; Analytics</div>
+</header>
+
+<nav class="tabbar" id="tabbar">
+  <button class="tab active" data-tab="games">Games &amp; Moneylines</button>
+  <button class="tab" data-tab="pitchers">Pitcher Projections</button>
+  <button class="tab" data-tab="hitters">Hitter Projections</button>
+  <button class="tab" data-tab="nrfi">NRFI</button>
+  <button class="tab" data-tab="accuracy">Season Accuracy</button>
+  <button class="tab" data-tab="methodology">How It Works</button>
+</nav>
+
+<main>
+  <section class="panel active" id="panel-games">
+    <div id="gamesListView">
+      <div class="stat-grid" id="gamesStatGrid"></div>
+      <div class="filter-row">
+        <button class="pill active" data-filter="all">All Games</button>
+        <button class="pill" data-filter="value">Good Value Only</button>
+        <button class="pill" data-filter="pass">Pass</button>
+        <span class="filter-count" id="gameCount">0 games today</span>
+      </div>
+      <div class="game-grid" id="gameGrid"></div>
+    </div>
+    <div id="gamesDetailView" style="display:none;"></div>
+  </section>
+
+  <section class="panel" id="panel-pitchers">
+    <div id="pitchersContent"></div>
+  </section>
+
+  <section class="panel" id="panel-hitters">
+    <div id="hittersContent"></div>
+  </section>
+
+  <section class="panel" id="panel-nrfi">
+    <div class="stat-grid" id="nrfiStatGrid"></div>
+    <div class="chart-card" style="padding:1rem 1.2rem;">
+      <div class="chart-title">No Run First Inning (NRFI) — today's slate</div>
+      <div class="chart-sub" id="nrfiSub">
+        Probability that neither team scores in the 1st inning. Built from each
+        starter's recent K rate against the opposing top-5 hitters' OBP and SLG.
+        Lean YES at ≥55%, lean NO at ≤45%, otherwise pass.
+      </div>
+      <div id="nrfiBody"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-methodology">
+    <article class="methodology">
+      <h1>How It Works</h1>
+      <p class="lead">
+        TheBullpenBet runs machine-learning models against every MLB game and publishes the output here.
+        This page explains what's happening under the hood — the inputs, the math, and what to trust.
+      </p>
+
+      <h2>The daily pipeline</h2>
+      <p>
+        Everything you see is produced by a single Python entry point, <code>daily_update.py</code>, that runs three times a day on GitHub Actions: <strong>3 AM, 11 AM, and 5 PM ET</strong>. Each run executes ten independent steps; any one failing doesn't block the others, and every artifact it produces is committed back to the repo so the live site (deployed on Render) auto-redeploys with fresh data.
+      </p>
+      <ol>
+        <li><strong>Refresh 2026 Statcast data</strong> via <code>pybaseball</code> — pulls every pitch from <code>2026-03-01</code> through today incrementally, then rebuilds the four per-game feature CSVs in <code>data/</code>.</li>
+        <li><strong>Backfill missing game-pick rows</strong> — re-runs the game model on any completed date the cron hasn't yet logged.</li>
+        <li><strong>Run today's game model</strong> — projects win probability for every scheduled game, computes EV against current DraftKings/FanDuel lines, flags positive-EV picks.</li>
+        <li><strong>Re-grade the season pick log</strong> — pulls finals from the MLB Stats API and updates the <code>correct</code> column on every prior pick.</li>
+        <li><strong>Backfill NRFI predictions for past dates</strong> — for any past date without an NRFI entry in the picks log, runs the NRFI classifier using only data that was available before that date. Idempotent: already-logged dates are skipped.</li>
+        <li><strong>Generate today's NRFI predictions</strong> — scores every scheduled game through the NRFI classifier and appends the YES/NO lean to <code>2026_nrfi_picks.csv</code>.</li>
+        <li><strong>Grade NRFI picks</strong> — fetches first-inning linescores from the MLB Stats API for every completed game and writes <code>2026_nrfi_accuracy.csv</code>.</li>
+        <li><strong>Backfill missing past-date player snapshots</strong> — for any past date without a snapshot on disk, fetches the actual lineup from MLB box scores and runs the player projection models against it. Idempotent: dates that already have a populated snapshot are skipped.</li>
+        <li><strong>Generate today's hitter and pitcher projections</strong> — writes both the live <code>hitterspitchers_today.csv</code> the front-end reads and a dated snapshot for tonight's grading.</li>
+        <li><strong>Grade player snapshots and recompute calibration</strong> — joins every snapshot to its game's actual box score, rebuilds <code>2026_player_accuracy.csv</code>, then re-derives the bias-correction block applied to today's live projection.</li>
+      </ol>
+
+      <h2>Where the data comes from</h2>
+      <p>
+        Every projection is built from <strong>live 2026 Statcast pitch-level data</strong>. The data pipeline:
+      </p>
+      <ul>
+        <li>Pulls fresh Statcast pitches via <code>pybaseball.statcast()</code>. The cache (<code>pitch_data_2026.csv</code>) lives in the GitHub Actions cache between runs and is updated incrementally — only new dates get fetched.</li>
+        <li>Aggregates each pitch into per-batter and per-pitcher game rows: PA, H, HR, BB, K, plus Statcast metrics like average exit velocity, max EV, average launch angle, barrel rate, and hard-hit proxy.</li>
+        <li>Computes rolling features for every player at five window sizes — <strong>last 3, 7, 10, 20, and 50 games</strong> — plus career-to-date and standard-deviation columns. These are the same windows the trained models expect at inference time.</li>
+        <li>Computes vs-handedness splits separately so a hitter's "h_rate vs LHP" and "vs RHP" are tracked as distinct features — same for pitchers vs LHB / RHB.</li>
+        <li>Builds opposing-team and opposing-starter context columns so a hitter's projection is conditioned on who they're actually facing.</li>
+        <li>Pulls live odds from <strong>The Odds API</strong> (DraftKings + FanDuel) and probable starters from <strong>MLB Stats API</strong> just before each cron tick.</li>
+      </ul>
+      <p>
+        The output is four tables in <code>data/</code> — <code>hitter_game_data.csv</code>, <code>pitcher_game_data.csv</code>, <code>team_batting_hand_context.csv</code>, <code>team_pitching_hand_context.csv</code> — that every model reads on every run. The grader filters all rows to <code>game_date &lt; target_date</code> at projection time, so the model never sees information that wasn't available before the game started.
+      </p>
+
+      <h2>Game predictions</h2>
+      <p>
+        The model that produces today's picks is a gradient-boosted classifier (XGBoost) trained on the full 2025 season as the labeled history. For each 2026 matchup it scores live features built from the day's freshly-refreshed Statcast tables:
+      </p>
+      <ul>
+        <li>Both teams' last-10-game offensive stats (OPS, K-rate, BB-rate, runs scored, runs allowed)</li>
+        <li>Each starting pitcher's last-10-game and season FIP, K-BB%, and HR/9</li>
+        <li>Both bullpens' season + last-14-day ERA proxy, WHIP, and K-BB%</li>
+        <li>Season-long team OPS, team K-rate, run differential, and win percentage</li>
+        <li>A home-field flag</li>
+      </ul>
+      <p>
+        The model returns a probability that the home team wins — for example, 57.3%.
+        Whichever team has the higher probability becomes the model pick. The probabilities you see in win-prob bars and pick percentages come straight from this output.
+      </p>
+
+      <h2>Expected value (EV)</h2>
+      <p>
+        Win probability alone doesn't tell you whether a bet is worthwhile — the odds have to support it.
+        EV is the math that connects the two:
+      </p>
+      <pre><code>EV = win_prob &times; (decimal_odds &minus; 1) &minus; (1 &minus; win_prob)</code></pre>
+      <p>
+        In plain English: if the model thinks BOS wins 57% of the time and the moneyline is +110 (1.91 in decimal), the bet pays out 91¢ per $1 staked when it wins and loses $1 when it loses.
+        Multiply each outcome by its probability and net them. Anything &gt; 0 is positive EV — the model thinks the line is mispriced in your favor.
+      </p>
+      <p>
+        A pick is flagged <strong>Good Value</strong> when EV is at least <strong>+2%</strong> (a 0.02 floor in our config). All others are <strong>Pass</strong>.
+        Both DraftKings and FanDuel lines are pulled and the better of the two is used for each side — the same edge you'd get by line-shopping yourself.
+      </p>
+
+      <h2>NRFI predictions</h2>
+      <p>
+        The NRFI (No Run First Inning) model predicts whether neither team will score in the opening inning — a popular betting market. It's a binary classifier that outputs P(NRFI) for each game, trained on every 2026 game in the Statcast database with a labeled first-inning outcome.
+      </p>
+      <p>
+        Feature priority is intentional. Full-game pitcher stats are the strongest signal because they're built from 80–120 batters per start — far more stable than first-inning-specific rates (which come from 3 batters). The model uses four feature tiers:
+      </p>
+      <ul>
+        <li><strong>Full-game pitcher stats (primary)</strong> — each starter's rolling K%, BB%, H%, and HR% over the last 5 and 10 games, plus season-to-date standard deviation and days of rest.</li>
+        <li><strong>Full-game team offense (secondary)</strong> — rolling team K%, OBP, and runs per game over the last 5 and 10 games for both lineups.</li>
+        <li><strong>First-inning pitcher rates (tertiary)</strong> — per-PA K, BB, and runs-allowed rates in the 1st inning specifically — noisy but inning-specific.</li>
+        <li><strong>First-inning team batting (tertiary)</strong> — on-base rate, K rate, and runs scored in the 1st inning.</li>
+      </ul>
+      <p>
+        Four model types are trained each run (L1 logistic regression, gradient boosting, random forest, XGBoost) and the one with the best hold-out AUC is selected. Logistic regression with heavy L1 regularization is the default baseline — it auto-selects the most reliable features and is least prone to overfitting the many correlated rolling windows. A confidence threshold is tuned on the hold-out set before publishing predictions.
+      </p>
+      <p>
+        The lean shown on the NRFI tab is <strong>YES</strong> (expect a scoreless first) or <strong>NO</strong> (expect at least one run). Historical accuracy is tracked in <code>2026_nrfi_accuracy.csv</code> and graded after every game via the MLB Stats API first-inning linescore endpoint.
+      </p>
+
+      <h2>Player projections</h2>
+      <p>
+        Pitcher and hitter projections come from <strong>independent models</strong>, one per stat.
+        Each is a regularized XGBoost regressor trained to predict counting stats directly — not rates — using features pulled from the daily-refreshed 2026 Statcast tables. The trained model files live in <code>models/</code> and are committed to the repo on every training run.
+      </p>
+      <h3>Pitchers</h3>
+      <p>
+        The pitcher pipeline runs five regressors and combines them into the projection you see on the site:
+      </p>
+      <ul>
+        <li><code>pitcher_IP.pkl</code> — projected innings pitched</li>
+        <li><code>pitcher_K_rate.pkl</code> — strikeouts per batter faced</li>
+        <li><code>pitcher_BB_rate.pkl</code> — walks per batter faced</li>
+        <li><code>pitcher_H_rate.pkl</code> — hits allowed per batter faced</li>
+        <li><code>pitcher_HR_rate.pkl</code> — home runs allowed per batter faced</li>
+        <li><code>pitcher_runs_per_inning.pkl</code> — earned runs per inning, used to derive projected ER</li>
+      </ul>
+      <p>
+        Per-batter rates are multiplied by expected batters faced (derived from projected IP) to get projected counts. Park factors and hand splits adjust for matchup context. Velocity, spin rate, and pitch-mix percentages from the 2026 Statcast cache feed in as additional features. Models use deep regularization (max_depth=3, min_child_weight=30) to prevent hot-streak overfitting.
+      </p>
+      <h3>Hitters</h3>
+      <p>
+        The hitter pipeline runs seven regressors:
+      </p>
+      <ul>
+        <li><code>hitter_PA.pkl</code> — projected plate appearances (driven by lineup spot + game length features)</li>
+        <li><code>hitter_H.pkl</code>, <code>hitter_HR.pkl</code>, <code>hitter_BB.pkl</code>, <code>hitter_K.pkl</code> — projected counting stats (hits, home runs, walks, strikeouts)</li>
+        <li><code>hitter_r_rate.pkl</code>, <code>hitter_rbi_rate.pkl</code> — runs scored and RBI per PA</li>
+      </ul>
+      <p>
+        Hitter projections are blended 75/25 toward the player's season-to-date average before being passed through hard caps — this regression-to-mean shrinkage prevents one hot week from inflating projections to implausible levels. Each hitter's projection is also conditioned on the opposing starter (their 2026 K%, H%, and HR% against same-handed batters), so the same hitter shows different numbers depending on who's pitching. FanDuel player prop lines are displayed alongside projections for direct comparison.
+      </p>
+
+      <div class="callout">
+        Pitcher and hitter projections are estimated independently and may not sum perfectly across a matchup. Each is a standalone estimate — best used to compare players against each other, not to add up.
+      </div>
+
+      <h2>The 20-80 confidence grade</h2>
+      <p>
+        Borrowed from MLB scouting reports, the 20-80 scale tells you how much to trust an individual projection.
+        50 is league average. Higher means the model has more reliable data to work with.
+      </p>
+      <div class="grade-table">
+        <span class="g grade grade-elite">80</span><span>Elite — established veteran with deep history matching today's situation</span>
+        <span class="g grade grade-elite">70</span><span>Plus-plus — long track record, well-modeled matchup</span>
+        <span class="g grade grade-plus">65</span><span>Strong-plus — extensive data, well-supported matchup</span>
+        <span class="g grade grade-plus">60</span><span>Plus — established player, reliable matchup data</span>
+        <span class="g grade grade-avg">55</span><span>Slightly above average reliability</span>
+        <span class="g grade grade-avg">50</span><span>Average — typical projection with some unknowns</span>
+        <span class="g grade grade-below">45</span><span>Slightly below average — limited recent data</span>
+        <span class="g grade grade-below">40</span><span>Below average — projecting from team averages more than the player's own history</span>
+        <span class="g grade grade-below">35</span><span>Sparse data — fallback driven, few prior matchups</span>
+        <span class="g grade grade-poor">30</span><span>Poor — call-up or substitute, projection leans on league means</span>
+        <span class="g grade grade-poor">20</span><span>No data — pure league-average estimate, take with a grain of salt</span>
+      </div>
+      <p>
+        Following MLB scouting convention, the scale skips 25 and 75 — values jump straight from 20 to 30 and from 70 to 80 at the extremes, with the half-grades (35, 45, 55, 65) filling in the middle.
+      </p>
+      <p>
+        For <strong>pitchers</strong>, the grade is driven by appearance count plus IP consistency.
+        A starter with 30+ prior outings and stable inning workloads grades 70+; a midseason call-up with 4 starts grades in the 30s.
+      </p>
+      <p>
+        For <strong>hitters</strong>, the grade factors in lineup status (Confirmed beats Expected beats fallback), whether starter context was successfully applied, and how much per-game history exists for that player.
+      </p>
+      <p>
+        Importantly, the grade is independent of the projection itself.
+        A 60-grade pitcher with a poor projection means "we're confident he'll pitch poorly tonight."
+        A 30-grade hitter with a great projection means "the model thinks he'll do well, but we don't have enough on him to bet the house."
+      </p>
+
+      <h2>How picks are graded</h2>
+      <p>
+        Once a game is final, we pull the box score from the MLB Stats API and compare the model's pick to the actual winner:
+      </p>
+      <ul>
+        <li><code>actual_winner</code> = the team that scored more runs</li>
+        <li><code>correct</code> = 1 if the model's pick matches the actual winner, 0 if it doesn't, blank if the game hasn't finished yet</li>
+      </ul>
+      <p>
+        Picks flagged <strong>Good Value</strong> at publish time get assigned a 1-unit bet for accounting.
+        Profit and loss are calculated against the moneyline that was published when the pick was made — not the closing line:
+      </p>
+      <ul>
+        <li>Win on +120 → +1.20 units</li>
+        <li>Win on -150 → +0.67 units</li>
+        <li>Loss → -1.00 unit</li>
+        <li>Pass (not bet) → 0.00 units</li>
+      </ul>
+      <p>
+        Running ROI is cumulative profit divided by total units wagered. The Season Accuracy tab shows the cumulative pick accuracy across all graded games — including the ones flagged Pass — so the chart reflects the model's overall predictive performance, not just bet outcomes.
+      </p>
+
+      <h3>Player projection accuracy</h3>
+      <p>
+        Game-pick accuracy is binary — the predicted winner either won or didn't. Player projections are continuous, so they're scored differently. Every day's hitter and pitcher projections are saved as a dated snapshot in <code>outputs/hitterspitchers_&lt;date&gt;.csv</code>; once the game completes, those projections are joined to the actual MLB box score (pulled from the MLB Stats API) and we record the per-stat difference in <code>2026_player_accuracy.csv</code>.
+      </p>
+      <p>
+        For dates earlier in the season that don't yet have a snapshot on disk (typical for the first cron run after deploying), the pipeline backfills them by pulling the actual lineup that played from the box score and running the projection model with <code>target_date</code> set to that game's date. The model only ever sees rows where <code>game_date &lt; target_date</code>, so backfilled projections use the same information the model would have had if it had been run live on that day — no future-data leakage.
+      </p>
+      <p>
+        Because the data refresh, projection, and grading all happen inside the same cron tick, the projections being graded each day are produced from the same 2026 Statcast features that today's projections use. The grader is fully idempotent: re-running it pulls fresh box scores for any game that's now complete and overwrites the log.
+      </p>
+
+      <h3>Bias calibration</h3>
+      <p>
+        When the graded log shows the model has a consistent bias on a stat — for example, projecting an average of 3.5 plate appearances when hitters actually average 4.0 — we apply a <strong>post-hoc additive correction</strong> at projection time so the bias-corrected number is what users see. <code>calibrate_projections.py</code> runs at the end of every cron tick and:
+      </p>
+      <ol>
+        <li>Reads <code>2026_player_accuracy.csv</code> and computes the average <code>proj − actual</code> for each calibratable column.</li>
+        <li>Writes the result to <code>calibration.json</code>.</li>
+        <li>Applies the corrections in-place to <code>outputs/hitterspitchers_today.csv</code>.</li>
+      </ol>
+      <p>
+        Corrections are conservative — they only fire when there are at least <strong>30 graded games</strong> for that stat AND the absolute bias is at least <strong>0.05</strong>. Counting stats are clipped at zero after the shift so a calibrated projected hits never goes negative.
+      </p>
+      <p>
+        The biggest leverage points are PA for hitters and IP for pitchers — every other counting stat is derived by multiplying a per-PA / per-batter rate by these, so calibrating those two cascades to fix hits, HR, K, BB, and the rest. The "Live bias calibration" card on the Player Predictions tab shows the current correction for every projection column, with a ✓ for stats currently being corrected and a · for stats that don't yet have enough graded games.
+      </p>
+      <p>
+        Calibration is a stop-gap that closes the bias gap while we accumulate enough 2026 graded data to retrain the underlying models on. Once retrained, the observed biases should approach zero and the calibration card will show fewer ✓ marks over time.
+      </p>
+      <p>
+        The Season Accuracy tab's <strong>Player Predictions</strong> sub-tab summarizes those graded projections in three ways:
+      </p>
+      <ul>
+        <li><strong>MAE (mean absolute error)</strong> — the average distance from a projection to the actual outcome. Lower is better. For pitcher strikeouts, an MAE of 1.4 means the typical projection lands within ~1.4 K of the real number.</li>
+        <li><strong>Bias</strong> — the average signed error (proj − actual). A positive bias means the model over-projects; a negative bias means it under-projects.</li>
+        <li><strong>Within ±tolerance</strong> — the share of projections that landed inside a stat-specific tolerance band (e.g. ±1.5 K for pitchers, ±0.5 HR for hitters). This is the most intuitive number for non-stats readers.</li>
+      </ul>
+      <p>
+        Because player projections are graded fresh against MLB Stats API box scores after every slate, the player accuracy view fills in over time as more games are played.
+      </p>
+
+      <h2>What this site is, and isn't</h2>
+      <p>
+        This is research and analytics, not advice. The model is right around 60% of the time on graded picks — meaningfully better than 50/50, but no projection model wins every day, every series, or every season.
+        Edges in baseball are small and noisy, and the models here are no exception.
+      </p>
+      <p>
+        Use these picks as one input among several. Cross-check against your own knowledge of the matchup, weather, late-breaking lineup news, and bullpen availability.
+        Bet only what you can afford to lose.
+      </p>
+    </article>
+  </section>
+
+  <section class="panel" id="panel-accuracy">
+    <div class="subtabbar" id="accSubtabbar">
+      <button class="subtab active" data-subtab="games">Game Predictions</button>
+      <button class="subtab" data-subtab="players">Player Predictions</button>
+      <button class="subtab" data-subtab="nrfi">NRFI</button>
+    </div>
+
+    <!-- ───── Sub-view: Game prediction accuracy ───── -->
+    <div class="subpanel active" id="subpanel-games">
+      <div class="stat-grid" id="accStatGrid"></div>
+      <div class="chart-card">
+        <div class="chart-title">Cumulative Pick Accuracy</div>
+        <div class="chart-sub" id="accChartSub">Loading…</div>
+        <svg class="chart-svg" id="accChart" viewBox="0 0 800 200" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="picks-table-card">
+        <div class="picks-table-title">Recent Picks (Last 30)</div>
+        <div style="overflow-x:auto;">
+          <table class="picks-table" id="picksTable">
+            <thead><tr><th>Date</th><th>Away</th><th>Home</th><th>Pick</th><th>Result</th><th></th></tr></thead>
+            <tbody id="picksTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───── Sub-view: Player projection accuracy ───── -->
+    <div class="subpanel" id="subpanel-players">
+      <div class="player-pill-row">
+        <button class="pill active" data-ptype="pitchers">Pitchers</button>
+        <button class="pill" data-ptype="hitters">Hitters</button>
+        <span class="ptype-count" id="playerAccCount">—</span>
+      </div>
+      <div class="stat-grid" id="playerAccStatGrid"></div>
+      <div class="chart-card">
+        <div class="chart-title" id="playerMetricsTitle">Projection Accuracy by Stat</div>
+        <div class="chart-sub" id="playerMetricsSub">
+          MAE = average distance from projection to actual · "Within" = share of projections inside the tolerance band.
+        </div>
+        <div id="playerMetricsBody"></div>
+      </div>
+
+      <!-- "What this means" interpretation card — auto-fills against benchmarks -->
+      <div class="chart-card" id="playerInterpretCard" style="display:none;">
+        <div class="chart-title">What this means</div>
+        <div class="chart-sub">
+          The model's per-stat numbers compared against rough sportsbook benchmarks for
+          how a competitive prop-prediction model should perform.
+        </div>
+        <div id="playerInterpretBody"></div>
+      </div>
+
+      <!-- Calibration status — shows which stats are being bias-corrected and by how much -->
+      <div class="chart-card" id="calibrationCard" style="display:none;">
+        <div class="chart-title">Live bias calibration</div>
+        <div class="chart-sub" id="calibrationSub">
+          When the model shows a consistent bias on graded games, today's projection
+          gets shifted to compensate. Recomputed every cron tick.
+        </div>
+        <div id="calibrationBody"></div>
+      </div>
+
+      <div class="picks-table-card">
+        <div class="picks-table-title">Recent Graded Projections</div>
+        <div style="overflow-x:auto;">
+          <table class="picks-table" id="playerPicksTable">
+            <thead id="playerPicksHead"></thead>
+            <tbody id="playerPicksBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ───── Sub-view: NRFI accuracy ───── -->
+    <div class="subpanel" id="subpanel-nrfi">
+      <div class="stat-grid" id="nrfiAccStatGrid"></div>
+      <div class="chart-card">
+        <div class="chart-title">NRFI lean accuracy</div>
+        <div class="chart-sub" id="nrfiAccSub">
+          Hit rate when we leaned YES (predicted NRFI) vs leaned NO (predicted YRFI).
+          Compare against the actual season-wide NRFI rate to gauge edge.
+        </div>
+        <div id="nrfiAccBody"></div>
+      </div>
+      <div class="picks-table-card">
+        <div class="picks-table-title">Recent NRFI picks (last 30)</div>
+        <div style="overflow-x:auto;">
+          <table class="picks-table" id="nrfiPicksTable">
+            <thead><tr>
+              <th>Date</th><th>Matchup</th><th>Lean</th><th>P(NRFI)</th>
+              <th>Away R (1st)</th><th>Home R (1st)</th><th>NRFI?</th><th></th>
+            </tr></thead>
+            <tbody id="nrfiPicksBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="footer">
+    <div class="footer-disclaimer">
+      <strong>TheBullpenBet</strong> · For research and entertainment purposes only.
+      Predictions are model estimates and are <strong>not guaranteed to win</strong>.
+      Past performance does not predict future results. We make no warranties as to the
+      accuracy or profitability of any pick. Sports betting involves financial risk —
+      never wager more than you can afford to lose.
+    </div>
+    <div class="footer-meta">
+      Bet responsibly · 1-800-GAMBLER · Must be 21+ where sports betting is legal.
+    </div>
+    <div><span id="lastUpdatedFooter"></span></div>
+  </div>
+</main>
+
+<!-- Player detail modal — opens when a player name is clicked anywhere -->
+<div class="modal-overlay" id="playerModal" onclick="if(event.target===this)closePlayerModal();">
+  <div class="modal" id="playerModalCard">
+    <div class="modal-head">
+      <div>
+        <div class="modal-name" id="modalName">—</div>
+        <div class="modal-meta" id="modalMeta">—</div>
+      </div>
+      <button class="modal-close" onclick="closePlayerModal()" aria-label="Close">×</button>
+    </div>
+    <div id="modalBody"><div class="modal-loading"><div class="spinner"></div></div></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   APP STATE
+   ============================================================ */
+const state = {
+  activeTab: 'games',
+  gameFilter: 'all',
+  selectedGame: null,
+  hitterView: 'cards',
+  games: [],
+  pitchers: [],
+  hitters: [],
+  accuracy: null,
+  playerAccuracy: null,
+  calibration: null,
+  nrfi: null,
+  nrfiAccuracy: null,
+  edge: null,
+  propsAccuracy: null,
+  edgeFilter: 'all',           // 'all' | 'value' | 'pitcher' | 'hitter'
+  accuracySubtab: 'games',     // 'games' | 'players' | 'nrfi' | 'props'
+  playerAccType: 'pitchers',   // 'pitchers' | 'hitters'
+};
+
+/* ============================================================
+   GRADE HELPERS — 20-80 scouting scale color mapping
+   ============================================================ */
+function gradeClass(g) {
+  if (g == null || isNaN(+g)) return 'grade-avg';
+  g = +g;
+  if (g >= 70) return 'grade-elite';
+  if (g >= 60) return 'grade-plus';
+  if (g >= 50) return 'grade-avg';
+  if (g >= 40) return 'grade-below';
+  return 'grade-poor';
+}
+function gradeBadge(g, opts = {}) {
+  if (g == null || isNaN(+g)) return '';
+  const cls = gradeClass(g);
+  const pill = opts.pill ? ' grade-pill' : '';
+  return `<span class="grade ${cls}${pill}">${g}</span>`;
+}
+
+/* ============================================================
+   DATA LOADING — fetches from server.py endpoints
+   Falls back to empty arrays if the API is unreachable.
+   ============================================================ */
+async function loadGamesData() {
+  try {
+    const r = await fetch('/api/games');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) { return []; }
+}
+async function loadPitchersData() {
+  try {
+    const r = await fetch('/api/pitchers');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) { return []; }
+}
+async function loadHittersData() {
+  try {
+    const r = await fetch('/api/hitters');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) { return []; }
+}
+async function loadAccuracyData() {
+  try {
+    const r = await fetch('/api/accuracy');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) {
+    return { overall_acc:0, correct_games:0, total_games:0, cumulative_accuracy:[], labels:[], picks:[] };
+  }
+}
+
+async function loadPlayerAccuracyData() {
+  try {
+    const r = await fetch('/api/player-accuracy');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) {
+    return {
+      available: false, total_graded: 0,
+      pitchers: { n:0, metrics:[], recent:[] },
+      hitters:  { n:0, metrics:[], recent:[] },
+    };
+  }
+}
+
+async function loadCalibration() {
+  try {
+    const r = await fetch('/api/calibration');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) {
+    return { available: false, hitter: {}, pitcher: {} };
+  }
+}
+
+async function loadNrfiData() {
+  try {
+    const r = await fetch('/api/nrfi');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) {
+    return { available: false, games: [] };
+  }
+}
+
+async function loadNrfiAccuracy() {
+  try {
+    const r = await fetch('/api/nrfi-accuracy');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) {
+    return { available: false, total_picks: 0, total_graded: 0, recent: [] };
+  }
+}
+
+async function loadEdgeData() {
+  try {
+    const r = await fetch('/api/props');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) {
+    return { available: false, rows: [], summary: {} };
+  }
+}
+
+async function loadPropsAccuracy() {
+  try {
+    const r = await fetch('/api/props-accuracy');
+    if (!r.ok) throw new Error();
+    return await r.json();
+  } catch (e) {
+    return { available: false, total: 0, settled: 0, recent: [], by_market: [], by_side: [], clv: {} };
+  }
+}
+
+/* ============================================================
+   PLAYER LINK HELPER
+   Wraps a player name in a clickable span that opens the modal.
+   Returns plain text (not a link) if mlb_id is missing — graceful
+   fallback for the brief window before the daily pipeline writes
+   IDs into hitterspitchers_today.csv.
+   ============================================================ */
+function playerLink(name, mlbId, team) {
+  const safeName = String(name || '').replace(/'/g, "\\'");
+  const safeTeam = String(team || '').replace(/'/g, "\\'");
+  if (mlbId == null || mlbId === '' || mlbId === 0) return name || '';
+  return `<span class="player-link" onclick="event.stopPropagation();openPlayerModal(${+mlbId}, '${safeName}', '${safeTeam}')">${name}</span>`;
+}
+
+/* ============================================================
+   PLAYER DETAIL MODAL
+   Opens when a hitter or pitcher name is clicked. Pulls
+   /api/player/{mlb_id} and renders bar charts of their last 10
+   games' relevant stats plus a slash-line table by split.
+   ============================================================ */
+const _playerCache = new Map();   // mlb_id → response
+
+async function openPlayerModal(mlbId, knownName, knownTeam) {
+  if (mlbId == null || isNaN(+mlbId)) return;
+  const overlay = document.getElementById('playerModal');
+  document.getElementById('modalName').textContent = knownName || 'Loading…';
+  document.getElementById('modalMeta').textContent = knownTeam || '';
+  document.getElementById('modalBody').innerHTML = `<div class="modal-loading"><div class="spinner"></div></div>`;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  try {
+    let data = _playerCache.get(+mlbId);
+    if (!data) {
+      const r = await fetch(`/api/player/${+mlbId}`);
+      if (!r.ok) {
+        document.getElementById('modalBody').innerHTML =
+          `<div class="empty-state">No game-by-game history available for this player yet (mlb_id ${mlbId}). Once the 2026 Statcast refresh has logged a few of their games, this view will populate.</div>`;
+        return;
+      }
+      data = await r.json();
+      _playerCache.set(+mlbId, data);
+    }
+    renderPlayerModal(data, knownName);
+  } catch (e) {
+    document.getElementById('modalBody').innerHTML =
+      `<div class="empty-state">Couldn't load player history: ${e.message || e}</div>`;
+  }
+}
+
+function closePlayerModal() {
+  document.getElementById('playerModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on Escape — small QoL touch.
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closePlayerModal();
+});
+
+function renderPlayerModal(data, knownName) {
+  const isPitcher = data.player_type === 'pitcher';
+  const display = data.player_name || knownName || '—';
+  document.getElementById('modalName').textContent = display;
+
+  // Pitchers throw with their hand → LHP / RHP.
+  // Hitters bat with their hand   → LHH / RHH.
+  let handPart = '—';
+  if (data.hand) {
+    handPart = isPitcher
+      ? `Throws: ${data.hand}HP`
+      : `Hits: ${data.hand}HH`;
+  }
+  document.getElementById('modalMeta').textContent =
+    `${isPitcher ? 'Pitcher' : 'Hitter'} · ${data.team || '—'} · ${handPart} · ${data.games_count || 0} games logged`;
+
+  const body = isPitcher ? renderPitcherDetail(data) : renderHitterDetail(data);
+  document.getElementById('modalBody').innerHTML = body;
+}
+
+/* ─── HITTER detail ───────────────────────────────────────── */
+function renderHitterDetail(d) {
+  const recent = (d.recent_games || []).slice().reverse();  // chronological for the chart
+  const charts = ['H', 'HR', 'BB', 'K'].map(stat =>
+    miniBarChart(stat, recent.map(g => ({ date: g.date || '', value: +g[stat] || 0 })))
+  ).join('');
+  const recentRows = (d.recent_games || []).map(g => `
+    <tr>
+      <td>${g.date || ''}</td>
+      <td>${g.opp || ''}</td>
+      <td>${g.opp_starter || ''} <span style="color:var(--text-dim);">${g.opp_hand?'('+g.opp_hand+')':''}</span></td>
+      <td>${g.PA}</td><td>${g.H}</td><td>${g.HR}</td><td>${g.BB}</td><td>${g.K}</td>
+      <td>${g.AVG != null ? g.AVG.toFixed(3).replace(/^0/,'') : '—'}</td>
+    </tr>`).join('');
+
+  return `
+    <div class="modal-section-title">Last 10 games · per-game counts</div>
+    <div class="modal-charts-row">${charts}</div>
+
+    <div class="modal-section-title">Slash lines by split</div>
+    ${slashTableHitter(d.splits)}
+
+    <div class="modal-section-title">Game log (most recent 10)</div>
+    <div style="overflow-x:auto;">
+      <table class="recent-games-tbl">
+        <thead><tr>
+          <th>Date</th><th>Opp</th><th>Starter</th>
+          <th>PA</th><th>H</th><th>HR</th><th>BB</th><th>K</th><th>AVG</th>
+        </tr></thead>
+        <tbody>${recentRows || '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:1.5rem;">No graded games on file yet.</td></tr>'}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function slashTableHitter(splits) {
+  if (!splits) return '<div class="empty-state">No splits available.</div>';
+  const row = (label, agg) => {
+    if (!agg || !agg.games) {
+      return `
+        <div class="sc row-label">${label}</div>
+        <div class="sc">—</div><div class="sc">—</div><div class="sc">—</div><div class="sc">—</div>`;
+    }
+    const fmt = v => v == null ? '—' : v.toFixed(3).replace(/^0/,'');
+    return `
+      <div class="sc row-label">${label} <span style="color:var(--text-dim);">(${agg.games}g)</span></div>
+      <div class="sc">${fmt(agg.avg)}</div>
+      <div class="sc">${fmt(agg.obp)}</div>
+      <div class="sc">${fmt(agg.slg)}</div>
+      <div class="sc">${fmt(agg.ops)}</div>`;
+  };
+  const block = (title, sl) => `
+    <div class="sh">${title}</div>
+    <div class="sh">AVG</div><div class="sh">OBP</div><div class="sh">SLG</div><div class="sh">OPS</div>
+    ${row('All', sl?.all)}
+    ${row('vs RHP', sl?.vs_R)}
+    ${row('vs LHP', sl?.vs_L)}
+    <div class="group-divider"></div>`;
+  return `
+    <div class="splits-grid">
+      ${block('Season', splits.season)}
+      ${block('Last 10 games', splits.last10)}
+      ${block('Last 5 games', splits.last5)}
+    </div>
+    <div style="font-family:var(--font-mono);font-size:0.66rem;color:var(--text-dim);margin-top:0.6rem;line-height:1.55;">
+      AB ≈ PA − BB · SLG approximated treating non-HR hits as singles (we don't separate doubles/triples in the per-game cache, so SLG runs slightly low).
+    </div>`;
+}
+
+/* ─── PITCHER detail ──────────────────────────────────────── */
+function renderPitcherDetail(d) {
+  const recent = (d.recent_games || []).slice().reverse();
+  const charts = [
+    { key: 'K',  label: 'K' },
+    { key: 'BB', label: 'BB' },
+    { key: 'IP', label: 'IP' },
+    { key: 'H',  label: 'H' },
+    { key: 'HR', label: 'HR' },
+  ].map(({key, label}) =>
+    miniBarChart(label, recent.map(g => ({ date: g.date || '', value: +g[key] || 0 })))
+  ).join('');
+
+  const recentRows = (d.recent_games || []).map(g => `
+    <tr>
+      <td>${g.date || ''}</td>
+      <td>${g.opp || ''}</td>
+      <td>${g.started ? '<span style="color:var(--green);">Start</span>' : '<span style="color:var(--text-dim);">Relief</span>'}</td>
+      <td>${g.IP.toFixed(1)}</td><td>${g.BF}</td><td>${g.K}</td>
+      <td>${g.BB}</td><td>${g.H}</td><td>${g.HR}</td>
+    </tr>`).join('');
+
+  return `
+    <div class="modal-section-title">Last 10 starts · per-game counts</div>
+    <div class="modal-charts-row">${charts}</div>
+
+    <div class="modal-section-title">Rate stats by split</div>
+    ${ratesTablePitcher(d.splits)}
+
+    <div class="modal-section-title">Game log (most recent 10)</div>
+    <div style="overflow-x:auto;">
+      <table class="recent-games-tbl">
+        <thead><tr>
+          <th>Date</th><th>Opp</th><th>Role</th>
+          <th>IP</th><th>BF</th><th>K</th><th>BB</th><th>H</th><th>HR</th>
+        </tr></thead>
+        <tbody>${recentRows || '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:1.5rem;">No starts on file yet.</td></tr>'}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function ratesTablePitcher(splits) {
+  if (!splits) return '<div class="empty-state">No splits available.</div>';
+  const fmtPct = v => v == null ? '—' : (v * 100).toFixed(1) + '%';
+  // Hits-against rate is essentially opponent batting average — render
+  // it the way fans read it (e.g. .238) instead of as a percentage.
+  const fmtBA  = v => v == null ? '—' : v.toFixed(3).replace(/^0/, '');
+  const aggRow = (label, agg) => {
+    if (!agg || !agg.games) {
+      return `
+        <div class="sc row-label">${label}</div>
+        <div class="sc">—</div><div class="sc">—</div><div class="sc">—</div><div class="sc">—</div>`;
+    }
+    return `
+      <div class="sc row-label">${label} <span style="color:var(--text-dim);">(${agg.games}g · ${agg.ip.toFixed(1)} IP)</span></div>
+      <div class="sc">${fmtPct(agg.k_rate)}</div>
+      <div class="sc">${fmtPct(agg.bb_rate)}</div>
+      <div class="sc">${fmtBA(agg.h_rate)}</div>
+      <div class="sc">${fmtPct(agg.hr_rate)}</div>`;
+  };
+  const handRow = (label, agg) => {
+    if (!agg) {
+      return `
+        <div class="sc row-label">${label}</div>
+        <div class="sc">—</div><div class="sc">—</div><div class="sc">—</div><div class="sc">—</div>`;
+    }
+    return `
+      <div class="sc row-label">${label}</div>
+      <div class="sc">${fmtPct(agg.k_rate)}</div>
+      <div class="sc">${fmtPct(agg.bb_rate)}</div>
+      <div class="sc">${fmtBA(agg.h_rate)}</div>
+      <div class="sc">${fmtPct(agg.hr_rate)}</div>`;
+  };
+  const block = (title, sl) => `
+    <div class="sh">${title}</div>
+    <div class="sh">K%</div><div class="sh">BB%</div><div class="sh">Opp BA</div><div class="sh">HR%</div>
+    ${aggRow('All', sl?.all)}
+    ${handRow('vs RHH', sl?.vs_R)}
+    ${handRow('vs LHH', sl?.vs_L)}
+    <div class="group-divider"></div>`;
+  const block5 = (title, sl) => `
+    <div class="sh">${title}</div>
+    <div class="sh">K%</div><div class="sh">BB%</div><div class="sh">Opp BA</div><div class="sh">HR%</div>
+    ${aggRow('All', sl?.all)}
+    <div class="sc row-label" style="color:var(--text-dim);font-style:italic;">vs-hand splits</div>
+    <div class="sc" style="grid-column:span 4;color:var(--text-dim);font-style:italic;">Need a longer window — see Last 10 / Season above.</div>
+    <div class="group-divider"></div>`;
+  return `
+    <div class="splits-grid">
+      ${block('Season', splits.season)}
+      ${block('Last 10 starts', splits.last10)}
+      ${block5('Last 5 starts', splits.last5)}
+    </div>
+    <div style="font-family:var(--font-mono);font-size:0.66rem;color:var(--text-dim);margin-top:0.6rem;line-height:1.55;">
+      Rates are per batter faced. Opp BA = hits allowed ÷ batters faced (an approximation of opponent batting average against this pitcher).
+      vs-hand splits are pulled from the rolling stats the projection model uses (computed over season / last 10 starts).
+    </div>`;
+}
+
+/* ─── Tiny SVG bar chart used inside the modal cards ────── */
+function miniBarChart(label, points) {
+  // points: [{date: 'MM-DD', value: number}, ...]  (chronological — oldest first)
+  // Renders an SVG bar chart with:
+  //   - left-side Y-axis (0 / mid / max labels)
+  //   - rotated MM-DD date labels under each bar
+  //   - hover tooltip on each bar (native SVG <title>, no JS deps)
+  const W = 220, H = 110;
+  const padL = 26;   // Y-axis labels
+  const padR = 6;
+  const padT = 6;
+  const padB = 26;   // rotated date labels eat vertical space
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+
+  const isFloat = label === 'IP';
+  const fmt = v => isFloat ? Number(v).toFixed(1) : Math.round(Number(v)).toString();
+
+  // Coerce to canonical {date, value} array.
+  const arr = (points || []).map(p =>
+    (typeof p === 'object') ? { date: p.date || '', value: +p.value || 0 }
+                            : { date: '', value: +p || 0 });
+  const n = arr.length;
+
+  if (!n) {
+    return `<div class="mini-chart">
+      <div class="mini-chart-label">${label}</div>
+      <svg class="mini-chart-svg" viewBox="0 0 ${W} ${H}"></svg>
+      <div class="mini-chart-foot"><span class="mini-chart-num">—</span><span class="mini-chart-sub">no games</span></div>
+    </div>`;
+  }
+
+  const values = arr.map(p => p.value);
+  const max = Math.max(1, ...values);
+  const niceMax = isFloat ? Math.ceil(max) : Math.max(1, Math.ceil(max));
+  const mid = niceMax / 2;
+  const last = values[values.length - 1];
+  const avg = values.reduce((s, v) => s + v, 0) / n;
+
+  const yFor = v => padT + (1 - v / niceMax) * innerH;
+  const axisColor = 'rgba(255,255,255,0.10)';
+  const tickColor = '#4a5a6e';
+  const yAxis = `
+    <line x1="${padL}" x2="${padL}" y1="${padT}" y2="${H-padB}" stroke="${axisColor}" stroke-width="1"/>
+    <line x1="${padL}" x2="${W-padR}" y1="${yFor(mid)}" y2="${yFor(mid)}" stroke="${axisColor}" stroke-dasharray="2,3" stroke-width="0.8"/>
+    <text x="${padL-3}" y="${yFor(niceMax)+3}" font-family="IBM Plex Mono" font-size="8" fill="${tickColor}" text-anchor="end">${fmt(niceMax)}</text>
+    <text x="${padL-3}" y="${yFor(mid)+3}" font-family="IBM Plex Mono" font-size="8" fill="${tickColor}" text-anchor="end">${fmt(mid)}</text>
+    <text x="${padL-3}" y="${H-padB-1}" font-family="IBM Plex Mono" font-size="8" fill="${tickColor}" text-anchor="end">0</text>
+  `;
+
+  // Bars + rotated date label below each.
+  const bandW = innerW / n;
+  const barW  = Math.max(2, bandW - 2);
+  const bars = arr.map((p, i) => {
+    const x = padL + i * bandW + 1;
+    const h = (p.value / niceMax) * innerH;
+    const y = H - padB - h;
+    const isLast = i === n - 1;
+    const cx = x + barW / 2;
+    const dateLabel = p.date || '';
+    return `
+      <rect x="${x}" y="${y}" width="${barW}" height="${h}" fill="${isLast?'#00c853':'rgba(0,200,83,0.45)'}" rx="1.5">
+        <title>${dateLabel ? dateLabel + ' · ' : ''}${fmt(p.value)} ${label}</title>
+      </rect>
+      <text x="${cx}" y="${H-padB+4}" transform="rotate(-45 ${cx} ${H-padB+4})"
+            font-family="IBM Plex Mono" font-size="7" fill="${tickColor}" text-anchor="end">${dateLabel}</text>`;
+  }).join('');
+
+  return `<div class="mini-chart">
+    <div class="mini-chart-label">${label}</div>
+    <svg class="mini-chart-svg" viewBox="0 0 ${W} ${H}">${yAxis}${bars}</svg>
+    <div class="mini-chart-foot">
+      <span class="mini-chart-num">${fmt(last)}</span>
+      <span class="mini-chart-sub">last · avg ${fmt(avg)}</span>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+function switchTab(tabId) {
+  state.activeTab = tabId;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tabId));
+  rerenderActiveTab();
+}
+function rerenderActiveTab() {
+  if (state.activeTab === 'games') renderGamesTab();
+  else if (state.activeTab === 'pitchers') renderPitchersTab();
+  else if (state.activeTab === 'hitters') renderHittersTab();
+  else if (state.activeTab === 'nrfi') renderNrfiTab();
+  // Edge tab removed — falls through to no-op (the panel no longer exists)
+  else if (state.activeTab === 'accuracy') renderAccuracyTab();
+}
+
+/* ============================================================
+   STAT CARDS
+   ============================================================ */
+function statCard(label, value, sub, valueClass = '') {
+  return `<div class="stat-card"><div class="stat-label">${label}</div><div class="stat-value ${valueClass}">${value}</div><div class="stat-sub">${sub || '&nbsp;'}</div></div>`;
+}
+
+/* ============================================================
+   TAB 1: GAMES
+   ============================================================ */
+function renderGamesTab() {
+  if (state.selectedGame) { renderGameDetail(); return; }
+  document.getElementById('gamesListView').style.display = 'block';
+  document.getElementById('gamesDetailView').style.display = 'none';
+
+  const games = state.games;
+  const valueGames = games.filter(g => g.isValue);
+  const avgWinProb = valueGames.length
+    ? valueGames.reduce((s, g) => s + (g.pickProb || 0), 0) / valueGames.length
+    : 0;
+  const accStr = state.accuracy && state.accuracy.total_games
+    ? state.accuracy.overall_acc.toFixed(1) + '%' : '—';
+  const accSub = state.accuracy && state.accuracy.total_games
+    ? `${state.accuracy.correct_games}/${state.accuracy.total_games} graded picks`
+    : 'no graded picks yet';
+
+  document.getElementById('gamesStatGrid').innerHTML = `
+    ${statCard('Today\'s Games', games.length, 'on today\'s slate')}
+    ${statCard('Value Picks', valueGames.length, 'positive-EV picks', valueGames.length ? 'green' : '')}
+    ${statCard('Avg Win Prob', valueGames.length ? (avgWinProb * 100).toFixed(0) + '%' : '—', 'on value picks')}
+    ${statCard('Season Accuracy', accStr, accSub, state.accuracy && state.accuracy.total_games ? 'green' : '')}
+  `;
+
+  document.querySelectorAll('.filter-row .pill').forEach(p => p.classList.toggle('active', p.dataset.filter === state.gameFilter));
+
+  let filtered = games;
+  if (state.gameFilter === 'value') filtered = games.filter(g => g.isValue);
+  if (state.gameFilter === 'pass')  filtered = games.filter(g => !g.isValue);
+
+  document.getElementById('gameCount').textContent = `${filtered.length} game${filtered.length === 1 ? '' : 's'} today`;
+
+  const grid = document.getElementById('gameGrid');
+  if (!games.length) {
+    grid.innerHTML = `<div class="empty-state">No games today, or the data hasn't been generated yet. Check back after the next scheduled update.</div>`;
+    return;
+  }
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state">No games match this filter.</div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(g => gameCardHtml(g, games.indexOf(g))).join('');
+  grid.querySelectorAll('.game-card').forEach(c => {
+    c.addEventListener('click', () => {
+      const idx = parseInt(c.dataset.idx, 10);
+      state.selectedGame = state.games[idx];
+      renderGamesTab();
+    });
+  });
+}
+
+function findNrfiForGame(g) {
+  // NRFI rows are keyed by team_a (away) / team_b (home). Game cards use
+  // `g.away` / `g.home`. We do a defensive lookup that also tolerates
+  // legacy `away_team` / `home_team` field names just in case the shape
+  // ever changes upstream.
+  const list = (state.nrfi && state.nrfi.games) || [];
+  return list.find(n =>
+    (n.team_a === g.away && n.team_b === g.home) ||
+    (n.away_team === g.away && n.home_team === g.home)
+  );
+}
+
+function gameCardHtml(g, idx) {
+  const homePct = (g.homeProb || 0.5) * 100;
+  const awayPct = 100 - homePct;
+  const pickPct = (g.pickProb || 0.5) * 100;
+  const evClass = (g.ev || 0) >= 0 ? 'positive' : 'negative';
+  const evText = ((g.ev || 0) >= 0 ? '+' : '') + ((g.ev || 0) * 100).toFixed(1) + '%';
+
+  // NRFI panel — shown only when the projection is available for this game.
+  // Colours mirror the standalone NRFI tab: green for lean YES (≥55%),
+  // red for lean NO (≤45%), dim for the in-between PASS band.
+  const nrfi = findNrfiForGame(g);
+  let nrfiHtml = '';
+  if (nrfi && typeof nrfi.p_nrfi === 'number') {
+    const nrfiPct = (nrfi.p_nrfi * 100).toFixed(1);
+    const lean = nrfi.lean || (nrfi.p_nrfi >= 0.55 ? 'YES' : (nrfi.p_nrfi <= 0.45 ? 'NO' : 'PASS'));
+    const leanCls = lean === 'YES' ? 'positive' : (lean === 'NO' ? 'negative' : '');
+    nrfiHtml = `
+      <div class="pick-row" style="border-top:1px dashed var(--border);padding-top:0.55rem;">
+        <div class="pick-side">
+          <div class="pick-label">NRFI Probability</div>
+          <div class="pick-value">${nrfiPct}% <span class="conf">no run in 1st</span></div>
+        </div>
+        <div class="pick-side right">
+          <div class="pick-label">NRFI Lean</div>
+          <div class="ev-value ${leanCls}">${lean}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="game-card ${g.isValue ? 'value' : ''}" data-idx="${idx}">
+      <div class="game-row-1">
+        <span class="game-time">${g.time || ''}</span>
+        <span class="badge ${g.isValue ? 'badge-value' : 'badge-pass'}">${g.isValue ? 'Good Value' : 'Pass'}</span>
+      </div>
+      <div class="matchup-row">
+        <div class="team-block">
+          <span class="team-abbr">${g.away}</span>
+          <span class="team-pitcher">${g.awayStarter || 'TBD'}</span>
+          <span class="team-ml">${g.awayML || ''}</span>
+        </div>
+        <span class="at-divider">@</span>
+        <div class="team-block home">
+          <span class="team-abbr">${g.home}</span>
+          <span class="team-pitcher">${g.homeStarter || 'TBD'}</span>
+          <span class="team-ml">${g.homeML || ''}</span>
+        </div>
+      </div>
+      <div class="winprob"><div class="winprob-fill" style="width:${homePct}%;"></div></div>
+      <div class="winprob-labels">
+        <span>${g.away} ${awayPct.toFixed(1)}%</span>
+        <span>${homePct.toFixed(1)}% ${g.home}</span>
+      </div>
+      <div class="pick-row">
+        <div class="pick-side">
+          <div class="pick-label">Model Pick</div>
+          <div class="pick-value">${g.pick || ''} <span class="conf">(${pickPct.toFixed(1)}%)</span></div>
+        </div>
+        <div class="pick-side right">
+          <div class="pick-label">Edge (EV)</div>
+          <div class="ev-value ${evClass}">${evText}</div>
+        </div>
+      </div>
+      ${nrfiHtml}
+    </div>
+  `;
+}
+
+function renderGameDetail() {
+  document.getElementById('gamesListView').style.display = 'none';
+  const view = document.getElementById('gamesDetailView');
+  view.style.display = 'block';
+  const g = state.selectedGame;
+
+  const awayPitcher = state.pitchers.find(p => p.team === g.away);
+  const homePitcher = state.pitchers.find(p => p.team === g.home);
+  const awayLineup = state.hitters.filter(h => h.team === g.away).sort((a,b)=>(a.lineup_spot||99)-(b.lineup_spot||99)).slice(0,9);
+  const homeLineup = state.hitters.filter(h => h.team === g.home).sort((a,b)=>(a.lineup_spot||99)-(b.lineup_spot||99)).slice(0,9);
+
+  view.innerHTML = `
+    <button class="back-btn" onclick="state.selectedGame=null;renderGamesTab();">← Back to Games</button>
+    <h1 class="matchup-header">${g.away} @ ${g.home}</h1>
+    <div class="matchup-sub">${g.time || ''}${g.time ? ' · ' : ''}${g.awayStarter || 'TBD'} vs ${g.homeStarter || 'TBD'}</div>
+
+    <div class="section-header">Pitching Matchup</div>
+    <div class="pitcher-cards">
+      ${pitcherDetailCard(g.away, g.awayStarter, awayPitcher)}
+      ${pitcherDetailCard(g.home, g.homeStarter, homePitcher)}
+    </div>
+
+    <div class="section-header">Projected Lineups</div>
+    <div class="lineup-grid">
+      ${lineupCardHtml(g.away, awayLineup)}
+      ${lineupCardHtml(g.home, homeLineup)}
+    </div>
+    <div class="proj-note">
+      Pitcher and hitter projections come from independent models, so the lineup
+      stat totals (K, BB, etc.) may not match the starting pitcher's projection
+      exactly. Each projection is a standalone estimate — best used to compare
+      players against each other, not to sum across a matchup.
+    </div>
+
+    <div class="section-header">Model Line</div>
+    <div class="ml-line-grid">
+      ${statCard('Model Pick', g.pick || '—', ((g.pickProb || 0.5)*100).toFixed(1) + '% win prob', 'green')}
+      ${statCard('Edge (EV)', ((g.ev || 0)>=0?'+':'') + ((g.ev || 0)*100).toFixed(1) + '%', (g.ev || 0)>=0?'positive value':'negative', (g.ev || 0)>=0?'green':'red')}
+      ${statCard('Moneylines', `${g.away} ${g.awayML || '—'}`, `${g.home} ${g.homeML || '—'}`)}
+    </div>
+
+    ${nrfiDetailBlock(g)}
+  `;
+}
+
+function nrfiDetailBlock(g) {
+  // Mirror the card-level NRFI panel, but as a full statCard row that fits
+  // alongside the existing Model Pick / EV / Moneyline grid. Renders nothing
+  // if no NRFI projection exists for this matchup.
+  const nrfi = (typeof findNrfiForGame === 'function') ? findNrfiForGame(g) : null;
+  if (!nrfi || typeof nrfi.p_nrfi !== 'number') return '';
+  const nrfiPct = (nrfi.p_nrfi * 100).toFixed(1);
+  const lean = nrfi.lean || (nrfi.p_nrfi >= 0.55 ? 'YES' : (nrfi.p_nrfi <= 0.45 ? 'NO' : 'PASS'));
+  const colour = lean === 'YES' ? 'green' : (lean === 'NO' ? 'red' : '');
+  const pickLabel = lean === 'YES' ? 'Lean NRFI' : (lean === 'NO' ? 'Lean YRFI' : 'No lean');
+
+  return `
+    <div class="section-header">NRFI (No Runs First Inning)</div>
+    <div class="ml-line-grid">
+      ${statCard('NRFI Probability', `${nrfiPct}%`, `${nrfi.team_a || g.away} @ ${nrfi.team_b || g.home}`, colour)}
+      ${statCard('Lean', pickLabel, '≥55% YES · ≤45% NO', colour)}
+      ${statCard('Pick (1st inning)', lean, lean === 'YES' ? 'no run scored' : (lean === 'NO' ? 'a run scored' : 'too close to call'), colour)}
+    </div>
+  `;
+}
+
+function pitcherDetailCard(team, name, p) {
+  const fmt = v => (typeof v === 'number' && !isNaN(v)) ? v.toFixed(1) : '—';
+  const stats = p || {};
+  const grade = stats.confidence_score;
+  const gradeTag = (grade != null)
+    ? ` · <span class="grade ${gradeClass(grade)}">Grade ${grade}</span>`
+    : '';
+  // p (the projection row) carries mlb_id; if it's missing (e.g. TBD starter)
+  // we render plain text and skip the click affordance.
+  const nameHtml = (name && p && p.mlb_id) ? playerLink(name, p.mlb_id, team) : (name || 'TBD');
+  return `
+    <div class="pitcher-card">
+      <div class="pitcher-name">${nameHtml}</div>
+      <div class="pitcher-sub">${team} · Starting Pitcher${gradeTag}</div>
+      <div class="stat-mini-grid">
+        <div class="stat-mini"><div class="stat-mini-label">IP</div><div class="stat-mini-value">${fmt(stats.proj_ip)}</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">K</div><div class="stat-mini-value">${fmt(stats.proj_strikeouts)}</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">BB</div><div class="stat-mini-value">${fmt(stats.proj_walks)}</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">H</div><div class="stat-mini-value">${fmt(stats.proj_hits_allowed)}</div></div>
+        <div class="stat-mini"><div class="stat-mini-label">ER</div><div class="stat-mini-value">${fmt(stats.proj_runs_allowed)}</div></div>
+      </div>
+    </div>
+  `;
+}
+
+function lineupCardHtml(team, players) {
+  const fmt = v => (typeof v === 'number' && !isNaN(v)) ? v.toFixed(1) : '—';
+  if (!players.length) {
+    return `
+      <div class="lineup-card">
+        <div class="lineup-team-name">${team}</div>
+        <div class="empty-state" style="padding:1.5rem 0;">Lineup not yet posted.</div>
+      </div>
+    `;
+  }
+  return `
+    <div class="lineup-card">
+      <div class="lineup-team-name">${team}</div>
+      <div class="lineup-header">
+        <span>#</span><span>POS</span><span>PLAYER</span><span>H</span><span>HR</span><span>K</span><span>BB</span>
+      </div>
+      ${players.map(p => `
+        <div class="lineup-row">
+          <span class="lineup-spot">${p.lineup_spot || '·'}</span>
+          <span class="lineup-pos">${p.pos || ''}</span>
+          <span class="lineup-name">${playerLink(p.player_name, p.mlb_id, p.team)} ${gradeBadge(p.confidence_score)}</span>
+          <span class="lineup-stat">${fmt(p.proj_hits)}</span>
+          <span class="lineup-stat">${fmt(p.proj_hr)}</span>
+          <span class="lineup-stat">${fmt(p.proj_strikeouts)}</span>
+          <span class="lineup-stat">${fmt(p.proj_walks)}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* ============================================================
+   TAB 2: PITCHERS
+   ============================================================ */
+function fdCell(proj, line, dec, higherIsOver) {
+  if (dec === undefined) dec = 1;
+  if (higherIsOver === undefined) higherIsOver = true;
+  var projStr = (+proj).toFixed(dec);
+  if (line == null) return projStr;
+  var diff = (+proj) - line;
+  var isOver = higherIsOver ? diff > 0 : diff < 0;
+  var arrow = isOver ? '▲' : '▼';
+  var color = isOver ? 'var(--green)' : 'var(--red)';
+  var lineStr = Number.isInteger(line) ? line : line.toFixed(dec);
+  return projStr + ' <span style="font-size:0.6rem;color:' + color + ';font-family:var(--font-mono);">' + arrow + lineStr + '</span>';
+}
+
+function renderPitchersTab() {
+  const root = document.getElementById('pitchersContent');
+  const pitchers = state.pitchers;
+  if (!pitchers.length) {
+    root.innerHTML = `<div class="empty-state">No pitcher projections available yet. Check back after the next data refresh.</div>`;
+    return;
+  }
+  const teams = [...new Set(pitchers.map(p => p.team))].sort();
+  const sortKey = state._pitcherSort || 'proj_strikeouts';
+  const teamFilter = state._pitcherTeam || 'all';
+  const hasFd = pitchers.some(p => p.fd_strikeouts_line != null);
+
+  let filtered = teamFilter === 'all' ? pitchers : pitchers.filter(p => p.team === teamFilter);
+  filtered = [...filtered].sort((a, b) => (b[sortKey] || 0) - (a[sortKey] || 0));
+
+  const fdNote = hasFd
+    ? `<span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);margin-left:auto;">▲▼ = proj vs FD line</span>`
+    : '';
+
+  root.innerHTML = `
+    <div class="controls-row">
+      <select id="pitcherSort">
+        <option value="proj_strikeouts" ${sortKey==='proj_strikeouts'?'selected':''}>Sort by: Proj K</option>
+        <option value="proj_ip" ${sortKey==='proj_ip'?'selected':''}>Sort by: Proj IP</option>
+        <option value="proj_walks" ${sortKey==='proj_walks'?'selected':''}>Sort by: Proj BB</option>
+        <option value="proj_hits_allowed" ${sortKey==='proj_hits_allowed'?'selected':''}>Sort by: Proj H Allowed</option>
+        <option value="proj_runs_allowed" ${sortKey==='proj_runs_allowed'?'selected':''}>Sort by: Proj ER</option>
+      </select>
+      <select id="pitcherTeam">
+        <option value="all" ${teamFilter==='all'?'selected':''}>All Teams</option>
+        ${teams.map(t => `<option value="${t}" ${teamFilter===t?'selected':''}>${t}</option>`).join('')}
+      </select>
+      <span class="filter-count">${filtered.length} pitcher${filtered.length===1?'':'s'}</span>
+      ${fdNote}
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Pitcher</th><th>Team</th><th>Opp</th><th>IP</th><th>K</th><th>BB</th><th>H</th><th>ER</th><th>Grade</th></tr></thead>
+        <tbody>
+          ${filtered.map(p => `
+            <tr>
+              <td>${playerLink(p.player_name, p.mlb_id, p.team)}</td>
+              <td>${p.team}</td>
+              <td>${p.opponent}</td>
+              <td>${fdCell(p.proj_ip, p.fd_outs_line != null ? p.fd_outs_line/3 : null, 1)}</td>
+              <td>${fdCell(p.proj_strikeouts, p.fd_strikeouts_line, 1)}</td>
+              <td>${fdCell(p.proj_walks, p.fd_walks_line, 1, false)}</td>
+              <td>${fdCell(p.proj_hits_allowed, p.fd_hits_line, 1, false)}</td>
+              <td>${(+p.proj_runs_allowed).toFixed(1)}</td>
+              <td>${gradeBadge(p.confidence_score)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+    ${hasFd ? '<div class="proj-note">▲ = proj over FD line · ▼ = proj under. Green = over, red = under. IP from outs prop ÷3.</div>' : ''}
+  `;
+  document.getElementById('pitcherSort').addEventListener('change', e => { state._pitcherSort = e.target.value; renderPitchersTab(); });
+  document.getElementById('pitcherTeam').addEventListener('change', e => { state._pitcherTeam = e.target.value; renderPitchersTab(); });
+}
+/* ============================================================
+   TAB 3: HITTERS
+   ============================================================ */
+/* ============================================================
+   NRFI TAB — top-level "today's NRFI plays" page
+   ============================================================ */
+/* ============================================================
+   EDGE TAB — today's prop edges sorted by EV × confidence
+   ============================================================ */
+const MARKET_LABELS = {
+  pitcher_strikeouts:   'Pitcher K',
+  pitcher_walks:        'Pitcher BB',
+  pitcher_hits_allowed: 'Pitcher H Allowed',
+  pitcher_earned_runs:  'Pitcher ER',
+  pitcher_outs:         'Pitcher Outs',
+  batter_hits:          'Hitter Hits',
+  batter_home_runs:     'Hitter HR',
+  batter_total_bases:   'Hitter TB',
+  batter_strikeouts:    'Hitter K',
+  batter_walks:         'Hitter BB',
+  batter_rbis:          'Hitter RBI',
+  batter_runs_scored:   'Hitter R',
+};
+
+function _fmtAmericanOdds(v) {
+  if (v == null || isNaN(v)) return '—';
+  const n = Math.round(Number(v));
+  return n > 0 ? `+${n}` : `${n}`;
+}
+
+function _fmtPct(v, d=1) { return v == null || isNaN(v) ? '—' : (Number(v) * 100).toFixed(d) + '%'; }
+
+function renderEdgeTab() {
+  const stat = document.getElementById('edgeStatGrid');
+  const body = document.getElementById('edgeBody');
+  const sub  = document.getElementById('edgeSub');
+  const cnt  = document.getElementById('edgeFilterCount');
+  const data = state.edge;
+
+  if (!data || !data.available || !(data.rows && data.rows.length)) {
+    if (stat) stat.innerHTML = '';
+    if (sub) sub.textContent = "No prop edges yet today. Once props_fetch.py pulls from The Odds API and projections complete, edges appear here sorted by EV × confidence.";
+    if (body) body.innerHTML = `<div class="empty-state">No prop edges available yet.</div>`;
+    if (cnt) cnt.textContent = '';
+    return;
+  }
+  const rows = data.rows;
+  const summary = data.summary || {};
+
+  // Reflect active filter
+  document.querySelectorAll('#edgeFilterRow .pill').forEach(b =>
+    b.classList.toggle('active', b.dataset.edgeFilter === state.edgeFilter));
+
+  // Apply filter
+  let filtered = rows;
+  const f = state.edgeFilter;
+  if (f === 'value')   filtered = rows.filter(r => r.flag === 'VALUE');
+  if (f === 'review')  filtered = rows.filter(r => r.flag === 'REVIEW');
+  if (f === 'pitcher') filtered = rows.filter(r => r.kind === 'pitcher');
+  if (f === 'hitter')  filtered = rows.filter(r => r.kind === 'hitter');
+  // Default view: hide REVIEW rows from the main scroll — those are
+  // structurally suspicious and would dominate the top of the list with
+  // illusory edge if shown alongside legit Value plays.
+  if (!f || f === 'all') filtered = rows.filter(r => r.flag !== 'REVIEW');
+
+  if (stat) stat.innerHTML = `
+    ${statCard('Props on slate', summary.total_props || rows.length, 'today\'s board')}
+    ${statCard('Value plays', summary.value_props || 0, '+4% EV or better', summary.value_props ? 'green' : '')}
+    ${statCard('Avg EV', summary.avg_ev != null ? `${(summary.avg_ev*100).toFixed(2)}%` : '—', 'across slate')}
+    ${statCard('Top score', summary.top_score != null ? `${(summary.top_score*100).toFixed(2)}` : '—', 'EV × confidence')}
+  `;
+  if (sub) sub.textContent = `${rows.length} props priced · ${summary.value_props || 0} flagged Value · sorted by EV × projection confidence.`;
+  if (cnt) cnt.textContent = `${filtered.length} of ${rows.length} props`;
+
+  body.innerHTML = `<div class="edge-list">${filtered.map(edgeRow).join('')}</div>`;
+}
+
+function edgeRow(r) {
+  // Three-way flag: VALUE (real edge), REVIEW (>30% EV — likely model error,
+  // not a betting pick), PASS (everything else).
+  const flagCls = r.flag === 'VALUE'  ? 'value'
+                : r.flag === 'REVIEW' ? 'review'
+                : (r.ev > 0 ? 'value-low' : 'pass');
+  const sideCls = r.side === 'OVER' ? 'over' : (r.side === 'UNDER' ? 'under' : 'pass');
+  const evCls   = r.ev > 0 ? 'pos' : 'neg';
+  const evPct   = (r.ev * 100).toFixed(1) + '%';
+  const matchupTeams = (r.away_team && r.home_team) ? `${r.away_team} @ ${r.home_team}` : '';
+  const marketLabel = MARKET_LABELS[r.market] || r.market;
+  const odds = r.side === 'OVER' ? r.over_odds : r.under_odds;
+  // Player name — clickable into the existing player detail modal if mlb_id is known
+  const safeName = (r.player_name || '').replace(/'/g, "\\'");
+  const nameHtml = r.mlb_id
+    ? `<span class="player-link" onclick="openPlayerModal(${+r.mlb_id}, '${safeName}', '${(r.away_team || '')}')">${r.player_name}</span>`
+    : (r.player_name || '');
+
+  return `<div class="edge-row ${flagCls}">
+    <div class="edge-player">
+      <div class="edge-name">${nameHtml}</div>
+      <div class="edge-meta">${matchupTeams} · ${r.sportsbook || ''}</div>
+    </div>
+    <div class="edge-side-block">
+      <div class="edge-side ${sideCls}">${r.side}</div>
+      <div class="edge-flag ${flagCls}">${r.flag}</div>
+    </div>
+    <div class="edge-line">
+      ${marketLabel}<br>
+      <span class="num">${r.line}</span>
+      <span style="color:var(--text-dim);margin-left:0.4rem;">${_fmtAmericanOdds(odds)}</span>
+    </div>
+    <div class="edge-line">
+      <span style="color:var(--text-dim);">Proj</span>
+      <span class="num">${r.proj_value.toFixed(2)}</span>
+    </div>
+    <div class="edge-probs">
+      <span style="color:var(--text-dim);">Model O</span> <span class="pri">${_fmtPct(r.p_over_model, 1)}</span><br>
+      <span style="color:var(--text-dim);">Fair O</span>  <span class="pri">${_fmtPct(r.p_over_no_vig, 1)}</span>
+    </div>
+    <div class="edge-ev ${evCls}">${evPct}</div>
+  </div>`;
+}
+
+/* ============================================================
+   PROPS ACCURACY SUB-TAB — under Season Accuracy
+   ============================================================ */
+function renderPropsAccuracyView() {
+  const stat = document.getElementById('propsAccStatGrid');
+  const sub  = document.getElementById('propsAccSub');
+  const body = document.getElementById('propsAccBody');
+  const mktBody = document.getElementById('propsAccByMarket');
+  const tbody = document.getElementById('propsPicksBody');
+  const a = state.propsAccuracy;
+
+  if (!a || !a.available || !a.settled) {
+    if (stat) stat.innerHTML = `${statCard('Picks logged','0','—')}${statCard('Settled','0','—')}${statCard('ROI','—','—')}${statCard('CLV+ rate','—','—')}`;
+    if (sub) sub.textContent = "Once value-flagged picks are graded against actual results, ROI and hit rate appear here.";
+    if (body) body.innerHTML = `<div class="empty-state">No graded prop picks yet.</div>`;
+    if (mktBody) mktBody.innerHTML = '';
+    if (tbody) tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:2rem;">No graded picks yet.</td></tr>`;
+    return;
+  }
+
+  const roiCls = a.roi_pct == null ? '' : (a.roi_pct >= 5 ? 'green' : (a.roi_pct < 0 ? 'red' : ''));
+  const clvCls = a.clv && a.clv.positive_pct != null && a.clv.positive_pct >= 55 ? 'green' : '';
+
+  if (stat) stat.innerHTML = `
+    ${statCard('Picks logged', a.total.toLocaleString(), '2026 season')}
+    ${statCard('Settled', `${a.hits}-${a.misses}-${a.pushes}`, `${a.settled} graded`)}
+    ${statCard('Units · ROI', `${a.units >= 0 ? '+' : ''}${a.units.toFixed(2)}u`, a.roi_pct != null ? `${a.roi_pct >= 0 ? '+' : ''}${a.roi_pct.toFixed(1)}% ROI` : '—', roiCls)}
+    ${statCard('CLV+ rate', a.clv && a.clv.positive_pct != null ? `${a.clv.positive_pct.toFixed(1)}%` : '—', a.clv ? `${a.clv.pairs} pairs analyzed` : '—', clvCls)}
+  `;
+  if (sub) sub.textContent =
+    `${a.settled} settled (${a.hits} HIT · ${a.misses} MISS · ${a.pushes} PUSH) · ` +
+    `${a.units >= 0 ? '+' : ''}${a.units.toFixed(2)}u total · ROI ${a.roi_pct != null ? a.roi_pct.toFixed(1) + '%' : '—'}.`;
+
+  // By-side breakdown
+  if (body && a.by_side && a.by_side.length) {
+    const rows = a.by_side.map(s => {
+      const cls = s.roi != null && s.roi >= 5 ? 'good' : (s.roi != null && s.roi < 0 ? 'bad' : 'warn');
+      return `<div class="interpret-row ${cls}">
+        <div>
+          <div class="interpret-stat">${s.side}</div>
+          <div class="interpret-note">${s.hits}/${s.n} graded · units ${s.units >= 0 ? '+' : ''}${s.units.toFixed(2)}u</div>
+        </div>
+        <div class="interpret-cell ${cls}"><span class="label">Hit rate</span><span class="val">${s.hit_rate != null ? s.hit_rate.toFixed(1)+'%' : '—'}</span></div>
+        <div class="interpret-cell ${cls}"><span class="label">ROI</span><span class="val">${s.roi != null ? (s.roi >= 0 ? '+' : '') + s.roi.toFixed(1) + '%' : '—'}</span></div>
+        <div class="interpret-cell"><span class="label">Note</span><span class="interpret-note">${s.side === 'OVER' ? 'Over picks usually price -110 to -130; need 53%+ to break even' : 'Under picks vary; check odds payouts'}</span></div>
+      </div>`;
+    }).join('');
+    body.innerHTML = `<div class="interpret-grid">${rows}</div>`;
+  }
+
+  // By-market breakdown
+  if (mktBody) {
+    if (!a.by_market || !a.by_market.length) {
+      mktBody.innerHTML = '<div class="empty-state">No per-market data yet.</div>';
+    } else {
+      const head = `
+        <div class="mh">Market</div>
+        <div class="mh">N</div>
+        <div class="mh">Hits</div>
+        <div class="mh">Hit %</div>
+        <div class="mh">Units</div>
+        <div class="mh">ROI</div>`;
+      const rows = a.by_market.map(m => `
+        <div class="mc mname">${MARKET_LABELS[m.market] || m.market}</div>
+        <div class="mc">${m.n}</div>
+        <div class="mc">${m.hits}</div>
+        <div class="mc">${m.hit_rate != null ? m.hit_rate.toFixed(1)+'%' : '—'}</div>
+        <div class="mc">${m.units >= 0 ? '+' : ''}${m.units.toFixed(2)}u</div>
+        <div class="mc ${m.roi != null && m.roi >= 0 ? 'bias-pos' : (m.roi != null && m.roi < 0 ? 'bias-neg' : '')}">${m.roi != null ? (m.roi >= 0 ? '+' : '') + m.roi.toFixed(1) + '%' : '—'}</div>
+      `).join('');
+      mktBody.innerHTML = `<div class="metric-grid" style="grid-template-columns:1.6fr 0.6fr 0.6fr 0.8fr 0.8fr 0.8fr;">${head}${rows}</div>`;
+    }
+  }
+
+  // Recent picks table
+  if (tbody) {
+    tbody.innerHTML = (a.recent || []).map(r => {
+      const cls = r.result === 'HIT' ? 'check' : (r.result === 'MISS' ? 'x' : '');
+      const profit = r.profit_units == null ? '—' : (r.profit_units >= 0 ? `+${r.profit_units.toFixed(2)}u` : `${r.profit_units.toFixed(2)}u`);
+      return `<tr>
+        <td>${r.date || ''}</td>
+        <td>${r.player_name}</td>
+        <td>${MARKET_LABELS[r.market] || r.market}</td>
+        <td>${r.side}</td>
+        <td>${r.line}</td>
+        <td>${_fmtAmericanOdds(r.odds)}</td>
+        <td>${r.proj_value.toFixed(2)} / ${r.actual_value.toFixed(2)}</td>
+        <td class="${cls}" style="font-weight:700;">${r.result}</td>
+        <td class="${cls}" style="font-weight:600;">${profit}</td>
+      </tr>`;
+    }).join('') || `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:2rem;">No graded picks.</td></tr>`;
+  }
+}
+
+function renderNrfiTab() {
+  const root = document.getElementById('nrfiBody');
+  const stat = document.getElementById('nrfiStatGrid');
+  const sub  = document.getElementById('nrfiSub');
+  const data = state.nrfi;
+
+  if (!data || !data.available || !(data.games && data.games.length)) {
+    if (stat) stat.innerHTML = '';
+    if (sub) sub.textContent = "No games on the slate yet. Once today's pitcher and lineup data populates, NRFI projections appear here.";
+    if (root) root.innerHTML = `<div class="empty-state">No NRFI data available yet.</div>`;
+    return;
+  }
+  const games = data.games;
+  const yes = games.filter(g => g.lean === 'YES').length;
+  const no  = games.filter(g => g.lean === 'NO').length;
+  const pass = games.filter(g => g.lean === 'PASS').length;
+  const avgP = games.reduce((s, g) => s + (g.p_nrfi || 0), 0) / Math.max(1, games.length);
+
+  if (stat) stat.innerHTML = `
+    ${statCard('Games on slate', games.length, "today's NRFI candidates")}
+    ${statCard('Lean YES', yes, '≥55% NRFI probability', yes ? 'green' : '')}
+    ${statCard('Lean NO', no, '≤45% NRFI probability', no ? 'red' : '')}
+    ${statCard('Avg P(NRFI)', `${(avgP*100).toFixed(1)}%`, 'across slate')}
+  `;
+  const modelLabel = data.source === 'ml' ? 'ML classifier' : 'Poisson heuristic';
+  if (sub) sub.textContent =
+    `${games.length} games · ${yes} lean YES · ${no} lean NO · ${pass} pass · model: ${modelLabel}. Sorted strongest NRFI plays first.`;
+
+  root.innerHTML = `<div class="nrfi-grid">${games.map(nrfiCard).join('')}</div>`;
+}
+
+function nrfiCard(g) {
+  const pct       = (g.p_nrfi || 0) * 100;
+  const probClass = pct >= 55 ? 'high' : (pct <= 45 ? 'low' : 'mid');
+  const leanClass = g.lean === 'YES' ? 'yes'      : (g.lean === 'NO' ? 'no'      : 'pass');
+  const leanCard  = g.lean === 'YES' ? 'lean-yes' : (g.lean === 'NO' ? 'lean-no' : 'lean-pass');
+  const isML      = g.source === 'ml';
+
+  /* ML source: show starters side-by-side with NRFI/YRFI probabilities */
+  const mlBody = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.6rem;">
+      <div class="nrfi-side">
+        <div class="nrfi-side-label">Away SP</div>
+        <div class="nrfi-side-pitcher">${g.side_a.pitcher_name || 'TBD'}</div>
+        <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);">${g.team_a}</div>
+      </div>
+      <div class="nrfi-side">
+        <div class="nrfi-side-label">Home SP</div>
+        <div class="nrfi-side-pitcher">${g.side_b.pitcher_name || 'TBD'}</div>
+        <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim);">${g.team_b}</div>
+      </div>
+    </div>
+    <div class="nrfi-side" style="margin-top:0.5rem;">
+      <div class="nrfi-side-row" style="grid-template-columns:repeat(2,1fr);">
+        <div><div class="l">P(NRFI)</div><div class="v" style="color:var(--green);">${pct.toFixed(0)}%</div></div>
+        <div><div class="l">P(YRFI)</div><div class="v" style="color:var(--red);">${g.yrfi_prob != null ? (g.yrfi_prob*100).toFixed(0)+'%' : '—'}</div></div>
+      </div>
+    </div>`;
+
+  /* Heuristic source: per-side pitcher K rate and opposing OBP/SLG */
+  const hSide = (label, side) => `
+    <div class="nrfi-side">
+      <div class="nrfi-side-label">${label}</div>
+      <div class="nrfi-side-pitcher">${side.pitcher_name || 'TBD'} <span style="color:var(--text-dim);font-weight:400;">(${side.pitcher_team || ''})</span></div>
+      <div class="nrfi-side-row">
+        <div><div class="l">K rate</div><div class="v">${side.pitcher_k_rate != null ? (side.pitcher_k_rate*100).toFixed(1)+'%' : '—'}</div></div>
+        <div><div class="l">Opp top-5 OBP</div><div class="v">${side.opposing_top5_obp != null ? side.opposing_top5_obp.toFixed(3).replace(/^0/,'') : '—'}</div></div>
+        <div><div class="l">Opp top-5 SLG</div><div class="v">${side.opposing_top5_slg != null ? side.opposing_top5_slg.toFixed(3).replace(/^0/,'') : '—'}</div></div>
+        <div><div class="l">P(blank 1st)</div><div class="v">${side.p_zero != null ? (side.p_zero*100).toFixed(0)+'%' : '—'}</div></div>
+      </div>
+    </div>`;
+
+  const body = isML
+    ? mlBody
+    : hSide(`${g.side_a.pitcher_team} blanks 1st`, g.side_a) + hSide(`${g.side_b.pitcher_team} blanks 1st`, g.side_b);
+
+  return `
+    <div class="nrfi-card ${leanCard}">
+      <div class="nrfi-head">
+        <div>
+          <div class="nrfi-matchup">${g.team_a} vs ${g.team_b}</div>
+          <span class="nrfi-lean-pill ${leanClass}">Lean ${g.lean}</span>
+        </div>
+        <div class="nrfi-prob ${probClass}">${pct.toFixed(0)}%</div>
+      </div>
+      ${body}
+    </div>`;
+}
+/* ============================================================
+   NRFI ACCURACY SUB-TAB — under Season Accuracy
+   ============================================================ */
+function renderNrfiAccuracyView() {
+  const stat = document.getElementById('nrfiAccStatGrid');
+  const sub  = document.getElementById('nrfiAccSub');
+  const body = document.getElementById('nrfiAccBody');
+  const tbody = document.getElementById('nrfiPicksBody');
+  const a = state.nrfiAccuracy;
+
+  if (!a || !a.available || !a.total_graded) {
+    if (stat) stat.innerHTML = `${statCard('Picks logged','0','—')}${statCard('Graded','0','—')}${statCard('YES accuracy','—','—')}${statCard('NO accuracy','—','—')}`;
+    if (sub) sub.textContent = "Once we've leaned on a few NRFI picks and the games complete, accuracy will appear here.";
+    if (body) body.innerHTML = `<div class="empty-state">No graded NRFI picks yet — the daily pipeline grades a 1st-inning result for each picked game right after it ends.</div>`;
+    if (tbody) tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:2rem;">No graded NRFI picks yet.</td></tr>`;
+    return;
+  }
+
+  const overallCls = a.overall_acc >= 60 ? 'green' : (a.overall_acc < 50 ? 'red' : '');
+  if (stat) stat.innerHTML = `
+    ${statCard('Picks logged', a.total_picks.toLocaleString(), '2026 season')}
+    ${statCard('Graded', a.total_graded.toLocaleString(), 'completed games')}
+    ${statCard('Overall accuracy', a.overall_acc != null ? a.overall_acc.toFixed(1) + '%' : '—', `${a.yes_correct + a.no_correct}/${a.yes_picks + a.no_picks} graded leans`, overallCls)}
+    ${statCard('Actual NRFI rate', a.actual_nrfi_rate != null ? a.actual_nrfi_rate.toFixed(1) + '%' : '—', 'across graded games')}
+  `;
+  if (sub) sub.textContent =
+    `${a.yes_picks} YES picks (${a.yes_acc != null ? a.yes_acc.toFixed(1)+'%' : '—'} hit) · ${a.no_picks} NO picks (${a.no_acc != null ? a.no_acc.toFixed(1)+'%' : '—'} hit) · league NRFI ≈ ${a.actual_nrfi_rate != null ? a.actual_nrfi_rate.toFixed(1) + '%' : '—'}`;
+
+  const yesCls = (a.yes_acc != null && a.yes_acc >= 55) ? 'good' : (a.yes_acc != null && a.yes_acc < 50 ? 'bad' : 'warn');
+  const noCls  = (a.no_acc  != null && a.no_acc  >= 55) ? 'good' : (a.no_acc  != null && a.no_acc  < 50 ? 'bad' : 'warn');
+  if (body) body.innerHTML = `
+    <div class="interpret-grid" style="margin-top:0.4rem;">
+      <div class="interpret-row ${yesCls}">
+        <div>
+          <div class="interpret-stat">Lean YES</div>
+          <div class="interpret-note" style="margin-top:0.2rem;">When we predicted NRFI would happen.</div>
+        </div>
+        <div class="interpret-cell ${yesCls}"><span class="label">Hit rate</span><span class="val">${a.yes_acc != null ? a.yes_acc.toFixed(1)+'%' : '—'}</span></div>
+        <div class="interpret-cell"><span class="label">Sample</span><span class="val">${a.yes_correct}/${a.yes_picks}</span></div>
+        <div class="interpret-cell"><span class="label">Note</span><span class="interpret-note">~52.4% break-even at -110 odds. ≥55% is salable.</span></div>
+      </div>
+      <div class="interpret-row ${noCls}">
+        <div>
+          <div class="interpret-stat">Lean NO</div>
+          <div class="interpret-note" style="margin-top:0.2rem;">When we predicted YRFI (a run scored).</div>
+        </div>
+        <div class="interpret-cell ${noCls}"><span class="label">Hit rate</span><span class="val">${a.no_acc != null ? a.no_acc.toFixed(1)+'%' : '—'}</span></div>
+        <div class="interpret-cell"><span class="label">Sample</span><span class="val">${a.no_correct}/${a.no_picks}</span></div>
+        <div class="interpret-cell"><span class="label">Note</span><span class="interpret-note">YRFI books typically pay around -120. ≥56% is salable.</span></div>
+      </div>
+    </div>`;
+
+  if (tbody) {
+    tbody.innerHTML = (a.recent || []).map(r => {
+      const checkColor = r.correct ? 'check' : 'x';
+      const sym = r.correct ? '✓' : '✗';
+      const nrfi = r.actual_nrfi == null ? '—' : (r.actual_nrfi ? 'NRFI' : 'YRFI');
+      return `<tr>
+        <td>${r.date || ''}</td>
+        <td>${r.team_a} vs ${r.team_b}</td>
+        <td>${r.lean}</td>
+        <td>${(r.p_nrfi*100).toFixed(0)}%</td>
+        <td>${r.away_runs_1st != null ? r.away_runs_1st : '—'}</td>
+        <td>${r.home_runs_1st != null ? r.home_runs_1st : '—'}</td>
+        <td>${nrfi}</td>
+        <td class="${checkColor}" style="text-align:center;font-weight:700;">${sym}</td>
+      </tr>`;
+    }).join('') || `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:2rem;">No graded picks.</td></tr>`;
+  }
+}
+
+function renderHittersTab() {
+  const root = document.getElementById('hittersContent');
+  const hitters = state.hitters;
+  if (!hitters.length) {
+    root.innerHTML = `<div class="empty-state">No hitter projections available yet. Check back after the next data refresh.</div>`;
+    return;
+  }
+  const teams = [...new Set(hitters.map(h => h.team))].sort();
+  const sortKey = state._hitterSort || 'proj_hits';
+  const confFilter = state._hitterConf || 'all';
+  const teamFilter = state._hitterTeam || 'all';
+  const view = state.hitterView;
+
+  let filtered = hitters;
+  if (teamFilter !== 'all') filtered = filtered.filter(h => h.team === teamFilter);
+  if (confFilter !== 'all') filtered = filtered.filter(h => h.confidence === confFilter);
+
+  const controlsHtml = `
+    <div class="controls-row">
+      <div class="view-toggle">
+        <button class="${view==='cards'?'active':''}" onclick="state.hitterView='cards';renderHittersTab();">Matchup Cards</button>
+        <button class="${view==='table'?'active':''}" onclick="state.hitterView='table';renderHittersTab();">Full Table</button>
+      </div>
+      <select id="hitterSort">
+        <option value="proj_hits" ${sortKey==='proj_hits'?'selected':''}>Sort by: Proj H</option>
+        <option value="proj_hr" ${sortKey==='proj_hr'?'selected':''}>Sort by: Proj HR</option>
+        <option value="proj_pa" ${sortKey==='proj_pa'?'selected':''}>Sort by: Proj PA</option>
+        <option value="proj_strikeouts" ${sortKey==='proj_strikeouts'?'selected':''}>Sort by: Proj K</option>
+      </select>
+      <select id="hitterConf">
+        <option value="all" ${confFilter==='all'?'selected':''}>All Confidence</option>
+        <option value="HIGH" ${confFilter==='HIGH'?'selected':''}>High Only</option>
+        <option value="MED" ${confFilter==='MED'?'selected':''}>Medium+</option>
+      </select>
+      <select id="hitterTeam">
+        <option value="all" ${teamFilter==='all'?'selected':''}>All Teams</option>
+        ${teams.map(t => `<option value="${t}" ${teamFilter===t?'selected':''}>${t}</option>`).join('')}
+      </select>
+      <span class="filter-count">${filtered.length} hitter${filtered.length===1?'':'s'}</span>
+    </div>
+  `;
+
+  let bodyHtml = '';
+  if (view === 'cards') {
+    const groups = state.games.map(g => ({
+      g, away: filtered.filter(h => h.team === g.away), home: filtered.filter(h => h.team === g.home),
+    })).filter(grp => grp.away.length || grp.home.length);
+    if (!groups.length) bodyHtml = `<div class="empty-state">No matchup data for current filters.</div>`;
+    else bodyHtml = groups.map(grp => `
+      <div class="matchup-card-section">
+        <div class="matchup-card-header">${grp.g.away} @ ${grp.g.home}</div>
+        <div class="matchup-cols">
+          ${hitterColumn(grp.g.away, grp.away)}
+          ${hitterColumn(grp.g.home, grp.home)}
+        </div>
+      </div>
+    `).join('');
+  } else {
+    const sorted = [...filtered].sort((a,b) => (b[sortKey]||0) - (a[sortKey]||0));
+    const hasFd = sorted.some(h => h.fd_hits_line != null || h.fd_hr_line != null);
+    const fdNote = hasFd ? `<div class="proj-note" style="margin-bottom:0.6rem;">▲▼ = projected vs FD line · green = over, red = under</div>` : '';
+    bodyHtml = `
+      ${fdNote}
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Player</th><th>Team</th><th>Opp</th><th>POS</th><th>PA</th><th>H</th><th>HR</th><th>K</th><th>BB</th><th>Grade</th></tr></thead>
+          <tbody>
+            ${sorted.map(h => `
+              <tr>
+                <td>${playerLink(h.player_name, h.mlb_id, h.team)}</td>
+                <td>${h.team}</td>
+                <td>${h.opponent}</td>
+                <td>${h.pos || ''}</td>
+                <td>${(+h.proj_pa).toFixed(1)}</td>
+                <td>${fdCell(h.proj_hits, h.fd_hits_line, 1)}</td>
+                <td>${fdCell(h.proj_hr, h.fd_hr_line, 2)}</td>
+                <td>${fdCell(h.proj_strikeouts, h.fd_strikeouts_line, 1, false)}</td>
+                <td>${fdCell(h.proj_walks, h.fd_walks_line, 1)}</td>
+                <td>${gradeBadge(h.confidence_score)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  root.innerHTML = controlsHtml + bodyHtml;
+  const sortEl = document.getElementById('hitterSort');
+  const confEl = document.getElementById('hitterConf');
+  const teamEl = document.getElementById('hitterTeam');
+  if (sortEl) sortEl.addEventListener('change', e => { state._hitterSort = e.target.value; renderHittersTab(); });
+  if (confEl) confEl.addEventListener('change', e => { state._hitterConf = e.target.value; renderHittersTab(); });
+  if (teamEl) teamEl.addEventListener('change', e => { state._hitterTeam = e.target.value; renderHittersTab(); });
+}
+
+function hitterColumn(team, players) {
+  players = [...players].sort((a,b) => (a.lineup_spot||99) - (b.lineup_spot||99));
+  return `
+    <div>
+      <div class="lineup-team-label">${team}</div>
+      <div class="hitter-lineup-row header">
+        <span>#</span><span>POS</span><span>NAME</span><span>PA</span><span>H</span><span>HR</span><span>K</span><span>BB</span>
+      </div>
+      ${players.map(h => `
+        <div class="hitter-lineup-row">
+          <span class="lineup-spot">${h.lineup_spot || '·'}</span>
+          <span class="lineup-pos">${h.pos || ''}</span>
+          <span class="h-name">${playerLink(h.player_name, h.mlb_id, h.team)} ${gradeBadge(h.confidence_score)}</span>
+          <span class="h-stat">${(+h.proj_pa).toFixed(1)}</span>
+          <span class="h-stat">${fdCell(h.proj_hits, h.fd_hits_line, 1)}</span>
+          <span class="h-stat">${fdCell(h.proj_hr, h.fd_hr_line, 2)}</span>
+          <span class="h-stat">${fdCell(h.proj_strikeouts, h.fd_strikeouts_line, 1, false)}</span>
+          <span class="h-stat">${fdCell(h.proj_walks, h.fd_walks_line, 1)}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* ============================================================
+   TAB 4: ACCURACY (with sub-tabs: Game vs Player predictions)
+   ============================================================ */
+function renderAccuracyTab() {
+  // Reflect the active sub-tab in the DOM, then render the matching view.
+  document.querySelectorAll('#accSubtabbar .subtab').forEach(b =>
+    b.classList.toggle('active', b.dataset.subtab === state.accuracySubtab));
+  document.querySelectorAll('#panel-accuracy .subpanel').forEach(p =>
+    p.classList.toggle('active', p.id === 'subpanel-' + state.accuracySubtab));
+
+  if (state.accuracySubtab === 'games') renderGameAccuracyView();
+  else if (state.accuracySubtab === 'nrfi') renderNrfiAccuracyView();
+  // Props accuracy sub-tab removed — falls through to no-op
+  else renderPlayerAccuracyView();
+}
+
+function renderGameAccuracyView() {
+  const a = state.accuracy;
+  if (!a || !a.total_games) {
+    document.getElementById('accStatGrid').innerHTML = `${statCard('Season Accuracy','—','no graded picks yet')}${statCard('Graded Picks','0','—')}${statCard('Correct Picks','0','—')}${statCard('Wrong Picks','0','—')}`;
+    document.getElementById('accChartSub').textContent = 'Once games complete and picks are graded, the accuracy chart will appear here.';
+    document.getElementById('accChart').innerHTML = '';
+    document.getElementById('picksTableBody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:2rem;">No graded picks yet.</td></tr>`;
+    return;
+  }
+  const wrong = a.total_games - a.correct_games;
+  document.getElementById('accStatGrid').innerHTML = `
+    ${statCard('Season Accuracy', a.overall_acc.toFixed(1) + '%', 'all graded 2026 picks', 'green')}
+    ${statCard('Graded Picks', a.total_games, '2026 season')}
+    ${statCard('Correct Picks', a.correct_games, 'wins', 'green')}
+    ${statCard('Wrong Picks', wrong, 'losses', 'red')}
+  `;
+  document.getElementById('accChartSub').textContent =
+    `${a.overall_acc.toFixed(1)}% overall · ${a.correct_games}/${a.total_games} graded picks · 2026 season (live Statcast feed)`;
+  drawAccChart(a);
+  const recent = (a.picks || []);
+  document.getElementById('picksTableBody').innerHTML = recent.map(p => `
+    <tr>
+      <td>${p.date}</td><td>${p.away}</td><td>${p.home}</td><td>${p.pick}</td>
+      <td class="${p.correct?'check':'x'}">${p.result}</td>
+      <td class="${p.correct?'check':'x'}" style="text-align:center;font-weight:700;">${p.correct?'✓':'✗'}</td>
+    </tr>
+  `).join('');
+}
+
+/* ============================================================
+   PLAYER ACCURACY SUB-VIEW
+   Shows MAE / RMSE / "within tolerance" rates for each projected
+   stat (K, BB, IP, etc.) plus a recent-graded-projections table.
+   ============================================================ */
+const PLAYER_METRIC_LABELS = {
+  // pitcher
+  strikeouts: 'Strikeouts',
+  walks: 'Walks',
+  ip: 'Innings Pitched',
+  hits_allowed: 'Hits Allowed',
+  runs_allowed: 'Earned Runs',
+  // hitter
+  pa: 'Plate Appearances',
+  hits: 'Hits',
+  hr: 'Home Runs',
+};
+
+function renderPlayerAccuracyView() {
+  const pa = state.playerAccuracy;
+
+  // Reflect the active player-type pill.
+  document.querySelectorAll('#subpanel-players .player-pill-row .pill').forEach(b =>
+    b.classList.toggle('active', b.dataset.ptype === state.playerAccType));
+
+  // Empty / building state — graceful before the daily pipeline has graded data.
+  if (!pa || !pa.available || !pa.total_graded) {
+    document.getElementById('playerAccCount').textContent = 'Building data — 2026 Statcast refresh logs proj-vs-actual rows after every cron tick.';
+    document.getElementById('playerAccStatGrid').innerHTML =
+      `${statCard('Graded Projections','0','—')}${statCard('Pitcher Starts Graded','0','—')}${statCard('Hitter Games Graded','0','—')}${statCard('Best-Tracked Stat','—','—')}`;
+    document.getElementById('playerMetricsTitle').textContent = 'Projection Accuracy by Stat';
+    document.getElementById('playerMetricsSub').textContent =
+      'Once 2026 player projections have been graded against MLB box scores, per-stat MAE and tolerance hit rates will appear here.';
+    document.getElementById('playerMetricsBody').innerHTML =
+      `<div class="empty-state">No graded projections yet — the daily pipeline pulls fresh 2026 Statcast data and grades completed games on every cron run (3 AM / 11 AM / 5 PM ET).</div>`;
+    document.getElementById('playerPicksHead').innerHTML = '';
+    document.getElementById('playerPicksBody').innerHTML =
+      `<tr><td style="text-align:center;color:var(--text-muted);padding:2rem;">No graded projections yet.</td></tr>`;
+    // Hide interpretation + calibration cards while there's no data.
+    document.getElementById('playerInterpretCard').style.display = 'none';
+    document.getElementById('calibrationCard').style.display = 'none';
+    return;
+  }
+
+  const block = state.playerAccType === 'pitchers' ? pa.pitchers : pa.hitters;
+  const otherBlock = state.playerAccType === 'pitchers' ? pa.hitters : pa.pitchers;
+
+  document.getElementById('playerAccCount').textContent =
+    `${(block.n || 0).toLocaleString()} graded ${state.playerAccType === 'pitchers' ? 'starts' : 'games'} · ${(pa.total_graded || 0).toLocaleString()} total rows logged`;
+
+  // Stat cards — best/worst by within-tol so non-stats users can read the headline.
+  const metrics = block.metrics || [];
+  const sorted = [...metrics].filter(m => m.n > 0).sort((a, b) => (b.within_tol || 0) - (a.within_tol || 0));
+  const best = sorted[0];
+  const worst = sorted[sorted.length - 1];
+  const bestLabel = best ? (PLAYER_METRIC_LABELS[best.metric] || best.metric) : '—';
+  const worstLabel = worst ? (PLAYER_METRIC_LABELS[worst.metric] || worst.metric) : '—';
+
+  document.getElementById('playerAccStatGrid').innerHTML = `
+    ${statCard('Graded Projections', (block.n || 0).toLocaleString(), state.playerAccType === 'pitchers' ? 'starts vs actual box scores' : 'games vs actual box scores')}
+    ${statCard('Best-Tracked Stat', bestLabel, best ? `${best.within_tol.toFixed(1)}% within ±${best.tol}` : '—', 'green')}
+    ${statCard('Avg MAE', avgMae(metrics).toFixed(2), 'mean abs error across stats')}
+    ${statCard('Hardest to Project', worstLabel, worst ? `${worst.within_tol.toFixed(1)}% within ±${worst.tol}` : '—', 'red')}
+  `;
+
+  // Per-stat metrics table.
+  document.getElementById('playerMetricsTitle').textContent =
+    state.playerAccType === 'pitchers' ? 'Pitcher Projection Accuracy by Stat' : 'Hitter Projection Accuracy by Stat';
+  document.getElementById('playerMetricsSub').textContent =
+    'MAE = mean absolute error · Bias = avg(proj − actual), >0 means we over-project · "Within" = share of projections inside the tolerance band.';
+
+  if (!metrics.length) {
+    document.getElementById('playerMetricsBody').innerHTML =
+      `<div class="empty-state">No graded ${state.playerAccType} rows yet.</div>`;
+  } else {
+    const head = `
+      <div class="mh">Stat</div>
+      <div class="mh">N</div>
+      <div class="mh">MAE</div>
+      <div class="mh">Bias</div>
+      <div class="mh">Within ±tol</div>
+      <div class="mh">Avg Proj / Actual</div>`;
+    const rows = metrics.map(m => {
+      if (!m.n) {
+        return `
+          <div class="mc mname">${PLAYER_METRIC_LABELS[m.metric] || m.metric}</div>
+          <div class="mc">0</div><div class="mc">—</div><div class="mc">—</div>
+          <div class="mc">—</div><div class="mc">—</div>`;
+      }
+      const biasCls = m.bias > 0.05 ? 'bias-pos' : (m.bias < -0.05 ? 'bias-neg' : '');
+      const biasSign = m.bias > 0 ? '+' : '';
+      return `
+        <div class="mc mname">${PLAYER_METRIC_LABELS[m.metric] || m.metric}</div>
+        <div class="mc">${m.n.toLocaleString()}</div>
+        <div class="mc">${m.mae.toFixed(2)}</div>
+        <div class="mc ${biasCls}">${biasSign}${m.bias.toFixed(2)}</div>
+        <div class="mc">${m.within_tol.toFixed(1)}% <span style="color:var(--text-dim);">±${m.tol}</span></div>
+        <div class="mc">${m.avg_proj.toFixed(2)} / ${m.avg_actual.toFixed(2)}</div>`;
+    }).join('');
+    document.getElementById('playerMetricsBody').innerHTML = `<div class="metric-grid">${head}${rows}</div>`;
+  }
+
+  // "What this means" interpretation card and live bias-calibration status.
+  renderPlayerInterpretation(block, state.playerAccType);
+  renderCalibrationCard(state.calibration, state.playerAccType);
+
+  // Recent graded projections table — schema differs for pitchers vs hitters.
+  const recent = block.recent || [];
+  if (state.playerAccType === 'pitchers') {
+    document.getElementById('playerPicksHead').innerHTML = `
+      <tr>
+        <th>Date</th><th>Pitcher</th><th>Team</th><th>Opp</th>
+        <th>K (P / A)</th><th>IP (P / A)</th><th>H (P / A)</th><th>ER (P / A)</th>
+      </tr>`;
+    document.getElementById('playerPicksBody').innerHTML = recent.length
+      ? recent.map(r => `
+          <tr>
+            <td>${r.date || ''}</td>
+            <td style="color:var(--text-primary);font-family:var(--font-body);">${r.player}</td>
+            <td>${r.team}</td><td>${r.opp}</td>
+            <td>${fmtPair(r.proj_k, r.act_k)}</td>
+            <td>${fmtPair(r.proj_ip, r.act_ip, 1)}</td>
+            <td>${fmtPair(r.proj_h, r.act_h)}</td>
+            <td>${fmtPair(r.proj_r, r.act_r)}</td>
+          </tr>`).join('')
+      : `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:2rem;">No graded pitcher starts yet.</td></tr>`;
+  } else {
+    document.getElementById('playerPicksHead').innerHTML = `
+      <tr>
+        <th>Date</th><th>Hitter</th><th>Team</th><th>Opp</th>
+        <th>PA (P / A)</th><th>H (P / A)</th><th>HR (P / A)</th><th>K (P / A)</th>
+      </tr>`;
+    document.getElementById('playerPicksBody').innerHTML = recent.length
+      ? recent.map(r => `
+          <tr>
+            <td>${r.date || ''}</td>
+            <td style="color:var(--text-primary);font-family:var(--font-body);">${r.player}</td>
+            <td>${r.team}</td><td>${r.opp}</td>
+            <td>${fmtPair(r.proj_pa, r.act_pa, 1)}</td>
+            <td>${fmtPair(r.proj_h, r.act_h)}</td>
+            <td>${fmtPair(r.proj_hr, r.act_hr, 2)}</td>
+            <td>${fmtPair(r.proj_k, r.act_k)}</td>
+          </tr>`).join('')
+      : `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:2rem;">No graded hitter games yet.</td></tr>`;
+  }
+}
+
+function avgMae(metrics) {
+  const valid = (metrics || []).filter(m => m && m.n > 0 && m.mae != null);
+  if (!valid.length) return 0;
+  return valid.reduce((s, m) => s + m.mae, 0) / valid.length;
+}
+
+/* ─── Benchmark interpretation ─────────────────────────────
+ * Compares each per-stat result to rough sportsbook prop-line
+ * benchmarks. These thresholds are not sacred — they're what
+ * a competitive model needs to beat on graded outcomes to be
+ * worth paying for. Tweak in PLAYER_BENCHMARKS as evidence grows.
+ * ──────────────────────────────────────────────────────── */
+const PLAYER_BENCHMARKS = {
+  pitcher: {
+    strikeouts:    { mae_good: 1.4,  mae_ok: 1.7,  within_good: 70, within_ok: 60, label: 'Strikeouts',
+                     note: 'Sportsbook K props average MAE 1.4–1.6 vs final K count.' },
+    walks:         { mae_good: 0.9,  mae_ok: 1.2,  within_good: 60, within_ok: 50, label: 'Walks',
+                     note: 'Walks are noisy — over 50% within ±1 is competitive.' },
+    ip:            { mae_good: 0.8,  mae_ok: 1.1,  within_good: 65, within_ok: 55, label: 'Innings Pitched',
+                     note: 'IP drives every other counting stat — high-leverage to project well.' },
+    hits_allowed:  { mae_good: 1.4,  mae_ok: 1.7,  within_good: 60, within_ok: 50, label: 'Hits Allowed' },
+    runs_allowed:  { mae_good: 1.4,  mae_ok: 1.8,  within_good: 60, within_ok: 50, label: 'Earned Runs' },
+  },
+  hitter: {
+    pa:            { mae_good: 0.6,  mae_ok: 0.9,  within_good: 75, within_ok: 65, label: 'Plate Appearances',
+                     note: 'PA mechanically drives every counting stat — a bias here cascades.' },
+    hits:          { mae_good: 0.5,  mae_ok: 0.7,  within_good: 75, within_ok: 65, label: 'Hits',
+                     note: 'Sportsbook hit props target MAE ~0.5; over-line accuracy 65%+ is salable.' },
+    hr:            { mae_good: 0.18, mae_ok: 0.25, within_good: 88, within_ok: 80, label: 'Home Runs',
+                     note: 'HR are rare events — within ±0.5 should be 85%+ for any decent model.' },
+    strikeouts:    { mae_good: 0.6,  mae_ok: 0.85, within_good: 75, within_ok: 65, label: 'Strikeouts' },
+    walks:         { mae_good: 0.4,  mae_ok: 0.6,  within_good: 85, within_ok: 75, label: 'Walks' },
+  },
+};
+
+function gradeMetric(metric, kind) {
+  const b = (PLAYER_BENCHMARKS[kind === 'pitcher' || kind === 'pitchers' ? 'pitcher' : 'hitter']) || {};
+  const cfg = b[metric.metric];
+  if (!cfg || metric.n === 0 || metric.mae == null) {
+    return { mae: 'unknown', within: 'unknown', overall: 'unknown', note: '' };
+  }
+  const maeGrade  = metric.mae <= cfg.mae_good  ? 'good' : (metric.mae <= cfg.mae_ok  ? 'warn' : 'bad');
+  const withGrade = metric.within_tol >= cfg.within_good ? 'good' : (metric.within_tol >= cfg.within_ok ? 'warn' : 'bad');
+  // Overall: take the worse of the two so we don't oversell on one half.
+  const order = { good: 2, warn: 1, bad: 0, unknown: -1 };
+  const overall = order[maeGrade] <= order[withGrade] ? maeGrade : withGrade;
+  return { mae: maeGrade, within: withGrade, overall, note: cfg.note || '' };
+}
+
+function biasInterpretation(bias, kind, metric) {
+  if (bias == null) return '';
+  const abs = Math.abs(bias);
+  if (abs < 0.05) return 'well-calibrated';
+  const dir = bias > 0 ? 'over-projects' : 'under-projects';
+  const sev = abs >= 0.4 ? 'systematically' : (abs >= 0.15 ? 'modestly' : 'slightly');
+  return `${sev} ${dir}`;
+}
+
+function renderPlayerInterpretation(block, kind) {
+  const card = document.getElementById('playerInterpretCard');
+  const body = document.getElementById('playerInterpretBody');
+  const metrics = (block && block.metrics) || [];
+  const valid = metrics.filter(m => m.n > 0);
+  if (!valid.length) { card.style.display = 'none'; return; }
+  card.style.display = '';
+
+  const rows = valid.map(m => {
+    const g = gradeMetric(m, kind);
+    const label = (PLAYER_METRIC_LABELS[m.metric] || m.metric);
+    const biasText = biasInterpretation(m.bias, kind, m.metric);
+    const verdictText = {
+      good: 'Competitive with sportsbook lines.',
+      warn: 'Close but not yet beating the line.',
+      bad: 'Below industry benchmark — needs work.',
+      unknown: 'No benchmark configured for this stat.',
+    }[g.overall];
+    return `
+      <div class="interpret-row ${g.overall}">
+        <div>
+          <div class="interpret-stat">${label}</div>
+          <div class="interpret-note" style="margin-top:0.2rem;">${verdictText}${biasText ? ' Model ' + biasText + '.' : ''}</div>
+        </div>
+        <div class="interpret-cell ${g.mae}"><span class="label">MAE</span><span class="val">${m.mae.toFixed(2)}</span></div>
+        <div class="interpret-cell ${g.within}"><span class="label">Within ±${m.tol}</span><span class="val">${m.within_tol.toFixed(1)}%</span></div>
+        <div class="interpret-cell"><span class="label">Note</span><span class="interpret-note">${g.note || '—'}</span></div>
+      </div>
+    `;
+  }).join('');
+
+  // Overall verdict — tally how each stat scored, choose the headline.
+  const tally = { good: 0, warn: 0, bad: 0 };
+  valid.forEach(m => { tally[gradeMetric(m, kind).overall] = (tally[gradeMetric(m, kind).overall] || 0) + 1; });
+  let overall, headline;
+  if (tally.good >= valid.length - 1) { overall = 'good'; headline = `<strong>Salable signal.</strong> Most stats meet or beat sportsbook benchmarks. Consider running a public free-trial period to build a track record before charging.`; }
+  else if (tally.bad >= valid.length / 2) { overall = 'bad'; headline = `<strong>Not yet good enough to charge for.</strong> Multiple stats are below industry benchmarks. Focus on whichever stat is dragging the average — fixing one big bias often cascades to the others.`; }
+  else { overall = 'warn'; headline = `<strong>Mixed picture.</strong> Some stats are competitive, others need work. Worth running for another 50–100 graded games before drawing firm conclusions, but probably not yet at sale-grade across the board.`; }
+
+  // Add specific bias warning if any single bias is severe.
+  const biasWarnings = valid.filter(m => Math.abs(m.bias || 0) >= 0.4);
+  let biasNote = '';
+  if (biasWarnings.length) {
+    const list = biasWarnings.map(m => {
+      const dir = m.bias > 0 ? 'over' : 'under';
+      return `${PLAYER_METRIC_LABELS[m.metric] || m.metric} (${dir}-projects ${m.bias.toFixed(2)})`;
+    }).join(', ');
+    biasNote = ` <strong style="color:var(--yellow);">Calibration note:</strong> ${list}. Consistent same-sign biases across stats usually trace back to one upstream feature — fixing that one thing often cascades.`;
+  }
+
+  body.innerHTML = `
+    <div class="interpret-grid">${rows}</div>
+    <div class="interpret-overall ${overall}">${headline}${biasNote}</div>
+  `;
+}
+
+/* ─── Live bias-calibration card ───────────────────────────
+ * Reads /api/calibration and shows which projection columns
+ * are being shifted at projection time and by how much.
+ * ──────────────────────────────────────────────────────── */
+function renderCalibrationCard(cal, kind) {
+  const card = document.getElementById('calibrationCard');
+  const sub = document.getElementById('calibrationSub');
+  const body = document.getElementById('calibrationBody');
+  if (!cal || !cal.available) {
+    card.style.display = 'none';
+    return;
+  }
+  const k = (kind === 'pitcher' || kind === 'pitchers') ? 'pitcher' : 'hitter';
+  const block = cal[k] || {};
+  const cols = Object.keys(block);
+  if (!cols.length) {
+    card.style.display = 'none';
+    return;
+  }
+  card.style.display = '';
+
+  const n = k === 'pitcher' ? cal.n_pitcher : cal.n_hitter;
+  const computed = cal.computed_at || '—';
+  const minN = cal.min_n;
+  sub.textContent = `Recomputed ${computed} from ${n || 0} graded ${k} games. ` +
+    `Corrections fire when ≥${minN} games are graded AND |bias| ≥ 0.05. ` +
+    `Today's projection is shifted by –bias on each column flagged ✓.`;
+
+  const prettyName = (col) => {
+    const m = {
+      proj_pa: 'Plate Appearances', proj_hits: 'Hits', proj_hr: 'Home Runs',
+      proj_strikeouts: 'Strikeouts', proj_walks: 'Walks',
+      proj_runs: 'Runs', proj_rbi: 'RBI',
+      proj_ip: 'Innings Pitched', proj_hits_allowed: 'Hits Allowed',
+      proj_runs_allowed: 'Earned Runs',
+    };
+    return m[col] || col.replace('proj_', '');
+  };
+
+  const rows = cols.map(col => {
+    const info = block[col] || {};
+    const bias = +info.bias || 0;
+    const applied = info.applied;
+    const reason = info.reason || '';
+    const correction = applied ? `${(-bias).toFixed(2)}` : '—';
+    const cls = applied ? 'good' : 'warn';
+    const mark = applied ? '✓' : '·';
+    return `
+      <div class="interpret-row ${applied ? 'good' : ''}" style="grid-template-columns:1.2fr 1fr 1fr 1.4fr;">
+        <div>
+          <div class="interpret-stat">${mark} ${prettyName(col)}</div>
+          <div class="interpret-note" style="margin-top:0.2rem;">
+            ${applied
+              ? `Today's projection is shifted by ${correction} to compensate.`
+              : `No correction applied (${reason}).`}
+          </div>
+        </div>
+        <div class="interpret-cell ${cls}">
+          <span class="label">Observed bias</span>
+          <span class="val">${bias >= 0 ? '+' : ''}${bias.toFixed(3)}</span>
+        </div>
+        <div class="interpret-cell">
+          <span class="label">Sample N</span>
+          <span class="val">${info.n || 0}</span>
+        </div>
+        <div class="interpret-cell">
+          <span class="label">Correction</span>
+          <span class="val" style="color:${applied ? 'var(--green)' : 'var(--text-dim)'};">${correction}</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  body.innerHTML = `<div class="interpret-grid">${rows}</div>`;
+}
+
+function fmtPair(proj, actual, decimals) {
+  const d = decimals == null ? 1 : decimals;
+  const p = (proj == null || isNaN(proj)) ? '—' : Number(proj).toFixed(d);
+  const a = (actual == null || isNaN(actual)) ? '—' : Number(actual).toFixed(decimals === 2 ? 0 : 0);
+  // Color the actual side green/red against the projection so the eye can scan diffs.
+  if (proj == null || actual == null || isNaN(proj) || isNaN(actual)) {
+    return `<span>${p}</span> <span style="color:var(--text-dim);">/</span> <span>${a}</span>`;
+  }
+  const diff = Number(actual) - Number(proj);
+  const cls = Math.abs(diff) <= 0.5 ? '' : (diff > 0 ? 'check' : 'x');
+  return `<span>${p}</span> <span style="color:var(--text-dim);">/</span> <span class="${cls}">${a}</span>`;
+}
+
+function drawAccChart(a) {
+  const svg = document.getElementById('accChart');
+  const W = 800, H = 200;
+  const data = a.cumulative_accuracy;
+  const labels = a.labels;
+  if (!data.length) { svg.innerHTML = ''; return; }
+  const padL = 40, padR = 12, padT = 16, padB = 26;
+  const innerW = W - padL - padR;
+  const innerH = H - padT - padB;
+  const xFor = i => padL + (i / Math.max(1, data.length - 1)) * innerW;
+  const yFor = v => padT + (1 - v / 100) * innerH;
+  let grid = '';
+  [0, 25, 50, 75, 100].forEach(v => {
+    const y = yFor(v);
+    grid += `<line x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}" stroke="${v===50?'rgba(255,255,255,0.18)':'rgba(255,255,255,0.05)'}" stroke-width="1" ${v===50?'stroke-dasharray="3,4"':''} />`;
+    grid += `<text x="${padL-6}" y="${y+3}" font-family="IBM Plex Mono" font-size="9" fill="#4a5a6e" text-anchor="end">${v}%</text>`;
+  });
+  const xTickStep = Math.max(1, Math.floor(data.length / 6));
+  let xTicks = '';
+  for (let i = 0; i < data.length; i += xTickStep) {
+    xTicks += `<text x="${xFor(i)}" y="${H-padB+14}" font-family="IBM Plex Mono" font-size="9" fill="#4a5a6e" text-anchor="middle">${labels[i]}</text>`;
+  }
+  const linePts = data.map((v, i) => `${xFor(i)},${yFor(v)}`).join(' ');
+  const areaD = `M ${xFor(0)},${yFor(0)} L ${data.map((v, i) => `${xFor(i)},${yFor(v)}`).join(' L ')} L ${xFor(data.length-1)},${yFor(0)} Z`;
+  svg.innerHTML = `
+    <defs>
+      <linearGradient id="areaG" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#00c853" stop-opacity="0.25" />
+        <stop offset="100%" stop-color="#00c853" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    ${grid}
+    <path d="${areaD}" fill="url(#areaG)" />
+    <polyline points="${linePts}" fill="none" stroke="#00c853" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+    ${xTicks}
+  `;
+}
+
+/* ============================================================
+   EVENTS + INIT
+   ============================================================ */
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+document.querySelectorAll('.filter-row .pill').forEach(p => {
+  p.addEventListener('click', () => { state.gameFilter = p.dataset.filter; renderGamesTab(); });
+});
+
+// Accuracy sub-tab nav (Game Predictions vs Player Predictions)
+document.querySelectorAll('#accSubtabbar .subtab').forEach(b => {
+  b.addEventListener('click', () => {
+    state.accuracySubtab = b.dataset.subtab;
+    renderAccuracyTab();
+  });
+});
+// Player accuracy: pitcher / hitter pill toggle
+document.querySelectorAll('#subpanel-players .player-pill-row .pill').forEach(b => {
+  b.addEventListener('click', () => {
+    state.playerAccType = b.dataset.ptype;
+    renderPlayerAccuracyView();
+  });
+});
+
+// Edge tab + Props accuracy sub-tab were removed. The renderers and loaders
+// below are left defined-but-unused so any orphan state reference doesn't
+// throw; the dispatch in `rerenderActiveTab` and the parallel-init `Promise.all`
+// below simply no longer call them.
+
+async function init() {
+  document.getElementById('gameGrid').innerHTML = '<div class="spinner"></div>';
+  const [games, pitchers, hitters, accuracy, playerAccuracy, calibration, nrfi, nrfiAcc] = await Promise.all([
+    loadGamesData(), loadPitchersData(), loadHittersData(),
+    loadAccuracyData(), loadPlayerAccuracyData(), loadCalibration(),
+    loadNrfiData(), loadNrfiAccuracy(),
+  ]);
+  state.games = games;
+  state.pitchers = pitchers;
+  state.hitters = hitters;
+  state.accuracy = accuracy;
+  state.playerAccuracy = playerAccuracy;
+  state.calibration = calibration;
+  state.nrfi = nrfi;
+  state.nrfiAccuracy = nrfiAcc;
+
+  const lu = document.getElementById('lastUpdatedFooter');
+  if (lu) lu.innerHTML = `Last fetched <span class="last-updated">${new Date().toLocaleString()}</span>`;
+
+  // Pull /health to surface "is today's projection actually loaded" so a
+  // stale pipeline is visible at a glance instead of users wondering why
+  // the numbers haven't moved.
+  fetch('/health').then(r => r.ok ? r.json() : null).then(h => {
+    if (!h) return;
+    const stale = h.projection_is_today === false;
+    const projDate = h.projection_game_date || '—';
+    const today = h.server_today_et || '';
+    const rows = h.projection_rows != null ? `${h.projection_rows.toLocaleString()} rows` : '';
+    const snapsP = h.snapshots_populated || 0;
+    const snapsT = h.snapshots_present || 0;
+    const color = stale ? 'var(--red)' : 'var(--green)';
+    const status = stale
+      ? `<span style="color:${color};">⚠ STALE — projection dated ${projDate}, today is ${today}</span>`
+      : `<span style="color:${color};">✓ Projection current for ${projDate}</span>${rows ? ' · ' + rows : ''}`;
+    const coverage = snapsT > 0
+      ? ` · Snapshots: ${snapsP}/${snapsT} populated`
+      : '';
+    if (lu) lu.innerHTML += ` · ${status}${coverage}`;
+  }).catch(() => {});
+
+  rerenderActiveTab();
+}
+init();
+</script>
+</body>
+</html>

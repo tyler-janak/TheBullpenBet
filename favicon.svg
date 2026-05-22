@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- White filled home plate -->
+  <path d="M4 6 L28 6 L28 15 L16 27 L4 15 Z" fill="#ffffff"/>
+  <!-- Green accent on the right side (top-right corner → mid → point) -->
+  <path d="M28 6 L28 15 L16 27" fill="none" stroke="#00c853" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>
