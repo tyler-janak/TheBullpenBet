@@ -1,80 +1,80 @@
 {
-  "computed_at": "2026-05-22 02:52",
+  "computed_at": "2026-05-22 10:54",
   "min_n": 30,
-  "n_hitter": 13376,
-  "n_pitcher": 1341,
+  "n_hitter": 13502,
+  "n_pitcher": 1353,
   "hitter": {
     "proj_pa": {
-      "bias": 0.1751,
-      "n": 13376,
+      "bias": 0.1767,
+      "n": 13502,
       "applied": true,
       "reason": "ok"
     },
     "proj_hits": {
-      "bias": 0.0367,
-      "n": 13376,
+      "bias": 0.0382,
+      "n": 13502,
       "applied": false,
       "reason": "|bias|<0.05"
     },
     "proj_hr": {
       "bias": -0.0218,
-      "n": 13376,
+      "n": 13502,
       "applied": false,
       "reason": "|bias|<0.05"
     },
     "proj_strikeouts": {
-      "bias": 0.1133,
-      "n": 13376,
+      "bias": 0.1121,
+      "n": 13502,
       "applied": true,
       "reason": "ok"
     },
     "proj_walks": {
-      "bias": -0.034,
-      "n": 13376,
+      "bias": -0.0337,
+      "n": 13502,
       "applied": false,
       "reason": "|bias|<0.05"
     },
     "proj_runs": {
-      "bias": -0.015,
-      "n": 13376,
+      "bias": -0.0134,
+      "n": 13502,
       "applied": false,
       "reason": "|bias|<0.05"
     },
     "proj_rbi": {
-      "bias": -0.0675,
-      "n": 13376,
+      "bias": -0.066,
+      "n": 13502,
       "applied": true,
       "reason": "ok"
     }
   },
   "pitcher": {
     "proj_ip": {
-      "bias": -0.3119,
-      "n": 1341,
+      "bias": -0.3164,
+      "n": 1353,
       "applied": true,
       "reason": "ok"
     },
     "proj_strikeouts": {
-      "bias": -0.2524,
-      "n": 1341,
+      "bias": -0.2633,
+      "n": 1353,
       "applied": true,
       "reason": "ok"
     },
     "proj_walks": {
-      "bias": -0.2043,
-      "n": 1341,
+      "bias": -0.2005,
+      "n": 1353,
       "applied": true,
       "reason": "ok"
     },
     "proj_hits_allowed": {
-      "bias": 0.2437,
-      "n": 1341,
+      "bias": 0.2434,
+      "n": 1353,
       "applied": true,
       "reason": "ok"
     },
     "proj_runs_allowed": {
-      "bias": 0.1591,
-      "n": 1341,
+      "bias": 0.1614,
+      "n": 1353,
       "applied": true,
       "reason": "ok"
     }
@@ -82,132 +82,132 @@
   "hitter_tiers": {
     "top": {
       "proj_pa": {
-        "bias": 0.0641,
-        "n": 4452,
+        "bias": 0.0656,
+        "n": 4494,
         "applied": true,
         "reason": "ok"
       },
       "proj_hits": {
-        "bias": 0.0455,
-        "n": 4452,
+        "bias": 0.0464,
+        "n": 4494,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_hr": {
-        "bias": -0.0288,
-        "n": 4452,
+        "bias": -0.0294,
+        "n": 4494,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_strikeouts": {
-        "bias": 0.104,
-        "n": 4452,
+        "bias": 0.1008,
+        "n": 4494,
         "applied": true,
         "reason": "ok"
       },
       "proj_walks": {
-        "bias": -0.0802,
-        "n": 4452,
+        "bias": -0.0806,
+        "n": 4494,
         "applied": true,
         "reason": "ok"
       },
       "proj_runs": {
-        "bias": -0.0213,
-        "n": 4452,
+        "bias": -0.0198,
+        "n": 4494,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_rbi": {
-        "bias": -0.0554,
-        "n": 4452,
+        "bias": -0.0562,
+        "n": 4494,
         "applied": true,
         "reason": "ok"
       }
     },
     "middle": {
       "proj_pa": {
-        "bias": 0.0916,
-        "n": 4460,
+        "bias": 0.0922,
+        "n": 4502,
         "applied": true,
         "reason": "ok"
       },
       "proj_hits": {
-        "bias": -0.001,
-        "n": 4460,
+        "bias": 0.0019,
+        "n": 4502,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_hr": {
-        "bias": -0.0282,
-        "n": 4460,
+        "bias": -0.0274,
+        "n": 4502,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_strikeouts": {
-        "bias": 0.0667,
-        "n": 4460,
+        "bias": 0.0651,
+        "n": 4502,
         "applied": true,
         "reason": "ok"
       },
       "proj_walks": {
-        "bias": -0.0151,
-        "n": 4460,
+        "bias": -0.0148,
+        "n": 4502,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_runs": {
-        "bias": -0.0111,
-        "n": 4460,
+        "bias": -0.0085,
+        "n": 4502,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_rbi": {
-        "bias": -0.0847,
-        "n": 4460,
+        "bias": -0.0811,
+        "n": 4502,
         "applied": true,
         "reason": "ok"
       }
     },
     "bottom": {
       "proj_pa": {
-        "bias": 0.3692,
-        "n": 4464,
+        "bias": 0.372,
+        "n": 4506,
         "applied": true,
         "reason": "ok"
       },
       "proj_hits": {
-        "bias": 0.0655,
-        "n": 4464,
+        "bias": 0.0664,
+        "n": 4506,
         "applied": true,
         "reason": "ok"
       },
       "proj_hr": {
-        "bias": -0.0085,
-        "n": 4464,
+        "bias": -0.0087,
+        "n": 4506,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_strikeouts": {
-        "bias": 0.1692,
-        "n": 4464,
+        "bias": 0.1703,
+        "n": 4506,
         "applied": true,
         "reason": "ok"
       },
       "proj_walks": {
-        "bias": -0.0069,
-        "n": 4464,
+        "bias": -0.0059,
+        "n": 4506,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_runs": {
-        "bias": -0.0125,
-        "n": 4464,
+        "bias": -0.012,
+        "n": 4506,
         "applied": false,
         "reason": "|bias|<0.05"
       },
       "proj_rbi": {
-        "bias": -0.0623,
-        "n": 4464,
+        "bias": -0.0605,
+        "n": 4506,
         "applied": true,
         "reason": "ok"
       }
