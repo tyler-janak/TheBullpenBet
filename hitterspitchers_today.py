@@ -975,6 +975,19 @@ def estimate_hitter_runs_rbi(hits: float, hr: float, bb: float, lineup_spot: int
     return runs, rbi
 
 
+# ─────────────────────────────────────────────────────────────────────────
+# RAW MODEL MODE
+# ─────────────────────────────────────────────────────────────────────────
+# When True, score_pitchers / score_hitters emit the model's raw prediction
+# verbatim (only a >=0 clamp) — NO league-baseline blend, IP/K/walk floors,
+# realistic caps, or park multipliers — and run_projections skips the
+# weather/umpire/market context layers, and daily_update skips display
+# calibration. diagnose_train_serve_gap.py showed the post-processing/serving
+# stack was the entire source of the ~0.7 → ~2.0 train→live MAE gap, so we
+# surface the model output directly and let the grader measure it.
+RAW_MODEL_ONLY = True
+
+
 def score_pitchers(
     pitchers_today: pd.DataFrame,
     pitcher_game_df: pd.DataFrame,
@@ -1100,83 +1113,95 @@ def score_pitchers(
             h_raw  = float(h_raw)
             hr_raw = float(hr_raw)
 
-        # IP floor: keep at 3.0 for both flows. The earlier 1.0 floor for the
-        # two-stage model was supposed to capture opener / early-hook outings
-        # but the two-stage model (trained on 684 games) doesn't yet have
-        # enough signal on those short outings — letting the prediction go to
-        # 1.0 IP just introduced large misses on real 5+ IP starts. Bring back
-        # the conservative 3.0 floor; we can relax again once the two-stage
-        # model has 2000+ training games.
-        ip = min(max(ip, 3.0), 8.5)
+        if RAW_MODEL_ONLY:
+            # Emit the raw model predictions verbatim (only a >=0 sanity clamp).
+            # No IP floor, league blend, K/walk floors, park multipliers, or
+            # caps — the grader measures the model directly.
+            ip = max(0.0, ip)
+            proj_strikeouts   = max(0.0, k_raw)
+            proj_walks        = max(0.0, bb_raw)
+            proj_hits_allowed = max(0.0, h_raw)
+            proj_hr_allowed   = max(0.0, hr_raw)
+            proj_runs_allowed = max(0.0, estimate_pitcher_runs(
+                hits=proj_hits_allowed, walks=proj_walks, hr=proj_hr_allowed))
+        else:
+            # IP floor: keep at 3.0 for both flows. The earlier 1.0 floor for the
+            # two-stage model was supposed to capture opener / early-hook outings
+            # but the two-stage model (trained on 684 games) doesn't yet have
+            # enough signal on those short outings — letting the prediction go to
+            # 1.0 IP just introduced large misses on real 5+ IP starts. Bring back
+            # the conservative 3.0 floor; we can relax again once the two-stage
+            # model has 2000+ training games.
+            ip = min(max(ip, 3.0), 8.5)
 
-        # ─────────────────────────────────────────────
-        # LEAGUE EXPECTED BASE (IP * rate)
-        # ─────────────────────────────────────────────
-        k_base  = ip * lg_k_per_ip
-        bb_base = ip * lg_bb_per_ip
-        h_base  = ip * lg_h_per_ip
-        hr_base = ip * lg_hr_per_ip
+            # ─────────────────────────────────────────────
+            # LEAGUE EXPECTED BASE (IP * rate)
+            # ─────────────────────────────────────────────
+            k_base  = ip * lg_k_per_ip
+            bb_base = ip * lg_bb_per_ip
+            h_base  = ip * lg_h_per_ip
+            hr_base = ip * lg_hr_per_ip
 
-        # ─────────────────────────────────────────────
-        # BLENDED PROJECTIONS (MODEL + BASELINE)
-        # ─────────────────────────────────────────────
-        # 60/40 model:baseline blend for both flows. The 85/15 split for the
-        # two-stage model assumed it was sample-rich enough to project on its
-        # own; in practice the May-2026 training set is too small for that.
-        # Revisit after a full season of two-stage training data.
-        model_w = 0.60
-        base_w  = 0.40
-        proj_strikeouts   = model_w * k_raw  + base_w * k_base
-        proj_walks        = model_w * bb_raw + base_w * bb_base
-        proj_hits_allowed = model_w * h_raw  + base_w * h_base
-        proj_hr_allowed   = model_w * hr_raw + base_w * hr_base
+            # ─────────────────────────────────────────────
+            # BLENDED PROJECTIONS (MODEL + BASELINE)
+            # ─────────────────────────────────────────────
+            # 60/40 model:baseline blend for both flows. The 85/15 split for the
+            # two-stage model assumed it was sample-rich enough to project on its
+            # own; in practice the May-2026 training set is too small for that.
+            # Revisit after a full season of two-stage training data.
+            model_w = 0.60
+            base_w  = 0.40
+            proj_strikeouts   = model_w * k_raw  + base_w * k_base
+            proj_walks        = model_w * bb_raw + base_w * bb_base
+            proj_hits_allowed = model_w * h_raw  + base_w * h_base
+            proj_hr_allowed   = model_w * hr_raw + base_w * hr_base
 
-        # ─────────────────────────────────────────────
-        # STRIKEOUT SAFETY FLOOR — back to 5.5 K/9
-        # ─────────────────────────────────────────────
-        # The looser 3.5 K/9 floor for the two-stage model allowed projections
-        # that were too low for the empirical distribution. League-min K/9 is
-        # ~5.5 for starters going 4+ IP; we floor there as a backstop and let
-        # the model still drive within that constraint.
-        proj_strikeouts = max(proj_strikeouts, ip * 0.55)
+            # ─────────────────────────────────────────────
+            # STRIKEOUT SAFETY FLOOR — back to 5.5 K/9
+            # ─────────────────────────────────────────────
+            # The looser 3.5 K/9 floor for the two-stage model allowed projections
+            # that were too low for the empirical distribution. League-min K/9 is
+            # ~5.5 for starters going 4+ IP; we floor there as a backstop and let
+            # the model still drive within that constraint.
+            proj_strikeouts = max(proj_strikeouts, ip * 0.55)
 
-        # ─────────────────────────────────────────────
-        # PARK FACTOR
-        # ─────────────────────────────────────────────
-        park_mult_hits = park_multiplier(base_feat.get("park_factor", 100.0), shrink=0.20)
-        park_mult_hr   = park_multiplier(base_feat.get("park_factor", 100.0), shrink=0.30)
+            # ─────────────────────────────────────────────
+            # PARK FACTOR
+            # ─────────────────────────────────────────────
+            park_mult_hits = park_multiplier(base_feat.get("park_factor", 100.0), shrink=0.20)
+            park_mult_hr   = park_multiplier(base_feat.get("park_factor", 100.0), shrink=0.30)
 
-        proj_hits_allowed *= park_mult_hits
-        proj_hr_allowed   *= park_mult_hr
+            proj_hits_allowed *= park_mult_hits
+            proj_hr_allowed   *= park_mult_hr
 
-        # ─────────────────────────────────────────────
-        # REALISTIC CAPS
-        # ─────────────────────────────────────────────
-        proj_strikeouts   = min(proj_strikeouts, 15.0)
-        proj_walks        = min(proj_walks, 7.0)
-        proj_hits_allowed = min(proj_hits_allowed, 12.0)
-        proj_hr_allowed   = min(proj_hr_allowed, 3.0)
+            # ─────────────────────────────────────────────
+            # REALISTIC CAPS
+            # ─────────────────────────────────────────────
+            proj_strikeouts   = min(proj_strikeouts, 15.0)
+            proj_walks        = min(proj_walks, 7.0)
+            proj_hits_allowed = min(proj_hits_allowed, 12.0)
+            proj_hr_allowed   = min(proj_hr_allowed, 3.0)
 
-        # ─────────────────────────────────────────────
-        # WALK FLOOR — enforced for both flows
-        # ─────────────────────────────────────────────
-        # The two-stage BB9 model is too noisy on the small May-2026 training
-        # set to reliably project control-artist outliers correctly. Bring
-        # back the floor for both flows; once we have ~2000+ pitcher games of
-        # training data the model can carry walks on its own.
-        if ip >= 4.5:
-            proj_walks = max(proj_walks, 0.60)
-        if ip >= 5.5:
-            proj_walks = max(proj_walks, 0.80)
+            # ─────────────────────────────────────────────
+            # WALK FLOOR — enforced for both flows
+            # ─────────────────────────────────────────────
+            # The two-stage BB9 model is too noisy on the small May-2026 training
+            # set to reliably project control-artist outliers correctly. Bring
+            # back the floor for both flows; once we have ~2000+ pitcher games of
+            # training data the model can carry walks on its own.
+            if ip >= 4.5:
+                proj_walks = max(proj_walks, 0.60)
+            if ip >= 5.5:
+                proj_walks = max(proj_walks, 0.80)
 
-        # ─────────────────────────────────────────────
-        # RUNS ALLOWED MODEL
-        # ─────────────────────────────────────────────
-        proj_runs_allowed = max(0.0, estimate_pitcher_runs(
-            hits=proj_hits_allowed,
-            walks=proj_walks,
-            hr=proj_hr_allowed,
-        ))
+            # ─────────────────────────────────────────────
+            # RUNS ALLOWED MODEL
+            # ─────────────────────────────────────────────
+            proj_runs_allowed = max(0.0, estimate_pitcher_runs(
+                hits=proj_hits_allowed,
+                walks=proj_walks,
+                hr=proj_hr_allowed,
+            ))
 
         rows.append({
             "player_type": "pitcher",
@@ -1209,11 +1234,13 @@ def score_pitchers(
     # Apply park factors as a multiplicative adjustment — small but free lift
     # the model misses because it trains on each pitcher's career mix of
     # parks but inference has to score them in TODAY's specific park.
-    try:
-        from park_factors import apply_park_factors
-        df = apply_park_factors(df, kind="pitcher")
-    except Exception as e:
-        print(f"  [park_factors] pitcher: skipped ({type(e).__name__}: {e})")
+    # Skipped in RAW_MODEL_ONLY mode so the output is the model verbatim.
+    if not RAW_MODEL_ONLY:
+        try:
+            from park_factors import apply_park_factors
+            df = apply_park_factors(df, kind="pitcher")
+        except Exception as e:
+            print(f"  [park_factors] pitcher: skipped ({type(e).__name__}: {e})")
     return df
 
 
@@ -1549,41 +1576,51 @@ def score_hitters(
             bb_raw = predict_model(hitter_models["BB"], feat)
             k_raw  = predict_model(hitter_models["K"], feat)
 
-        pa_floor   = 2.2 if (lineup_spot and 1 <= lineup_spot <= 9) else 1.0
-        pa_ceiling = 5.0 if (lineup_spot and 1 <= lineup_spot <= 9) else 4.5
-        pa = min(max(pa, pa_floor), pa_ceiling)
+        if RAW_MODEL_ONLY:
+            # Emit raw model predictions verbatim (only a >=0 clamp); fall back
+            # to the league base only when a model returned None. No PA
+            # floor/ceiling, league blend, floors, or caps.
+            pa   = max(0.0, pa)
+            hits = max(0.0, float(h_raw))  if h_raw  is not None else pa * lg_h_per_pa
+            hr   = max(0.0, float(hr_raw)) if hr_raw is not None else pa * lg_hr_per_pa
+            bb   = max(0.0, float(bb_raw)) if bb_raw is not None else pa * lg_bb_per_pa
+            k    = max(0.0, float(k_raw))  if k_raw  is not None else pa * lg_k_per_pa
+        else:
+            pa_floor   = 2.2 if (lineup_spot and 1 <= lineup_spot <= 9) else 1.0
+            pa_ceiling = 5.0 if (lineup_spot and 1 <= lineup_spot <= 9) else 4.5
+            pa = min(max(pa, pa_floor), pa_ceiling)
 
-        # ─────────────────────────────────────────────
-        # LEAGUE EXPECTED BASES
-        # ─────────────────────────────────────────────
-        h_base  = pa * lg_h_per_pa
-        hr_base = pa * lg_hr_per_pa
-        bb_base = pa * lg_bb_per_pa
-        k_base  = pa * lg_k_per_pa
+            # ─────────────────────────────────────────────
+            # LEAGUE EXPECTED BASES
+            # ─────────────────────────────────────────────
+            h_base  = pa * lg_h_per_pa
+            hr_base = pa * lg_hr_per_pa
+            bb_base = pa * lg_bb_per_pa
+            k_base  = pa * lg_k_per_pa
 
-        # ─────────────────────────────────────────────
-        # BLENDED PROJECTIONS
-        # ─────────────────────────────────────────────
-        hits = 0.60 * (float(h_raw)  if h_raw  is not None else h_base)  + 0.40 * h_base
-        hr   = 0.60 * (float(hr_raw) if hr_raw is not None else hr_base) + 0.40 * hr_base
-        bb   = 0.60 * (float(bb_raw) if bb_raw is not None else bb_base) + 0.40 * bb_base
-        k    = 0.60 * (float(k_raw)  if k_raw  is not None else k_base)  + 0.40 * k_base
+            # ─────────────────────────────────────────────
+            # BLENDED PROJECTIONS
+            # ─────────────────────────────────────────────
+            hits = 0.60 * (float(h_raw)  if h_raw  is not None else h_base)  + 0.40 * h_base
+            hr   = 0.60 * (float(hr_raw) if hr_raw is not None else hr_base) + 0.40 * hr_base
+            bb   = 0.60 * (float(bb_raw) if bb_raw is not None else bb_base) + 0.40 * bb_base
+            k    = 0.60 * (float(k_raw)  if k_raw  is not None else k_base)  + 0.40 * k_base
 
-        # ─────────────────────────────────────────────
-        # HARD FLOOR (PREVENT UNDERPROJECTION)
-        # ─────────────────────────────────────────────
-        hits = max(hits, pa * 0.12)
-        hr   = max(hr, pa * 0.01)
-        bb   = max(bb, pa * 0.03)
-        k    = max(k, pa * 0.10)
+            # ─────────────────────────────────────────────
+            # HARD FLOOR (PREVENT UNDERPROJECTION)
+            # ─────────────────────────────────────────────
+            hits = max(hits, pa * 0.12)
+            hr   = max(hr, pa * 0.01)
+            bb   = max(bb, pa * 0.03)
+            k    = max(k, pa * 0.10)
 
-        # ─────────────────────────────────────────────
-        # REALISTIC CAPS
-        # ─────────────────────────────────────────────
-        hits = min(hits, pa * 0.42, 2.2)
-        hr   = min(hr, hits * 0.40, 0.55)
-        bb   = min(bb, pa * 0.28, 1.5)
-        k    = min(k, pa * 0.65, 3.5)
+            # ─────────────────────────────────────────────
+            # REALISTIC CAPS
+            # ─────────────────────────────────────────────
+            hits = min(hits, pa * 0.42, 2.2)
+            hr   = min(hr, hits * 0.40, 0.55)
+            bb   = min(bb, pa * 0.28, 1.5)
+            k    = min(k, pa * 0.65, 3.5)
 
         # ─────────────────────────────────────────────
         # RUNS / RBI
@@ -1637,11 +1674,13 @@ def score_hitters(
     df = pd.DataFrame(rows)
     # Apply park factors as a multiplicative adjustment — Coors gives a real
     # +10% boost to hits/HR that the per-hitter model can't see at inference.
-    try:
-        from park_factors import apply_park_factors
-        df = apply_park_factors(df, kind="hitter")
-    except Exception as e:
-        print(f"  [park_factors] hitter: skipped ({type(e).__name__}: {e})")
+    # Skipped in RAW_MODEL_ONLY mode so the output is the model verbatim.
+    if not RAW_MODEL_ONLY:
+        try:
+            from park_factors import apply_park_factors
+            df = apply_park_factors(df, kind="hitter")
+        except Exception as e:
+            print(f"  [park_factors] hitter: skipped ({type(e).__name__}: {e})")
     return df
 
 
@@ -1782,7 +1821,7 @@ def run_projections(target_date: str | None = None) -> pd.DataFrame:
     # ─────────────────────────────────────────────────────────────────────
 
     # Weather: pull once per slate, then apply to both projection DFs.
-    if _fetch_weather is not None and _apply_weather is not None:
+    if (not RAW_MODEL_ONLY) and _fetch_weather is not None and _apply_weather is not None:
         try:
             games_for_weather = pd.DataFrame([
                 {"game_pk": gm.get("gamePk") or gm.get("game_pk"),
@@ -1816,7 +1855,7 @@ def run_projections(target_date: str | None = None) -> pd.DataFrame:
     # Umpire: K factor on pitcher_proj only (hitter K props also get the
     # benefit since the underlying hitter K projection is per-PA and the
     # ump effect mostly comes through the pitcher-side K rate).
-    if _apply_umpire is not None and not pitcher_proj.empty:
+    if (not RAW_MODEL_ONLY) and _apply_umpire is not None and not pitcher_proj.empty:
         try:
             pitcher_proj = _apply_umpire(pitcher_proj, verbose=True)
         except Exception as e:
@@ -1858,7 +1897,7 @@ def run_projections(target_date: str | None = None) -> pd.DataFrame:
             print(f"  [xHits] skipped ({type(e).__name__}: {e})")
 
     # Market calibration: blend with sportsbook-implied projections.
-    if _load_market_priors is not None and _apply_market is not None:
+    if (not RAW_MODEL_ONLY) and _load_market_priors is not None and _apply_market is not None:
         try:
             priors = _load_market_priors()
             if priors:

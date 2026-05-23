@@ -337,18 +337,25 @@ def main():
     #    numbers. The corrections are conservative — they only fire if
     #    we have ≥30 graded games for that stat AND |bias| ≥ 0.05.
     try:
-        from calibrate_projections import (
-            compute_calibration, save_calibration,
-            calibrate_today_csv, _print_calibration,
-        )
-        print("\n── Rebuilding bias calibration from accuracy log ───────────")
-        cal = compute_calibration(min_n=30)
-        _print_calibration(cal)
-        save_calibration(cal)
-        print("\n── Applying calibration to today's projection ──────────────")
-        calibrate_today_csv(cal=cal)
-    except Exception as e:
-        print(f"⚠️  Calibration step failed: {e}")
+        from hitterspitchers_today import RAW_MODEL_ONLY
+    except Exception:
+        RAW_MODEL_ONLY = False
+    if RAW_MODEL_ONLY:
+        print("\n── Skipping display calibration (RAW_MODEL_ONLY: showing model output verbatim) ──")
+    else:
+        try:
+            from calibrate_projections import (
+                compute_calibration, save_calibration,
+                calibrate_today_csv, _print_calibration,
+            )
+            print("\n── Rebuilding bias calibration from accuracy log ───────────")
+            cal = compute_calibration(min_n=30)
+            _print_calibration(cal)
+            save_calibration(cal)
+            print("\n── Applying calibration to today's projection ──────────────")
+            calibrate_today_csv(cal=cal)
+        except Exception as e:
+            print(f"⚠️  Calibration step failed: {e}")
 
     # ── PROPS / EDGE ENGINE ─────────────────────────────────────────────
     # 11) Pull today's player-prop lines from The Odds API, join to the

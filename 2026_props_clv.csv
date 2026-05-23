@@ -1,0 +1,4 @@
+game_date,player_name,market,sportsbook,side,line_open,line_close,line_delta,odds_open,odds_close,odds_delta,clv_line
+2026-05-22,Ernie Clement,batter_rbis,draftkings,OVER,0.5,0.5,0.0,3000,3000,0.0,-0.0
+2026-05-22,Ernie Clement,batter_hits,draftkings,OVER,1.5,1.5,0.0,3000,3000,0.0,-0.0
+2026-05-22,Ernie Clement,batter_total_bases,draftkings,OVER,2.5,2.5,0.0,3000,3000,0.0,-0.0

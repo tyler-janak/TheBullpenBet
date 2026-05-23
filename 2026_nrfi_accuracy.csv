@@ -746,10 +746,25 @@ game_date,gamePk,away_team,home_team,team_a,team_b,away_full,home_full,away_sp,h
 2026-05-20,825084,SF,AZ,SF,AZ,San Francisco Giants,Arizona Diamondbacks,Tyler Mahle,Merrill Kelly,0.5033,0.4967,NRFI,YES,0.5,1.0,1.0,False,False,Final
 2026-05-20,824355,TEX,COL,TEX,COL,Texas Rangers,Colorado Rockies,Jack Leiter,Kyle Freeland,0.4335,0.5665,YRFI,NO,0.5,1.0,0.0,False,True,Final
 2026-05-20,823547,TOR,NYY,TOR,NYY,Toronto Blue Jays,New York Yankees,Trey Yesavage,Cam Schlittler,0.4283,0.5717,YRFI,NO,0.5,0.0,0.0,True,False,Final
-2026-05-21,824031,ATH,LAA,ATH,LAA,Athletics,Los Angeles Angels,Luis Severino,José Soriano,0.4711,0.5289,YRFI,NO,0.5,2.0,0.0,False,True,In Progress
+2026-05-21,824031,ATH,LAA,ATH,LAA,Athletics,Los Angeles Angels,Luis Severino,José Soriano,0.4711,0.5289,YRFI,NO,0.5,2.0,0.0,False,True,Final
 2026-05-21,823864,ATL,MIA,ATL,MIA,Atlanta Braves,Miami Marlins,Spencer Strider,Sandy Alcantara,0.5147,0.4853,NRFI,YES,0.5,0.0,2.0,False,False,Final
 2026-05-21,824274,CLE,DET,CLE,DET,Cleveland Guardians,Detroit Tigers,Joey Cantillo,Casey Mize,0.4581,0.5419,YRFI,NO,0.5,0.0,0.0,True,False,Final
-2026-05-21,825083,COL,AZ,COL,AZ,Colorado Rockies,Arizona Diamondbacks,Zach Agnos,Eduardo Rodriguez,0.4635,0.5365,YRFI,NO,0.5,0.0,0.0,True,False,In Progress
+2026-05-21,825083,COL,AZ,COL,AZ,Colorado Rockies,Arizona Diamondbacks,Zach Agnos,Eduardo Rodriguez,0.4635,0.5365,YRFI,NO,0.5,0.0,0.0,True,False,Final
 2026-05-21,822733,NYM,WSH,NYM,WSH,New York Mets,Washington Nationals,David Peterson,Cade Cavalli,0.4489,0.5511,YRFI,NO,0.5,0.0,0.0,True,False,Final
 2026-05-21,823056,PIT,STL,PIT,STL,Pittsburgh Pirates,St. Louis Cardinals,Braxton Ashcraft,Dustin May,0.4836,0.5164,YRFI,NO,0.5,0.0,1.0,False,True,Final
-2026-05-21,823545,TOR,NYY,TOR,NYY,Toronto Blue Jays,New York Yankees,Braydon Fisher,Carlos Rodón,0.4228,0.5772,YRFI,NO,0.5,0.0,1.0,False,True,In Progress
+2026-05-21,823545,TOR,NYY,TOR,NYY,Toronto Blue Jays,New York Yankees,Braydon Fisher,Carlos Rodón,0.4228,0.5772,YRFI,NO,0.5,0.0,1.0,False,True,Final
+2026-05-22,823298,ATH,SD,ATH,SD,Athletics,San Diego Padres,Jeffrey Springs,Walker Buehler,0.4369,0.5631,YRFI,NO,0.5,,,,,Warmup
+2026-05-22,823461,CLE,PHI,CLE,PHI,Cleveland Guardians,Philadelphia Phillies,Gavin Williams,Cristopher Sánchez,0.4398,0.5602,YRFI,NO,0.5,0.0,0.0,True,False,Final
+2026-05-22,825082,COL,AZ,COL,AZ,Colorado Rockies,Arizona Diamondbacks,Tomoyuki Sugano,Michael Soroka,0.4585,0.5415,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-22,823223,CWS,SF,CWS,SF,Chicago White Sox,San Francisco Giants,Davis Martin,Trevor McDonald,0.449,0.551,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-22,824842,DET,BAL,DET,BAL,Detroit Tigers,Baltimore Orioles,Jack Flaherty,Keegan Akin,0.5028,0.4972,NRFI,YES,0.5,0.0,1.0,False,False,In Progress
+2026-05-22,824679,HOU,CHC,HOU,CHC,Houston Astros,Chicago Cubs,Spencer Arrighetti,Jameson Taillon,0.5162,0.4838,NRFI,YES,0.5,0.0,0.0,True,True,Final
+2026-05-22,823788,LAD,MIL,LAD,MIL,Los Angeles Dodgers,Milwaukee Brewers,Justin Wrobleski,Logan Henderson,0.4447,0.5553,YRFI,NO,0.5,4.0,0.0,False,True,In Progress
+2026-05-22,824761,MIN,BOS,MIN,BOS,Minnesota Twins,Boston Red Sox,Connor Prielipp,Payton Tolle,0.4584,0.5416,YRFI,NO,0.5,4.0,0.0,False,True,In Progress
+2026-05-22,823863,NYM,MIA,NYM,MIA,New York Mets,Miami Marlins,Tobias Myers,Eury Pérez,0.4845,0.5155,YRFI,NO,0.5,0.0,1.0,False,True,In Progress
+2026-05-22,822816,PIT,TOR,PIT,TOR,Pittsburgh Pirates,Toronto Blue Jays,Bubba Chandler,Kevin Gausman,0.4601,0.5399,YRFI,NO,0.5,0.0,1.0,False,True,In Progress
+2026-05-22,824110,SEA,KC,SEA,KC,Seattle Mariners,Kansas City Royals,Logan Gilbert,Noah Cameron,0.4578,0.5422,YRFI,NO,0.5,0.0,0.0,True,False,In Progress
+2026-05-22,824518,STL,CIN,STL,CIN,St. Louis Cardinals,Cincinnati Reds,Kyle Leahy,Chris Paddack,0.4594,0.5406,YRFI,NO,0.5,,,,,Postponed
+2026-05-22,823546,TB,NYY,TB,NYY,Tampa Bay Rays,New York Yankees,Nick Martinez,Gerrit Cole,0.4605,0.5395,YRFI,NO,0.5,0.0,0.0,True,False,In Progress
+2026-05-22,824029,TEX,LAA,TEX,LAA,Texas Rangers,Los Angeles Angels,Jacob deGrom,Grayson Rodriguez,0.4927,0.5073,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-22,824922,WSH,ATL,WSH,ATL,Washington Nationals,Atlanta Braves,Richard Lovelady,Bryce Elder,0.4495,0.5505,YRFI,NO,0.5,0.0,0.0,True,False,In Progress
