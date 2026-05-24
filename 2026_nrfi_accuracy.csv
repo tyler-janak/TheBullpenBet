@@ -785,9 +785,9 @@ game_date,gamePk,away_team,home_team,team_a,team_b,away_full,home_full,away_sp,h
 2026-05-23,824920,WSH,ATL,WSH,ATL,Washington Nationals,Atlanta Braves,Jake Irvin,Grant Holmes,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,Final
 2026-05-24,823297,ATH,SD,ATH,SD,Athletics,San Diego Padres,Luis Medina,Michael King,0.4617,0.5383,YRFI,NO,0.5,0.0,1.0,False,True,In Progress
 2026-05-24,823459,CLE,PHI,CLE,PHI,Cleveland Guardians,Philadelphia Phillies,Parker Messick,Andrew Painter,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,Final
-2026-05-24,825081,COL,AZ,COL,AZ,Colorado Rockies,Arizona Diamondbacks,Jose Quintana,Ryne Nelson,0.4617,0.5383,YRFI,NO,0.5,2.0,0.0,False,True,In Progress
-2026-05-24,823220,CWS,SF,CWS,SF,Chicago White Sox,San Francisco Giants,Noah Schultz,Robbie Ray,0.4617,0.5383,YRFI,NO,0.5,2.0,1.0,False,True,In Progress
-2026-05-24,824840,DET,BAL,DET,BAL,Detroit Tigers,Baltimore Orioles,Troy Melton,Trevor Rogers,0.4617,0.5383,YRFI,NO,0.5,,,,,In Progress
+2026-05-24,825081,COL,AZ,COL,AZ,Colorado Rockies,Arizona Diamondbacks,Jose Quintana,Ryne Nelson,0.4617,0.5383,YRFI,NO,0.5,2.0,0.0,False,True,Final
+2026-05-24,823220,CWS,SF,CWS,SF,Chicago White Sox,San Francisco Giants,Noah Schultz,Robbie Ray,0.4617,0.5383,YRFI,NO,0.5,2.0,1.0,False,True,Game Over
+2026-05-24,824840,DET,BAL,DET,BAL,Detroit Tigers,Baltimore Orioles,Troy Melton,Trevor Rogers,0.4617,0.5383,YRFI,NO,0.5,0.0,2.0,False,True,In Progress
 2026-05-24,824676,HOU,CHC,HOU,CHC,Houston Astros,Chicago Cubs,Peter Lambert,Shota Imanaga,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,Final
 2026-05-24,823786,LAD,MIL,LAD,MIL,Los Angeles Dodgers,Milwaukee Brewers,Yoshinobu Yamamoto,Brandon Sproat,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,Final
 2026-05-24,824759,MIN,BOS,MIN,BOS,Minnesota Twins,Boston Red Sox,Bailey Ober,Sonny Gray,0.4617,0.5383,YRFI,NO,0.5,0.0,1.0,False,True,Final
@@ -796,5 +796,5 @@ game_date,gamePk,away_team,home_team,team_a,team_b,away_full,home_full,away_sp,h
 2026-05-24,824108,SEA,KC,SEA,KC,Seattle Mariners,Kansas City Royals,Bryan Woo,Seth Lugo,0.4617,0.5383,YRFI,NO,0.5,0.0,1.0,False,True,Final
 2026-05-24,824514,STL,CIN,STL,CIN,St. Louis Cardinals,Cincinnati Reds,Brycen Mautz,Brady Singer,0.4617,0.5383,YRFI,NO,0.5,,,,,Postponed
 2026-05-24,823544,TB,NYY,TB,NYY,Tampa Bay Rays,New York Yankees,Drew Rasmussen,Ryan Weathers,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,Final
-2026-05-24,824028,TEX,LAA,TEX,LAA,Texas Rangers,Los Angeles Angels,MacKenzie Gore,Reid Detmers,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-24,824028,TEX,LAA,TEX,LAA,Texas Rangers,Los Angeles Angels,MacKenzie Gore,Reid Detmers,0.4617,0.5383,YRFI,NO,0.5,,,,,Warmup
 2026-05-24,824921,WSH,ATL,WSH,ATL,Washington Nationals,Atlanta Braves,Foster Griffin,Martín Pérez,0.4617,0.5383,YRFI,NO,0.5,,,,,Delayed
