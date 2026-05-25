@@ -1,27 +1,27 @@
 player_type,team,opponent,player_name,mlb_id,lineup_spot,pos,lineup_status,proj_pa,proj_ip,proj_outs,proj_runs_allowed,proj_hits_allowed,proj_strikeouts,proj_walks,proj_hits,proj_runs,proj_rbi,proj_hrrbi,proj_hr,used_fallback,confidence_score,proj_pa_confidence_score,proj_hits_confidence_score,proj_hr_confidence_score,proj_strikeouts_confidence_score,proj_runs_confidence_score,proj_rbi_confidence_score,proj_hrrbi_confidence_score,proj_walks_confidence_score,confidence,proj_pa_confidence,proj_hits_confidence,proj_hr_confidence,proj_strikeouts_confidence,proj_runs_confidence,proj_rbi_confidence,proj_hrrbi_confidence,proj_walks_confidence,game_date
-pitcher,DET,CIN,Framber Valdez,664285,,,,,4.93,15.0,3.5,4.98,5.99,3.15,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,BOS,BAL,Brayan Bello,678394,,,,,4.64,14.0,3.46,6.5,3.86,1.96,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,TOR,CLE,Max Scherzer,453286,,,,,3.89,12.0,1.88,4.4,2.46,1.26,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,CLE,TOR,Gavin Williams,668909,,,,,5.06,15.0,2.54,6.4,5.58,0.27,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,NYM,COL,Freddy Peralta,642547,,,,,4.98,15.0,3.9,8.01,3.33,1.93,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,COL,NYM,Michael Lorenzen,547179,,,,,4.29,13.0,2.57,6.09,4.53,1.6,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,TB,MIN,Drew Rasmussen,656876,,,,,4.33,13.0,3.65,4.54,4.26,3.31,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,ATL,PHI,Grant Holmes,656550,,,,,4.9,15.0,2.7,4.34,3.65,1.91,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,PHI,ATL,Andrew Painter,691725,,,,,4.06,12.0,3.06,5.89,5.93,1.47,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,KC,LAA,Noah Cameron,702070,,,,,4.6,14.0,4.26,6.54,3.65,2.03,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,LAA,KC,Yusei Kikuchi,579328,,,,,4.31,13.0,2.6,7.38,2.62,0.31,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,MIL,PIT,Brandon Woodruff,605540,,,,,5.75,17.0,1.83,4.32,5.02,1.18,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,PIT,MIL,Paul Skenes,694973,,,,,4.67,14.0,2.1,4.79,3.66,1.58,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,TEX,ATH,Nathan Eovaldi,543135,,,,,5.35,16.0,3.17,5.95,4.13,1.9,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,ATH,TEX,Luis Severino,622663,,,,,4.11,12.0,3.02,4.95,3.02,1.83,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,HOU,NYY,Lance McCullers Jr.,621121,,,,,3.28,10.0,2.82,5.17,6.09,2.45,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,NYY,HOU,Will Warren,701542,,,,,5.75,17.0,2.23,3.48,5.26,1.58,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,STL,SEA,Andre Pallante,669467,,,,,4.68,14.0,2.93,5.63,5.15,1.41,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,SEA,STL,George Kirby,669923,,,,,5.89,18.0,2.38,3.23,5.74,2.34,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,LAD,CHC,Emmet Sheehan,686218,,,,,4.3,13.0,1.95,4.1,3.19,1.72,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,CHC,LAD,Jameson Taillon,592791,,,,,4.24,13.0,2.64,4.38,3.01,2.67,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,SF,MIA,Adrian Houser,605288,,,,,4.31,13.0,3.09,6.37,1.85,2.09,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
-pitcher,MIA,SF,Sandy Alcantara,645261,,,,,5.57,17.0,2.02,3.1,5.45,2.2,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,DET,CIN,Framber Valdez,664285,,,,,5.01,15.0,2.69,4.52,5.04,2.32,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,BOS,BAL,Brayan Bello,678394,,,,,5.12,15.0,2.88,5.07,4.55,2.09,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,TOR,CLE,Max Scherzer,453286,,,,,5.1,15.0,2.32,4.05,4.98,1.94,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,CLE,TOR,Gavin Williams,668909,,,,,5.47,16.0,2.47,4.38,5.17,1.82,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,NYM,COL,Freddy Peralta,642547,,,,,5.52,17.0,2.48,4.5,5.85,2.18,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,COL,NYM,Michael Lorenzen,547179,,,,,4.89,15.0,2.45,4.77,3.94,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,TB,MIN,Drew Rasmussen,656876,,,,,4.99,15.0,2.15,3.73,7.06,1.89,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,ATL,PHI,Grant Holmes,656550,,,,,5.13,15.0,2.42,4.43,5.18,1.58,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,PHI,ATL,Andrew Painter,691725,,,,,4.77,14.0,2.21,3.98,5.67,1.74,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,KC,LAA,Noah Cameron,702070,,,,,5.02,15.0,2.91,5.02,4.73,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,LAA,KC,Yusei Kikuchi,579328,,,,,5.02,15.0,2.37,4.44,4.62,1.72,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,MIL,PIT,Brandon Woodruff,605540,,,,,5.21,16.0,2.25,4.09,6.07,1.77,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,PIT,MIL,Paul Skenes,694973,,,,,5.27,16.0,2.13,3.99,6.48,1.62,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,TEX,ATH,Nathan Eovaldi,543135,,,,,5.48,16.0,2.5,4.54,5.92,1.85,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,ATH,TEX,Luis Severino,622663,,,,,5.82,17.0,2.45,4.51,6.17,2.11,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,HOU,NYY,Lance McCullers Jr.,621121,,,,,5.04,15.0,2.31,4.02,5.38,1.96,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,NYY,HOU,Will Warren,701542,,,,,4.94,15.0,2.1,3.86,7.09,1.74,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,STL,SEA,Andre Pallante,669467,,,,,5.27,16.0,2.71,4.69,4.83,2.07,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,SEA,STL,George Kirby,669923,,,,,5.49,16.0,2.73,5.26,6.01,1.97,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,LAD,CHC,Emmet Sheehan,686218,,,,,5.1,15.0,2.32,4.11,5.2,1.94,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,CHC,LAD,Jameson Taillon,592791,,,,,5.67,17.0,2.45,4.42,6.19,2.07,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,SF,MIA,Adrian Houser,605288,,,,,5.46,16.0,2.58,4.69,4.83,1.87,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
+pitcher,MIA,SF,Sandy Alcantara,645261,,,,,5.8,17.0,2.56,4.88,4.45,1.97,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-24
 hitter,CIN,DET,Dane Myers,667472,1.0,CF,Confirmed,4.66,,,,,0.0,2.15,1.11,1.45,1.09,3.65,1.03,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-04-24
 hitter,CIN,DET,Matt McLain,680574,2.0,2B,Confirmed,4.51,,,,,1.13,0.0,1.13,0.46,0.37,1.96,0.01,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-04-24
 hitter,CIN,DET,Elly De La Cruz,682829,3.0,SS,Confirmed,4.4,,,,,2.07,0.01,0.0,0.0,0.0,0.0,0.0,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-04-24

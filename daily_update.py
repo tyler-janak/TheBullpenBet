@@ -188,6 +188,15 @@ def main():
     except Exception as e:
         print(f"⚠️  lineup-feature enrichment failed: {e}")
 
+    # 0b-ii) True-talent (empirical-Bayes shrunk) rates + log5 lineup matchup.
+    # Honest, leakage-free opponent/skill signal used by the pitcher + hitter
+    # models. Runs after lineup enrichment so hitter rows are present.
+    try:
+        from enrich_truetalent import enrich as _enrich_truetalent
+        _enrich_truetalent()
+    except Exception as e:
+        print(f"⚠️  true-talent enrichment failed: {e}")
+
     # 0c) RETRAIN the player models on the freshly-refreshed data so that both
     # today's projection (step 8) and the past-date backfill (step 7) score
     # off current-data, tuned + calibrated models. By default this runs only on

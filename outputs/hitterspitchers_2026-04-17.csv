@@ -1,12 +1,12 @@
 player_type,team,opponent,player_name,mlb_id,lineup_spot,pos,lineup_status,proj_pa,proj_ip,proj_outs,proj_runs_allowed,proj_hits_allowed,proj_strikeouts,proj_walks,proj_hits,proj_runs,proj_rbi,proj_hrrbi,proj_hr,used_fallback,confidence_score,proj_pa_confidence_score,proj_hits_confidence_score,proj_hr_confidence_score,proj_strikeouts_confidence_score,proj_runs_confidence_score,proj_rbi_confidence_score,proj_hrrbi_confidence_score,proj_walks_confidence_score,confidence,proj_pa_confidence,proj_hits_confidence,proj_hr_confidence,proj_strikeouts_confidence,proj_runs_confidence,proj_rbi_confidence,proj_hrrbi_confidence,proj_walks_confidence,game_date
-pitcher,CLE,BAL,Tanner Bibee,676440,,,,,3.56,11.0,3.18,8.2,1.97,0.25,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
-pitcher,WSH,SF,Zack Littell,641793,,,,,4.65,14.0,1.41,2.43,3.84,0.59,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
-pitcher,PIT,TB,Bubba Chandler,696149,,,,,3.96,12.0,3.75,3.76,4.64,4.74,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
-pitcher,NYY,KC,Cam Schlittler,693645,,,,,4.67,14.0,2.44,6.54,4.42,0.66,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
-pitcher,LAA,SD,José Soriano,667755,,,,,4.14,12.0,1.89,4.12,4.26,1.64,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
-pitcher,SEA,TEX,Logan Gilbert,669302,,,,,3.94,12.0,2.76,4.83,3.3,1.76,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
-pitcher,TEX,SEA,Jacob deGrom,594798,,,,,4.37,13.0,1.92,3.51,6.81,1.38,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
-pitcher,ATH,CWS,Aaron Civale,650644,,,,,4.5,13.0,1.2,1.93,2.86,1.73,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,CLE,BAL,Tanner Bibee,676440,,,,,5.01,15.0,2.3,4.04,5.28,1.9,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,WSH,SF,Zack Littell,641793,,,,,4.94,15.0,2.33,4.19,4.98,1.86,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,PIT,TB,Bubba Chandler,696149,,,,,5.11,15.0,2.34,4.22,5.0,1.86,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,NYY,KC,Cam Schlittler,693645,,,,,5.07,15.0,2.3,4.11,5.34,2.02,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,LAA,SD,José Soriano,667755,,,,,5.01,15.0,2.33,4.22,5.24,1.87,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,SEA,TEX,Logan Gilbert,669302,,,,,5.27,16.0,2.3,3.99,5.6,2.03,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,TEX,SEA,Jacob deGrom,594798,,,,,5.22,16.0,2.35,4.25,5.64,1.86,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
+pitcher,ATH,CWS,Aaron Civale,650644,,,,,5.2,16.0,2.32,4.16,5.61,2.03,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-17
 hitter,CHC,NYM,Nico Hoerner,663538,1.0,2B,Confirmed,5.12,,,,,0.0,0.0,3.02,1.77,1.67,6.46,0.97,False,82.0,86.0,82.0,74.0,79.0,77.0,77.0,78.0,80.0,high,high,high,medium,medium,medium,medium,medium,high,2026-04-17
 hitter,CHC,NYM,Michael Busch,683737,2.0,1B,Confirmed,4.95,,,,,1.15,0.0,0.0,0.0,0.0,0.0,0.0,False,82.0,86.0,82.0,74.0,79.0,77.0,77.0,78.0,80.0,high,high,high,medium,medium,medium,medium,medium,high,2026-04-17
 hitter,CHC,NYM,Alex Bregman,608324,3.0,3B,Confirmed,4.82,,,,,2.73,0.92,0.9,0.54,0.34,1.78,0.01,False,82.0,86.0,82.0,74.0,79.0,77.0,77.0,78.0,80.0,high,high,high,medium,medium,medium,medium,medium,high,2026-04-17

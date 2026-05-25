@@ -1,16 +1,17 @@
 game_date,gamePk,away_team,home_team,team_a,team_b,away_full,home_full,away_sp,home_sp,nrfi_prob,yrfi_prob,pick,lean,threshold
-2026-05-22,824679,HOU,CHC,HOU,CHC,Houston Astros,Chicago Cubs,Spencer Arrighetti,Jameson Taillon,0.5162,0.4838,NRFI,YES,0.5
-2026-05-22,824842,DET,BAL,DET,BAL,Detroit Tigers,Baltimore Orioles,Jack Flaherty,Keegan Akin,0.5028,0.4972,NRFI,YES,0.5
-2026-05-22,824029,TEX,LAA,TEX,LAA,Texas Rangers,Los Angeles Angels,Jacob deGrom,Grayson Rodriguez,0.4927,0.5073,YRFI,NO,0.5
-2026-05-22,823863,NYM,MIA,NYM,MIA,New York Mets,Miami Marlins,Tobias Myers,Eury Pérez,0.4845,0.5155,YRFI,NO,0.5
-2026-05-22,823546,TB,NYY,TB,NYY,Tampa Bay Rays,New York Yankees,Nick Martinez,Gerrit Cole,0.4605,0.5395,YRFI,NO,0.5
-2026-05-22,822816,PIT,TOR,PIT,TOR,Pittsburgh Pirates,Toronto Blue Jays,Bubba Chandler,Kevin Gausman,0.4601,0.5399,YRFI,NO,0.5
-2026-05-22,824518,STL,CIN,STL,CIN,St. Louis Cardinals,Cincinnati Reds,Kyle Leahy,Chris Paddack,0.4594,0.5406,YRFI,NO,0.5
-2026-05-22,825082,COL,AZ,COL,AZ,Colorado Rockies,Arizona Diamondbacks,Tomoyuki Sugano,Michael Soroka,0.4585,0.5415,YRFI,NO,0.5
-2026-05-22,824761,MIN,BOS,MIN,BOS,Minnesota Twins,Boston Red Sox,Connor Prielipp,Payton Tolle,0.4584,0.5416,YRFI,NO,0.5
-2026-05-22,824110,SEA,KC,SEA,KC,Seattle Mariners,Kansas City Royals,Logan Gilbert,Noah Cameron,0.4578,0.5422,YRFI,NO,0.5
-2026-05-22,824922,WSH,ATL,WSH,ATL,Washington Nationals,Atlanta Braves,Richard Lovelady,Bryce Elder,0.4495,0.5505,YRFI,NO,0.5
-2026-05-22,823223,CWS,SF,CWS,SF,Chicago White Sox,San Francisco Giants,Davis Martin,Trevor McDonald,0.449,0.551,YRFI,NO,0.5
-2026-05-22,823788,LAD,MIL,LAD,MIL,Los Angeles Dodgers,Milwaukee Brewers,Justin Wrobleski,Logan Henderson,0.4447,0.5553,YRFI,NO,0.5
-2026-05-22,823461,CLE,PHI,CLE,PHI,Cleveland Guardians,Philadelphia Phillies,Gavin Williams,Cristopher Sánchez,0.4398,0.5602,YRFI,NO,0.5
-2026-05-22,823298,ATH,SD,ATH,SD,Athletics,San Diego Padres,Jeffrey Springs,Walker Buehler,0.4369,0.5631,YRFI,NO,0.5
+2026-05-24,822813,PIT,TOR,PIT,TOR,Pittsburgh Pirates,Toronto Blue Jays,Mitch Keller,Dylan Cease,0.5302,0.4698,NRFI,YES,0.5
+2026-05-24,824840,DET,BAL,DET,BAL,Detroit Tigers,Baltimore Orioles,TBD,Trevor Rogers,0.506,0.494,NRFI,YES,0.5
+2026-05-24,823544,TB,NYY,TB,NYY,Tampa Bay Rays,New York Yankees,Drew Rasmussen,Ryan Weathers,0.5053,0.4947,NRFI,YES,0.5
+2026-05-24,824514,STL,CIN,STL,CIN,St. Louis Cardinals,Cincinnati Reds,Matthew Liberatore,Brady Singer,0.4889,0.5111,YRFI,NO,0.5
+2026-05-24,823861,NYM,MIA,NYM,MIA,New York Mets,Miami Marlins,Christian Scott,Tyler Phillips,0.4845,0.5155,YRFI,NO,0.5
+2026-05-24,824839,DET,BAL,DET,BAL,Detroit Tigers,Baltimore Orioles,Framber Valdez,Brandon Young,0.4792,0.5208,YRFI,NO,0.5
+2026-05-24,824028,TEX,LAA,TEX,LAA,Texas Rangers,Los Angeles Angels,TBD,Reid Detmers,0.4781,0.5219,YRFI,NO,0.5
+2026-05-24,824108,SEA,KC,SEA,KC,Seattle Mariners,Kansas City Royals,Bryan Woo,Seth Lugo,0.4736,0.5264,YRFI,NO,0.5
+2026-05-24,824676,HOU,CHC,HOU,CHC,Houston Astros,Chicago Cubs,Peter Lambert,Shota Imanaga,0.4724,0.5276,YRFI,NO,0.5
+2026-05-24,824759,MIN,BOS,MIN,BOS,Minnesota Twins,Boston Red Sox,Bailey Ober,Sonny Gray,0.4699,0.5301,YRFI,NO,0.5
+2026-05-24,823220,CWS,SF,CWS,SF,Chicago White Sox,San Francisco Giants,Noah Schultz,Robbie Ray,0.4638,0.5362,YRFI,NO,0.5
+2026-05-24,823297,ATH,SD,ATH,SD,Athletics,San Diego Padres,Luis Medina,Michael King,0.4632,0.5368,YRFI,NO,0.5
+2026-05-24,823786,LAD,MIL,LAD,MIL,Los Angeles Dodgers,Milwaukee Brewers,Yoshinobu Yamamoto,Brandon Sproat,0.4447,0.5553,YRFI,NO,0.5
+2026-05-24,824921,WSH,ATL,WSH,ATL,Washington Nationals,Atlanta Braves,Foster Griffin,Martín Pérez,0.4432,0.5568,YRFI,NO,0.5
+2026-05-24,823459,CLE,PHI,CLE,PHI,Cleveland Guardians,Philadelphia Phillies,Parker Messick,Andrew Painter,0.4424,0.5576,YRFI,NO,0.5
+2026-05-24,825081,COL,AZ,COL,AZ,Colorado Rockies,Arizona Diamondbacks,Jose Quintana,Ryne Nelson,0.4421,0.5579,YRFI,NO,0.5

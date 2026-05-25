@@ -1,21 +1,21 @@
 player_type,team,opponent,player_name,mlb_id,lineup_spot,pos,lineup_status,proj_pa,proj_ip,proj_outs,proj_runs_allowed,proj_hits_allowed,proj_strikeouts,proj_walks,proj_hits,proj_runs,proj_rbi,proj_hrrbi,proj_hr,used_fallback,confidence_score,proj_pa_confidence_score,proj_hits_confidence_score,proj_hr_confidence_score,proj_strikeouts_confidence_score,proj_runs_confidence_score,proj_rbi_confidence_score,proj_hrrbi_confidence_score,proj_walks_confidence_score,confidence,proj_pa_confidence,proj_hits_confidence,proj_hr_confidence,proj_strikeouts_confidence,proj_runs_confidence,proj_rbi_confidence,proj_hrrbi_confidence,proj_walks_confidence,game_date
-pitcher,TEX,NYY,MacKenzie Gore,669022,,,,,5.47,16.0,2.12,3.59,4.87,2.97,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,WSH,MIN,Jake Irvin,663623,,,,,5.43,16.0,2.41,5.11,3.9,2.23,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,MIN,WSH,Simeon Woods Richardson,680573,,,,,4.21,13.0,4.56,8.06,2.46,1.75,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,KC,CLE,Seth Lugo,607625,,,,,5.24,16.0,2.35,4.95,4.87,2.2,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,CLE,KC,Slade Cecconi,677944,,,,,4.74,14.0,2.77,5.42,6.42,1.68,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,CHC,CIN,Shota Imanaga,684007,,,,,5.65,17.0,2.01,4.23,4.69,1.87,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,CIN,CHC,Rhett Lowder,695076,,,,,4.47,13.0,2.73,5.72,5.84,2.52,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,COL,NYM,Jose Quintana,500779,,,,,6.32,19.0,1.52,3.54,1.93,0.02,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,AZ,PIT,Zac Gallen,668678,,,,,5.43,16.0,2.49,5.22,3.68,2.3,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,PIT,AZ,Mitch Keller,656605,,,,,6.97,21.0,0.9,2.2,5.85,0.47,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,PHI,ATH,Andrew Painter,691725,,,,,4.82,14.0,3.3,5.42,4.29,2.86,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,ATH,PHI,J.T. Ginn,669372,,,,,4.28,13.0,2.13,4.21,2.93,2.33,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,MIA,BAL,Max Meyer,676974,,,,,5.57,17.0,1.5,2.55,6.36,2.09,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,BAL,MIA,Cade Povich,700249,,,,,4.09,12.0,4.24,10.18,3.13,0.64,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,BOS,TB,Jake Bennett,687562,,,,,3.96,12.0,2.83,5.35,2.4,2.21,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,SD,STL,Michael King,650633,,,,,5.16,15.0,2.19,4.05,5.7,2.67,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
-pitcher,STL,SD,Matthew Liberatore,669461,,,,,4.91,15.0,3.08,8.06,2.74,1.15,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,TEX,NYY,MacKenzie Gore,669022,,,,,5.29,16.0,2.47,4.37,6.04,2.42,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,WSH,MIN,Jake Irvin,663623,,,,,5.0,15.0,2.32,4.1,5.48,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,MIN,WSH,Simeon Woods Richardson,680573,,,,,4.97,15.0,2.68,4.8,3.96,2.02,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,KC,CLE,Seth Lugo,607625,,,,,5.28,16.0,2.53,4.77,5.85,2.04,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,CLE,KC,Slade Cecconi,677944,,,,,5.27,16.0,2.64,4.91,5.08,1.9,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,CHC,CIN,Shota Imanaga,684007,,,,,5.61,17.0,2.4,4.42,6.38,2.1,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,CIN,CHC,Rhett Lowder,695076,,,,,5.04,15.0,2.45,4.57,5.32,1.97,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,COL,NYM,Jose Quintana,500779,,,,,5.03,15.0,2.53,4.34,3.69,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,AZ,PIT,Zac Gallen,668678,,,,,4.87,15.0,2.65,4.86,4.62,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,PIT,AZ,Mitch Keller,656605,,,,,5.24,16.0,2.44,4.44,5.32,1.84,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,PHI,ATH,Andrew Painter,691725,,,,,5.07,15.0,2.58,4.74,5.38,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,ATH,PHI,J.T. Ginn,669372,,,,,5.31,16.0,2.52,4.49,4.92,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,MIA,BAL,Max Meyer,676974,,,,,5.33,16.0,2.19,3.99,6.73,1.84,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,BAL,MIA,Cade Povich,700249,,,,,4.93,15.0,2.5,4.6,5.38,2.1,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,BOS,TB,Jake Bennett,687562,,,,,5.07,15.0,2.32,4.16,4.94,1.96,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,SD,STL,Michael King,650633,,,,,5.07,15.0,2.45,4.2,6.17,2.29,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
+pitcher,STL,SD,Matthew Liberatore,669461,,,,,5.19,16.0,2.46,4.4,4.46,1.96,,,,,,,,,,,,,,,,,,,,,,,,,2026-05-07
 hitter,NYY,TEX,Paul Goldschmidt,502671,1.0,1B,Confirmed,4.65,,,,,1.37,0.0,0.01,0.01,0.01,0.03,0.0,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-05-07
 hitter,NYY,TEX,Aaron Judge,592450,2.0,DH,Confirmed,4.5,,,,,2.67,0.0,1.18,1.09,1.14,3.41,1.07,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-05-07
 hitter,NYY,TEX,Cody Bellinger,641355,3.0,LF,Confirmed,4.38,,,,,0.0,1.1,0.93,0.58,0.34,1.84,0.0,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-05-07

@@ -140,11 +140,10 @@ PITCHER_FEATURES = [
     "starter_pct_last10",
 
     # ── platoon splits ────────────────────────────────────────────────────
-    "pitcher_k_rate_vs_hand_R", "pitcher_bb_rate_vs_hand_R",
-    "pitcher_hr_rate_vs_hand_R", "pitcher_h_rate_vs_hand_R",
-    "pitcher_k_rate_vs_hand_L", "pitcher_bb_rate_vs_hand_L",
-    "pitcher_hr_rate_vs_hand_L", "pitcher_h_rate_vs_hand_L",
-
+    # NO-WINDOW platoon splits removed — they hold the CURRENT game's per-hand
+    # rate (leakage; see diagnose_leakage.py — corr ~0.5-0.6 with the target,
+    # and they're overwritten with trailing values at serving so the model
+    # falls apart live). Only the trailing _last5/_last10/_std windows are kept.
     "pitcher_k_rate_vs_hand_last5_R",  "pitcher_bb_rate_vs_hand_last5_R",
     "pitcher_hr_rate_vs_hand_last5_R", "pitcher_h_rate_vs_hand_last5_R",
     "pitcher_k_rate_vs_hand_last5_L",  "pitcher_bb_rate_vs_hand_last5_L",
@@ -161,8 +160,8 @@ PITCHER_FEATURES = [
     "pitcher_hr_rate_vs_hand_std_L", "pitcher_h_rate_vs_hand_std_L",
 
     # ── opponent team context ─────────────────────────────────────────────
-    "team_k_rate_vs_hand",      "team_bb_rate_vs_hand",
-    "team_hr_rate_vs_hand",     "team_h_rate_vs_hand",
+    # NO-WINDOW team context removed — it's the CURRENT game's realized
+    # opponent rate (leakage; corr ~0.7-0.8 with the target). Trailing kept.
     "team_k_rate_vs_hand_last5",  "team_bb_rate_vs_hand_last5",
     "team_hr_rate_vs_hand_last5", "team_h_rate_vs_hand_last5",
     "team_k_rate_vs_hand_last7",  "team_bb_rate_vs_hand_last7",
@@ -173,6 +172,15 @@ PITCHER_FEATURES = [
     "team_hr_rate_vs_hand_last14","team_h_rate_vs_hand_last14",
     "team_k_rate_vs_hand_std",    "team_bb_rate_vs_hand_std",
     "team_hr_rate_vs_hand_std",   "team_h_rate_vs_hand_std",
+
+    # ── true-talent (empirical-Bayes shrunk) + log5 lineup matchup ──
+    # Honest, leakage-free signal from enrich_truetalent.py: the pitcher's
+    # sample-size-regressed rates, the opposing lineup's shrunk rates, and the
+    # two combined via the log5 odds-ratio. This is the legitimate version of
+    # the opponent signal the leaked team_*_rate_vs_hand columns were faking.
+    "p_tt_k", "p_tt_bb", "p_tt_h", "p_tt_hr",
+    "lineup_tt_k", "lineup_tt_bb", "lineup_tt_h", "lineup_tt_hr",
+    "matchup_k", "matchup_bb", "matchup_h", "matchup_hr",
 
     "park_factor",
 ]
@@ -217,11 +225,8 @@ HITTER_FEATURES = [
     "times_on_base_rate_last10", "xbh_proxy_rate_last10",
 
     # ── platoon splits ────────────────────────────────────────────────────
-    "hitter_h_rate_vs_hand_R", "hitter_hr_rate_vs_hand_R",
-    "hitter_bb_rate_vs_hand_R", "hitter_k_rate_vs_hand_R",
-    "hitter_h_rate_vs_hand_L", "hitter_hr_rate_vs_hand_L",
-    "hitter_bb_rate_vs_hand_L", "hitter_k_rate_vs_hand_L",
-
+    # NO-WINDOW platoon splits removed — current game's per-hand rate
+    # (leakage, same pattern as the pitcher side). Trailing windows kept.
     "hitter_h_rate_vs_hand_last5_R",  "hitter_hr_rate_vs_hand_last5_R",
     "hitter_bb_rate_vs_hand_last5_R", "hitter_k_rate_vs_hand_last5_R",
     "hitter_h_rate_vs_hand_last5_L",  "hitter_hr_rate_vs_hand_last5_L",
@@ -238,8 +243,8 @@ HITTER_FEATURES = [
     "hitter_bb_rate_vs_hand_std_L", "hitter_k_rate_vs_hand_std_L",
 
     # ── opponent pitching team context ────────────────────────────────────
-    "team_allowed_k_rate_vs_hand",      "team_allowed_bb_rate_vs_hand",
-    "team_allowed_hr_rate_vs_hand",     "team_allowed_h_rate_vs_hand",
+    # NO-WINDOW opponent-pitching context removed — current game's realized
+    # rate (leakage). Trailing versions kept.
     "team_allowed_k_rate_vs_hand_last5",  "team_allowed_bb_rate_vs_hand_last5",
     "team_allowed_hr_rate_vs_hand_last5", "team_allowed_h_rate_vs_hand_last5",
     "team_allowed_k_rate_vs_hand_last7",  "team_allowed_bb_rate_vs_hand_last7",
@@ -259,6 +264,9 @@ HITTER_FEATURES = [
     "opp_sp_h_rate_last10", "opp_sp_ip_last10",
     "opp_sp_k_rate_std",    "opp_sp_bb_rate_std",    "opp_sp_hr_rate_std",
     "opp_sp_h_rate_std",    "opp_sp_ip_std",
+
+    # ── hitter true-talent (empirical-Bayes shrunk per-PA rates) ──
+    "h_tt_k", "h_tt_bb", "h_tt_h", "h_tt_hr",
 
     "park_factor",
 ]

@@ -292,6 +292,15 @@ def refresh(
         except Exception as e:
             print(f"⚠️  lineup-feature enrichment failed: {e}")
 
+        # True-talent (empirical-Bayes shrunk rates) + log5 lineup matchup.
+        # Runs last — needs hitter rows built so the hitter shrunk rates exist
+        # before the pitcher-side matchup aggregation.
+        try:
+            from enrich_truetalent import enrich as enrich_truetalent
+            enrich_truetalent()
+        except Exception as e:
+            print(f"⚠️  true-talent enrichment failed: {e}")
+
     return ok
 
 

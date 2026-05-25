@@ -1,23 +1,23 @@
 player_type,team,opponent,player_name,mlb_id,lineup_spot,pos,lineup_status,proj_pa,proj_ip,proj_outs,proj_runs_allowed,proj_hits_allowed,proj_strikeouts,proj_walks,proj_hits,proj_runs,proj_rbi,proj_hrrbi,proj_hr,used_fallback,confidence_score,proj_pa_confidence_score,proj_hits_confidence_score,proj_hr_confidence_score,proj_strikeouts_confidence_score,proj_runs_confidence_score,proj_rbi_confidence_score,proj_hrrbi_confidence_score,proj_walks_confidence_score,confidence,proj_pa_confidence,proj_hits_confidence,proj_hr_confidence,proj_strikeouts_confidence,proj_runs_confidence,proj_rbi_confidence,proj_hrrbi_confidence,proj_walks_confidence,game_date
-pitcher,ATL,DET,Bryce Elder,693821,,,,,5.85,18.0,2.48,5.33,3.05,2.14,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,DET,ATL,Framber Valdez,664285,,,,,5.12,15.0,2.96,4.71,6.06,2.53,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,BAL,HOU,Chris Bassitt,605135,,,,,4.69,14.0,3.12,6.28,5.06,0.94,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,HOU,BAL,Peter Lambert,663567,,,,,4.83,14.0,2.05,3.81,5.1,2.53,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,BAL,HOU,Brandon Young,687064,,,,,4.42,13.0,2.75,5.48,4.56,0.99,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,HOU,BAL,Lance McCullers Jr.,621121,,,,,4.85,15.0,2.88,5.28,3.23,1.53,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,PIT,STL,Paul Skenes,694973,,,,,5.42,16.0,1.81,3.34,6.1,2.25,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,PHI,SF,Cristopher Sánchez,650911,,,,,5.35,16.0,2.95,4.96,7.58,2.31,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,SF,PHI,Logan Webb,657277,,,,,5.11,15.0,3.27,7.78,4.67,2.03,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,SF,PHI,Adrian Houser,605288,,,,,4.31,13.0,3.84,7.56,2.84,2.19,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,CIN,COL,Andrew Abbott,671096,,,,,3.54,11.0,3.38,5.83,4.68,2.81,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,COL,CIN,Michael Lorenzen,547179,,,,,4.33,13.0,2.84,6.83,2.93,1.63,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,NYM,WSH,Freddy Peralta,642547,,,,,4.13,12.0,2.91,6.08,7.74,2.53,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,MIL,AZ,Brandon Woodruff,605540,,,,,4.68,14.0,4.48,7.4,5.06,2.14,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,AZ,MIL,Michael Soroka,647336,,,,,6.08,18.0,1.73,4.47,8.1,0.68,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,ATH,KC,Jeffrey Springs,605488,,,,,4.83,15.0,4.26,7.17,3.92,2.76,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,KC,ATH,Noah Cameron,702070,,,,,3.89,12.0,2.51,5.15,3.99,2.53,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,MIN,TOR,Bailey Ober,641927,,,,,5.23,16.0,3.59,7.62,3.75,1.27,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
-pitcher,TOR,MIN,Kevin Gausman,592332,,,,,5.49,16.0,2.63,5.82,4.9,0.87,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,ATL,DET,Bryce Elder,693821,,,,,5.5,16.0,2.3,4.24,5.9,1.87,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,DET,ATL,Framber Valdez,664285,,,,,5.37,16.0,2.5,4.74,5.82,1.83,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,BAL,HOU,Chris Bassitt,605135,,,,,5.06,15.0,2.8,4.6,4.95,2.19,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,HOU,BAL,Peter Lambert,663567,,,,,5.13,15.0,2.3,4.37,5.95,1.78,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,BAL,HOU,Brandon Young,687064,,,,,5.14,15.0,2.29,4.02,5.44,1.93,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,HOU,BAL,Lance McCullers Jr.,621121,,,,,5.25,16.0,2.64,4.69,4.81,1.99,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,PIT,STL,Paul Skenes,694973,,,,,5.19,16.0,2.18,3.93,6.32,1.67,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,PHI,SF,Cristopher Sánchez,650911,,,,,5.47,16.0,2.48,4.76,6.03,1.86,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,SF,PHI,Logan Webb,657277,,,,,5.53,17.0,2.69,5.3,4.89,1.92,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,SF,PHI,Adrian Houser,605288,,,,,5.24,16.0,2.87,5.19,4.15,1.7,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,CIN,COL,Andrew Abbott,671096,,,,,4.6,14.0,2.55,4.53,4.08,2.09,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,COL,CIN,Michael Lorenzen,547179,,,,,5.01,15.0,2.73,4.79,4.34,2.23,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,NYM,WSH,Freddy Peralta,642547,,,,,5.41,16.0,2.51,4.67,5.78,2.17,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,MIL,AZ,Brandon Woodruff,605540,,,,,5.2,16.0,2.32,4.24,5.55,1.77,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,AZ,MIL,Michael Soroka,647336,,,,,5.36,16.0,2.47,4.54,5.63,2.02,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,ATH,KC,Jeffrey Springs,605488,,,,,5.45,16.0,2.56,4.98,5.19,1.72,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,KC,ATH,Noah Cameron,702070,,,,,5.18,16.0,2.77,5.0,4.38,1.9,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,MIN,TOR,Bailey Ober,641927,,,,,5.3,16.0,2.52,4.69,5.07,1.94,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
+pitcher,TOR,MIN,Kevin Gausman,592332,,,,,5.14,15.0,2.63,4.66,4.43,1.99,,,,,,,,,,,,,,,,,,,,,,,,,2026-04-30
 hitter,ATL,DET,Ronald Acuña Jr.,660670,1.0,RF,Confirmed,4.97,,,,,2.3,2.32,0.0,0.44,0.0,0.44,0.0,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-04-30
 hitter,ATL,DET,Drake Baldwin,686948,2.0,C,Confirmed,4.81,,,,,0.0,0.0,2.55,1.02,0.82,4.38,0.0,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-04-30
 hitter,ATL,DET,Ozzie Albies,645277,3.0,2B,Confirmed,4.69,,,,,0.01,0.87,1.08,1.15,1.17,3.4,0.96,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-04-30
