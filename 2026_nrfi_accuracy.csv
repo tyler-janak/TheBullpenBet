@@ -811,18 +811,18 @@ game_date,gamePk,away_team,home_team,team_a,team_b,away_full,home_full,away_sp,h
 2026-05-25,823784,STL,MIL,STL,MIL,St. Louis Cardinals,Milwaukee Brewers,Matthew Liberatore,Jacob Misiorowski,0.4617,0.5383,YRFI,NO,0.5,3.0,0.0,False,True,Final
 2026-05-25,824838,TB,BAL,TB,BAL,Tampa Bay Rays,Baltimore Orioles,Shane McClanahan,Kyle Bradish,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,Final
 2026-05-25,824437,WSH,CLE,WSH,CLE,Washington Nationals,Cleveland Guardians,PJ Poulin,Tanner Bibee,0.4617,0.5383,YRFI,NO,0.5,0.0,3.0,False,True,Final
-2026-05-26,824758,ATL,BOS,ATL,BOS,Atlanta Braves,Boston Red Sox,Spencer Strider,Ranger Suarez,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
-2026-05-26,823216,AZ,SF,AZ,SF,Arizona Diamondbacks,San Francisco Giants,Eduardo Rodriguez,Tyler Mahle,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,823379,CHC,PIT,CHC,PIT,Chicago Cubs,Pittsburgh Pirates,Jordan Wicks,Braxton Ashcraft,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,823624,CIN,NYM,CIN,NYM,Cincinnati Reds,New York Mets,Chase Burns,TBD,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,823949,COL,LAD,COL,LAD,Colorado Rockies,Los Angeles Dodgers,Kyle Freeland,Eric Lauer,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,822898,HOU,TEX,HOU,TEX,Houston Astros,Texas Rangers,Jason Alexander,Jack Leiter,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,824275,LAA,DET,LAA,DET,Los Angeles Angels,Detroit Tigers,Jack Kochanowicz,Keider Montero,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,822811,MIA,TOR,MIA,TOR,Miami Marlins,Toronto Blue Jays,Sandy Alcantara,Braydon Fisher,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,824597,MIN,CWS,MIN,CWS,Minnesota Twins,Chicago White Sox,Joe Ryan,Sean Burke,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,824106,NYY,KC,NYY,KC,New York Yankees,Kansas City Royals,Cam Schlittler,Bailey Falter,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,823294,PHI,SD,PHI,SD,Philadelphia Phillies,San Diego Padres,Aaron Nola,Randy Vásquez,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,825004,SEA,ATH,SEA,ATH,Seattle Mariners,Athletics,Emerson Hancock,Luis Severino,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,823785,STL,MIL,STL,MIL,St. Louis Cardinals,Milwaukee Brewers,Michael McGreevy,Kyle Harrison,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,824837,TB,BAL,TB,BAL,Tampa Bay Rays,Baltimore Orioles,Griffin Jax,Shane Baz,0.4617,0.5383,YRFI,NO,0.5,,,,,Scheduled
-2026-05-26,824434,WSH,CLE,WSH,CLE,Washington Nationals,Cleveland Guardians,Cade Cavalli,Joey Cantillo,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,824758,ATL,BOS,ATL,BOS,Atlanta Braves,Boston Red Sox,Spencer Strider,Ranger Suarez,0.4617,0.5383,YRFI,NO,0.5,,,,,Warmup
+2026-05-26,823216,AZ,SF,AZ,SF,Arizona Diamondbacks,San Francisco Giants,Eduardo Rodriguez,Tyler Mahle,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,823379,CHC,PIT,CHC,PIT,Chicago Cubs,Pittsburgh Pirates,Jordan Wicks,Braxton Ashcraft,0.4617,0.5383,YRFI,NO,0.5,,,,,Warmup
+2026-05-26,823624,CIN,NYM,CIN,NYM,Cincinnati Reds,New York Mets,Chase Burns,David Peterson,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,823949,COL,LAD,COL,LAD,Colorado Rockies,Los Angeles Dodgers,Kyle Freeland,Eric Lauer,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,822898,HOU,TEX,HOU,TEX,Houston Astros,Texas Rangers,Jason Alexander,Jack Leiter,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,824275,LAA,DET,LAA,DET,Los Angeles Angels,Detroit Tigers,Jack Kochanowicz,Keider Montero,0.4617,0.5383,YRFI,NO,0.5,,,,,Warmup
+2026-05-26,822811,MIA,TOR,MIA,TOR,Miami Marlins,Toronto Blue Jays,Sandy Alcantara,Braydon Fisher,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,824597,MIN,CWS,MIN,CWS,Minnesota Twins,Chicago White Sox,Joe Ryan,Sean Burke,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,824106,NYY,KC,NYY,KC,New York Yankees,Kansas City Royals,Cam Schlittler,Bailey Falter,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,823294,PHI,SD,PHI,SD,Philadelphia Phillies,San Diego Padres,Aaron Nola,Randy Vásquez,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,825004,SEA,ATH,SEA,ATH,Seattle Mariners,Athletics,Emerson Hancock,Gage Jump,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,823785,STL,MIL,STL,MIL,St. Louis Cardinals,Milwaukee Brewers,Michael McGreevy,Kyle Harrison,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-05-26,824837,TB,BAL,TB,BAL,Tampa Bay Rays,Baltimore Orioles,Griffin Jax,Shane Baz,0.4617,0.5383,YRFI,NO,0.5,,,,,In Progress
+2026-05-26,824434,WSH,CLE,WSH,CLE,Washington Nationals,Cleveland Guardians,Cade Cavalli,Joey Cantillo,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,In Progress
