@@ -893,11 +893,11 @@ game_date,gamePk,away_team,home_team,team_a,team_b,away_full,home_full,away_sp,h
 2026-05-31,824354,SF,COL,SF,COL,San Francisco Giants,Colorado Rockies,Robbie Ray,Tanner Gordon,0.4617,0.5383,YRFI,NO,0.5,0.0,1.0,False,True,Final
 2026-05-31,824832,TOR,BAL,TOR,BAL,Toronto Blue Jays,Baltimore Orioles,Spencer Miles,Kyle Bradish,0.4617,0.5383,YRFI,NO,0.5,0.0,0.0,True,False,Final
 2026-06-01,824027,COL,LAA,COL,LAA,Colorado Rockies,Los Angeles Angels,Kyle Freeland,José Soriano,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
-2026-06-01,823702,CWS,MIN,CWS,MIN,Chicago White Sox,Minnesota Twins,David Sandlin,Joe Ryan,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-06-01,823702,CWS,MIN,CWS,MIN,Chicago White Sox,Minnesota Twins,David Sandlin,Joe Ryan,0.4617,0.5383,YRFI,NO,0.5,,,,,Warmup
 2026-06-01,822974,DET,TB,DET,TB,Detroit Tigers,Tampa Bay Rays,Ty Madden,Griffin Jax,0.4617,0.5383,YRFI,NO,0.5,0.0,2.0,False,True,In Progress
-2026-06-01,824510,KC,CIN,KC,CIN,Kansas City Royals,Cincinnati Reds,Luinder Avila,Lyon Richardson,0.4617,0.5383,YRFI,NO,0.5,,,,,Warmup
+2026-06-01,824510,KC,CIN,KC,CIN,Kansas City Royals,Cincinnati Reds,Luinder Avila,Lyon Richardson,0.4617,0.5383,YRFI,NO,0.5,1.0,4.0,False,True,In Progress
 2026-06-01,825078,LAD,AZ,LAD,AZ,Los Angeles Dodgers,Arizona Diamondbacks,Emmet Sheehan,Eduardo Rodriguez,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
 2026-06-01,822730,MIA,WSH,MIA,WSH,Miami Marlins,Washington Nationals,Sandy Alcantara,Cade Cavalli,0.4617,0.5383,YRFI,NO,0.5,0.0,1.0,False,True,In Progress
 2026-06-01,823131,NYM,SEA,NYM,SEA,New York Mets,Seattle Mariners,Austin Warren,Emerson Hancock,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
-2026-06-01,823781,SF,MIL,SF,MIL,San Francisco Giants,Milwaukee Brewers,Landen Roupp,Shane Drohan,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
-2026-06-01,823050,TEX,STL,TEX,STL,Texas Rangers,St. Louis Cardinals,Jacob deGrom,Michael McGreevy,0.4617,0.5383,YRFI,NO,0.5,,,,,Pre-Game
+2026-06-01,823781,SF,MIL,SF,MIL,San Francisco Giants,Milwaukee Brewers,Landen Roupp,Shane Drohan,0.4617,0.5383,YRFI,NO,0.5,,,,,In Progress
+2026-06-01,823050,TEX,STL,TEX,STL,Texas Rangers,St. Louis Cardinals,Jacob deGrom,Michael McGreevy,0.4617,0.5383,YRFI,NO,0.5,,,,,Warmup
