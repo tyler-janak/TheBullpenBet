@@ -1,0 +1,2 @@
+market_id,kind,side,my_book,my_price,fair_price,fair_prob,edge_pct,edge_cents,plus_ev_vs_all,is_crossed,market_width,exchange_liq,base_kelly,multiplier,stake,x_confidence,x_activity,x_crossed,x_softness,x_width,x_liquidity,matchup,player,market_key,line,commence_time,snapshot_ts
+baseball_mlb:664888c720cda0a13b39fa74f0032e0e:h2h,moneyline,away,FanDuel,630.0,-108.5,0.5203,2.7981,-738.5,False,False,7.7,0.0,2220.73,2.812,6245.81,1.0,1.5,1.0,1.25,1.5,1.0,Colorado Rockies @ Los Angeles Dodgers,,,,2026-05-26T01:11:00Z,2026-05-26T03:23:02.683880+00:00
