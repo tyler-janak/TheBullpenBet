@@ -16181,7 +16181,7 @@ game_date,snapshot_date,game_pk,player_type,player_name,mlb_id,team,opponent,pro
 2026-05-29,2026-05-29,824433,hitter,Ceddanne Rafaela,678882,BOS,CLE,4.41,0.0,0.0,0.0,1.04,0.2,0.0,,,,4.0,0.0,0.0,0,0,0.0,0.0,,,,,Confirmed,2.0,high,96.0,False,Final,True
 2026-05-29,2026-05-29,822978,hitter,Cedric Mullins,656775,TB,LAA,3.75,1.97,0.0,0.01,0.0,0.69,0.64,,,,4.0,0.0,0.0,0,1,1.0,0.0,,,,,Confirmed,9.0,high,96.0,False,Final,True
 2026-05-29,2026-05-29,824515,hitter,Chadwick Tromp,644433,ATL,CIN,4.18,2.2,0.0,1.94,0.0,0.77,0.71,,,,4.0,0.0,0.0,1,0,0.0,1.0,,,,,Confirmed,9.0,high,96.0,False,Final,True
-2026-05-29,2026-05-29,822978,hitter,Chandler Simpson,802415,TB,LAA,3.82,1.71,0.0,0.0,0.0,0.68,0.63,,,,4.0,1.0,0.0,0,0,1.0,0.0,,,,,Confirmed,5.0,high,96.0,False,Final,True
+2026-05-29,2026-05-29,822978,hitter,Chandler Simpson,802415,TB,LAA,3.82,1.71,0.0,0.0,0.0,0.68,0.63,,,,4.0,2.0,0.0,0,0,1.0,0.0,,,,,Confirmed,5.0,high,96.0,False,Final,True
 2026-05-29,2026-05-29,824835,hitter,Charles McAdoo,807727,TOR,BAL,4.39,0.01,0.0,0.0,0.0,0.01,0.01,,,,4.0,1.0,1.0,1,0,1.0,2.0,,,,,Confirmed,6.0,low,40.0,True,Final,True
 2026-05-29,2026-05-29,824433,hitter,Chase DeLauter,800050,CLE,BOS,4.06,0.0,0.0,0.01,0.01,0.0,0.0,,,,4.0,2.0,0.0,0,0,1.0,0.0,,,,,Confirmed,3.0,high,82.0,False,Final,True
 2026-05-29,2026-05-29,824594,hitter,Chase Meidroth,805367,CWS,DET,3.83,0.0,0.0,1.37,0.8,0.15,0.0,,,,4.0,1.0,0.0,0,0,0.0,0.0,,,,,Confirmed,5.0,high,82.0,False,Final,True
