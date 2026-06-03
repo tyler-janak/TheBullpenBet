@@ -67,3 +67,63 @@ game_date,player_name,mlb_id,kind,market,line,side,ev,score,sportsbook,odds,proj
 2026-05-08,Jeremiah Jackson,669236,hitter,batter_total_bases,1.5,OVER,0.6403,0.7043,draftkings,135,2.636,0.0,MISS,-1.0
 2026-05-08,Adley Rutschman,668939,hitter,batter_total_bases,1.5,OVER,0.5932,0.6526,draftkings,123,2.726,5.0,HIT,1.23
 2026-05-08,Aaron Judge,592450,hitter,batter_total_bases,1.5,OVER,0.5078,0.5586,draftkings,110,2.746,1.0,MISS,-1.0
+2026-05-24,Joey Ortiz,687401,hitter,batter_hits,0.5,UNDER,0.2944,0.3238,draftkings,-105,0.47,1.0,MISS,-1.0
+2026-05-24,Cam Smith,701358,hitter,batter_hits,0.5,OVER,0.2709,0.298,draftkings,-125,1.4,1.0,HIT,0.8
+2026-05-24,Nico Hoerner,663538,hitter,batter_hits,0.5,UNDER,0.2522,0.2774,draftkings,161,0.84,1.0,MISS,-1.0
+2026-05-24,Austin Wells,669224,hitter,batter_hits,0.5,UNDER,0.2342,0.2576,draftkings,-142,0.369,0.0,HIT,0.704225352112676
+2026-05-24,William Contreras,661388,hitter,batter_hits,0.5,OVER,0.2228,0.245,draftkings,-188,1.83,1.0,HIT,0.5319148936170213
+2026-05-24,Randy Arozarena,668227,hitter,batter_hits,0.5,UNDER,0.2199,0.2419,draftkings,180,0.95,1.0,MISS,-1.0
+2026-05-24,Matt Olson,621566,hitter,batter_hits,0.5,UNDER,0.2104,0.2315,draftkings,174,0.934,1.0,MISS,-1.0
+2026-05-24,George Springer,543807,hitter,batter_hits,0.5,UNDER,0.2092,0.2301,draftkings,168,0.91,0.0,HIT,1.68
+2026-05-24,Curtis Mead,678554,hitter,batter_hits,0.5,UNDER,0.1867,0.2053,draftkings,163,0.91,1.0,MISS,-1.0
+2026-05-24,Matt Chapman,656305,hitter,batter_hits,0.5,OVER,0.1789,0.1968,draftkings,-152,1.42,2.0,HIT,0.6578947368421053
+2026-05-24,Cole Young,702284,hitter,batter_hits,0.5,UNDER,0.1776,0.1954,draftkings,161,0.91,1.0,MISS,-1.0
+2026-05-24,Carson Benge,701807,hitter,batter_hits,0.5,UNDER,0.1671,0.1838,draftkings,175,0.98,0.0,HIT,1.75
+2026-05-24,Freddie Freeman,518692,hitter,batter_hits,0.5,UNDER,0.1654,0.1819,draftkings,177,0.99,0.0,HIT,1.77
+2026-05-24,Alex Bregman,608324,hitter,batter_hits,0.5,UNDER,0.1605,0.1765,draftkings,150,0.878,1.0,MISS,-1.0
+2026-05-24,Austin Riley,663586,hitter,batter_hits,0.5,UNDER,0.1584,0.1742,draftkings,169,0.963,2.0,MISS,-1.0
+2026-05-24,Riley Greene,682985,hitter,batter_hits,0.5,UNDER,0.1546,0.17,draftkings,165,0.95,0.0,HIT,1.65
+2026-05-24,Willson Contreras,575929,hitter,batter_hits,0.5,OVER,0.1491,0.1641,draftkings,-188,1.586,2.0,HIT,0.5319148936170213
+2026-05-24,Jake Bauers,641343,hitter,batter_hits,0.5,OVER,0.1476,0.1624,draftkings,-145,1.3,1.0,HIT,0.6896551724137931
+2026-05-24,Shohei Ohtani,660271,hitter,batter_hits,0.5,UNDER,0.1401,0.1541,draftkings,171,0.99,0.0,HIT,1.71
+2026-05-24,Daulton Varsho,662139,hitter,batter_hits,0.5,UNDER,0.1252,0.1377,draftkings,156,0.94,1.0,MISS,-1.0
+2026-05-24,Alec Bohm,664761,hitter,batter_hits,0.5,UNDER,0.1236,0.1359,draftkings,148,0.905,0.0,HIT,1.48
+2026-05-24,Trent Grisham,663757,hitter,batter_hits,0.5,OVER,0.1229,0.1352,draftkings,-138,1.204,2.0,HIT,0.7246376811594203
+2026-05-24,Ernie Clement,676391,hitter,batter_hits,0.5,UNDER,0.119,0.1309,draftkings,148,0.91,1.0,MISS,-1.0
+2026-05-24,Pete Alonso,624413,hitter,batter_hits,0.5,OVER,0.1173,0.129,draftkings,-217,1.655,1.0,HIT,0.4608294930875576
+2026-05-24,Gunnar Henderson,683002,hitter,batter_hits,0.5,OVER,0.0995,0.1095,draftkings,-213,1.577,0.0,MISS,-1.0
+2026-05-24,Ceddanne Rafaela,678882,hitter,batter_hits,0.5,UNDER,0.0968,0.1065,draftkings,149,0.937,1.0,MISS,-1.0
+2026-05-24,Wilyer Abreu,677800,hitter,batter_hits,0.5,UNDER,0.0952,0.1047,draftkings,162,0.997,2.0,MISS,-1.0
+2026-05-24,Bobby Witt Jr.,677951,hitter,batter_hits,1.5,UNDER,0.0931,0.1024,draftkings,-231,0.923,1.0,HIT,0.4329004329004329
+2026-05-24,Ha-Seong Kim,673490,hitter,batter_hits,0.5,UNDER,0.0924,0.1016,draftkings,139,0.895,0.0,HIT,1.39
+2026-05-24,Marcelo Mayer,691785,hitter,batter_hits,0.5,UNDER,0.0907,0.0998,draftkings,135,0.878,1.0,MISS,-1.0
+2026-05-24,Chase Meidroth,805367,hitter,batter_hits,0.5,OVER,0.0856,0.0942,draftkings,-233,1.63,1.0,HIT,0.4291845493562232
+2026-05-24,Salvador Perez,521692,hitter,batter_hits,0.5,OVER,0.0839,0.0923,draftkings,-230,1.61,3.0,HIT,0.43478260869565216
+2026-05-24,Kazuma Okamoto,672960,hitter,batter_rbis,0.5,UNDER,0.1744,0.1919,draftkings,-238,0.19,0.0,HIT,0.42016806722689076
+2026-05-24,Kazuma Okamoto,672960,hitter,batter_runs_scored,0.5,UNDER,0.2949,0.3243,draftkings,-163,0.22,0.0,HIT,0.6134969325153374
+2026-05-24,Oneil Cruz,665833,hitter,batter_runs_scored,0.5,UNDER,0.1597,0.1757,draftkings,-151,0.36,1.0,MISS,-1.0
+2026-05-24,George Springer,543807,hitter,batter_runs_scored,0.5,UNDER,0.1446,0.159,draftkings,-138,0.41,0.0,HIT,0.7246376811594203
+2026-05-24,Jake Mangum,663968,hitter,batter_runs_scored,0.5,OVER,0.0999,0.1099,draftkings,209,0.44,0.0,MISS,-1.0
+2026-05-24,Vladimir Guerrero Jr.,665489,hitter,batter_runs_scored,0.5,UNDER,0.0891,0.098,draftkings,-156,0.41,1.0,MISS,-1.0
+2026-05-24,Bobby Witt Jr.,677951,hitter,batter_total_bases,1.5,UNDER,0.2998,0.3298,draftkings,-123,1.065,1.0,HIT,0.8130081300813008
+2026-05-24,Josh Bell,605137,hitter,batter_total_bases,1.5,UNDER,0.2991,0.329,draftkings,-189,0.65,1.0,HIT,0.5291005291005291
+2026-05-24,Jackson Chourio,694192,hitter,batter_total_bases,1.5,UNDER,0.2831,0.3114,draftkings,-178,0.74,1.0,HIT,0.5617977528089888
+2026-05-24,Austin Riley,663586,hitter,batter_total_bases,1.5,OVER,0.2706,0.2976,draftkings,121,2.066,2.0,HIT,1.21
+2026-05-24,Trea Turner,607208,hitter,batter_total_bases,1.5,UNDER,0.2072,0.228,draftkings,-145,1.072,0.0,HIT,0.6896551724137931
+2026-05-24,Shohei Ohtani,660271,hitter,batter_total_bases,1.5,OVER,0.207,0.2277,draftkings,102,2.16,0.0,MISS,-1.0
+2026-05-24,Chase Meidroth,805367,hitter,batter_total_bases,1.5,OVER,0.2012,0.2213,draftkings,140,1.78,4.0,HIT,1.4
+2026-05-24,Matt Olson,621566,hitter,batter_total_bases,1.5,UNDER,0.1824,0.2006,draftkings,-148,1.1,1.0,HIT,0.6756756756756757
+2026-05-24,Vladimir Guerrero Jr.,665489,hitter,batter_total_bases,1.5,UNDER,0.1745,0.192,draftkings,-167,1.01,0.0,HIT,0.5988023952095808
+2026-05-24,Freddie Freeman,518692,hitter,batter_total_bases,1.5,UNDER,0.1704,0.1874,draftkings,-150,1.11,0.0,HIT,0.6666666666666666
+2026-05-24,Michael Harris II,671739,hitter,batter_total_bases,1.5,OVER,0.1615,0.1777,draftkings,136,1.75,0.0,MISS,-1.0
+2026-05-24,Wilyer Abreu,677800,hitter,batter_total_bases,1.5,UNDER,0.1546,0.17,draftkings,-149,1.145,2.0,MISS,-1.0
+2026-05-24,George Springer,543807,hitter,batter_total_bases,1.5,UNDER,0.149,0.1639,draftkings,-173,1.03,0.0,HIT,0.5780346820809249
+2026-05-24,Nico Hoerner,663538,hitter,batter_total_bases,1.5,UNDER,0.1351,0.1486,draftkings,-200,0.942,1.0,HIT,0.5
+2026-05-24,Alex Bregman,608324,hitter,batter_total_bases,1.5,UNDER,0.1299,0.1429,draftkings,-187,1.005,1.0,HIT,0.5347593582887701
+2026-05-24,Gunnar Henderson,683002,hitter,batter_total_bases,1.5,OVER,0.1249,0.1373,draftkings,137,1.687,0.0,MISS,-1.0
+2026-05-24,Ceddanne Rafaela,678882,hitter,batter_total_bases,1.5,UNDER,0.1241,0.1365,draftkings,-178,1.056,1.0,HIT,0.5617977528089888
+2026-05-24,Riley Greene,682985,hitter,batter_total_bases,1.5,UNDER,0.1229,0.1352,draftkings,-169,1.1,0.0,HIT,0.591715976331361
+2026-05-24,Daulton Varsho,662139,hitter,batter_total_bases,1.5,UNDER,0.1183,0.1302,draftkings,-173,1.09,1.0,HIT,0.5780346820809249
+2026-05-24,Cole Young,702284,hitter,batter_total_bases,1.5,UNDER,0.1175,0.1292,draftkings,-187,1.03,1.0,HIT,0.5347593582887701
+2026-05-24,Curtis Mead,678554,hitter,batter_total_bases,1.5,UNDER,0.1134,0.1247,draftkings,-189,1.03,1.0,HIT,0.5291005291005291
+2026-05-24,Luis Arraez,650333,hitter,batter_total_bases,1.5,UNDER,0.1086,0.1194,draftkings,-171,1.118,0.0,HIT,0.5847953216374269
