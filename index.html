@@ -988,6 +988,13 @@ document.addEventListener('keydown', e => {
 });
 
 function renderPlayerModal(data, knownName) {
+  // Two-way players (Shohei et al.) have BOTH hitter and pitcher payloads
+  // nested inside one response — render them stacked with section headers.
+  if (data.player_type === 'two_way') {
+    renderTwoWayModal(data, knownName);
+    return;
+  }
+
   const isPitcher = data.player_type === 'pitcher';
   const display = data.player_name || knownName || '—';
   document.getElementById('modalName').textContent = display;
@@ -1005,6 +1012,35 @@ function renderPlayerModal(data, knownName) {
 
   const body = isPitcher ? renderPitcherDetail(data) : renderHitterDetail(data);
   document.getElementById('modalBody').innerHTML = body;
+}
+
+/* ─── TWO-WAY PLAYER detail (Shohei, etc.) ────────────────── */
+function renderTwoWayModal(data, knownName) {
+  const display = data.player_name || knownName || '—';
+  document.getElementById('modalName').textContent = display;
+
+  const handBits = [];
+  if (data.hand_bat)   handBits.push(`Bats: ${data.hand_bat}HH`);
+  if (data.hand_throw) handBits.push(`Throws: ${data.hand_throw}HP`);
+  const handPart = handBits.length ? handBits.join(' · ') : '—';
+  document.getElementById('modalMeta').textContent =
+    `Two-way · ${data.team || '—'} · ${handPart} · `
+    + `${data.games_count_bat || 0} bat / ${data.games_count_pitch || 0} pitch games`;
+
+  const sectionStyle = "margin: 1.25rem 0 0.5rem 0; padding: 0.5rem 0.75rem; "
+    + "background: rgba(255,255,255,0.03); border-left: 3px solid var(--green); "
+    + "border-radius: 3px; font-family: var(--font-mono); font-size: 0.85rem; "
+    + "letter-spacing: 0.08em; text-transform: uppercase;";
+  const pitchHeaderStyle = sectionStyle.replace('var(--green)', '#ff9f43');
+
+  const hitterHtml  = data.hitter
+    ? `<div style="${sectionStyle}">▸ HITTING</div>${renderHitterDetail(data.hitter)}`
+    : '';
+  const pitcherHtml = data.pitcher
+    ? `<div style="${pitchHeaderStyle}">▸ PITCHING</div>${renderPitcherDetail(data.pitcher)}`
+    : '';
+
+  document.getElementById('modalBody').innerHTML = hitterHtml + pitcherHtml;
 }
 
 /* ─── HITTER detail ───────────────────────────────────────── */

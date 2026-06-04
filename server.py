@@ -1070,104 +1070,119 @@ def _pitcher_game_row(r) -> dict:
     }
 
 
-def _player_detail_payload(mlb_id: int) -> dict | None:
-    """
-    Look up `mlb_id` in either the hitter or pitcher game-data CSV and build
-    the response shape consumed by the player-detail modal on the front-end.
-    """
-    # Try hitter first.
+def _build_hitter_detail(mlb_id: int) -> dict | None:
+    """Build the hitter-side payload for `mlb_id`, or None if the player has
+    no rows in the hitter game-data table."""
     hdf = _cached("__hitter_games_df", _hitter_games_df)
-    if not hdf.empty:
-        sub = hdf[pd.to_numeric(hdf["batter"], errors="coerce") == mlb_id]
-        if not sub.empty:
-            sub = sub.sort_values("game_date", ascending=False)
-            recent10 = sub.head(10)
-            recent5 = sub.head(5)
+    if hdf.empty:
+        return None
+    sub = hdf[pd.to_numeric(hdf["batter"], errors="coerce") == mlb_id]
+    if sub.empty:
+        return None
+    sub = sub.sort_values("game_date", ascending=False)
+    recent10 = sub.head(10)
+    recent5  = sub.head(5)
 
-            # vs LHP / vs RHP splits
-            def _split(rows: pd.DataFrame, hand: str | None) -> dict:
-                if hand is None:
-                    return _hitter_aggregate(rows)
-                return _hitter_aggregate(rows[rows["opp_pitcher_hand"].astype(str).str.upper() == hand])
+    def _split(rows: pd.DataFrame, hand: str | None) -> dict:
+        if hand is None:
+            return _hitter_aggregate(rows)
+        return _hitter_aggregate(rows[rows["opp_pitcher_hand"].astype(str).str.upper() == hand])
 
-            # The hitter game-data CSV doesn't carry the batter's name (just
-            # the mlb_id) — the front-end already knows the name from the
-            # projection it clicked, and supplies it directly in the modal.
-            return {
-                "player_type": "hitter",
-                "mlb_id": int(mlb_id),
-                "player_name": "",
-                "team": _safe(sub.iloc[0].get("team"), "") or "",
-                "hand": _safe(sub.iloc[0].get("batter_hand"), "") or "",
-                "games_count": int(len(sub)),
-                "recent_games": [_hitter_game_row(r) for _, r in recent10.iterrows()],
-                "splits": {
-                    "season": {"all": _split(sub, None),
-                               "vs_R": _split(sub, "R"),
-                               "vs_L": _split(sub, "L")},
-                    "last10": {"all": _split(recent10, None),
-                               "vs_R": _split(recent10, "R"),
-                               "vs_L": _split(recent10, "L")},
-                    "last5":  {"all": _split(recent5, None),
-                               "vs_R": _split(recent5, "R"),
-                               "vs_L": _split(recent5, "L")},
-                },
-            }
+    return {
+        "player_type": "hitter",
+        "mlb_id": int(mlb_id),
+        "player_name": "",
+        "team": _safe(sub.iloc[0].get("team"), "") or "",
+        "hand": _safe(sub.iloc[0].get("batter_hand"), "") or "",
+        "games_count": int(len(sub)),
+        "recent_games": [_hitter_game_row(r) for _, r in recent10.iterrows()],
+        "splits": {
+            "season": {"all": _split(sub, None),
+                       "vs_R": _split(sub, "R"),
+                       "vs_L": _split(sub, "L")},
+            "last10": {"all": _split(recent10, None),
+                       "vs_R": _split(recent10, "R"),
+                       "vs_L": _split(recent10, "L")},
+            "last5":  {"all": _split(recent5, None),
+                       "vs_R": _split(recent5, "R"),
+                       "vs_L": _split(recent5, "L")},
+        },
+    }
 
-    # Then pitcher.
+
+def _build_pitcher_detail(mlb_id: int) -> dict | None:
+    """Build the pitcher-side payload for `mlb_id`, or None if the player has
+    no rows in the pitcher game-data table."""
     pdf = _cached("__pitcher_games_df", _pitcher_games_df)
-    if not pdf.empty:
-        sub = pdf[pd.to_numeric(pdf["pitcher"], errors="coerce") == mlb_id]
-        if not sub.empty:
-            sub = sub.sort_values("game_date", ascending=False)
-            # Only count actual starts in the recent-games view; relief
-            # appearances would dominate the per-game charts otherwise.
-            starts = sub[sub["is_actual_starter"].astype(str).str.lower().isin({"true","1","1.0"})] \
-                if "is_actual_starter" in sub.columns else sub
-            if starts.empty:
-                starts = sub
-            recent10 = starts.head(10)
-            recent5  = starts.head(5)
+    if pdf.empty:
+        return None
+    sub = pdf[pd.to_numeric(pdf["pitcher"], errors="coerce") == mlb_id]
+    if sub.empty:
+        return None
+    sub = sub.sort_values("game_date", ascending=False)
+    # Only actual starts in the recent-games view; relief outings would
+    # dominate the per-game bar charts.
+    starts = sub[sub["is_actual_starter"].astype(str).str.lower().isin({"true", "1", "1.0"})] \
+        if "is_actual_starter" in sub.columns else sub
+    if starts.empty:
+        starts = sub
+    recent10 = starts.head(10)
+    recent5  = starts.head(5)
 
-            # Per-game rate splits aren't available (the pitcher's per-game
-            # row is across all batters faced, regardless of hand). For the
-            # vs-hand view, surface the pre-computed rolling rates from the
-            # most recent row — these are exactly what hitterspitchers_data.py
-            # already maintains for the projection model to consume.
-            latest = sub.iloc[0]
-            def _vs_hand_block(suffix: str) -> dict:
-                """suffix is '' or '_last10' depending on which window."""
-                base = "pitcher_{stat}_rate_vs_hand{sfx}_{hand}"
-                rates = {}
-                for hand in ("L", "R"):
-                    h = {}
-                    for stat, key in [("k","k_rate"), ("bb","bb_rate"),
-                                       ("h","h_rate"), ("hr","hr_rate")]:
-                        col = base.format(stat=stat, sfx=suffix, hand=hand)
-                        v = latest.get(col)
-                        h[key] = round(float(v), 3) if pd.notna(v) else None
-                    rates[f"vs_{hand}"] = h
-                return rates
+    latest = sub.iloc[0]
+    def _vs_hand_block(suffix: str) -> dict:
+        base = "pitcher_{stat}_rate_vs_hand{sfx}_{hand}"
+        rates: dict = {}
+        for hand in ("L", "R"):
+            h = {}
+            for stat, key in [("k", "k_rate"), ("bb", "bb_rate"),
+                              ("h", "h_rate"), ("hr", "hr_rate")]:
+                col = base.format(stat=stat, sfx=suffix, hand=hand)
+                v = latest.get(col)
+                h[key] = round(float(v), 3) if pd.notna(v) else None
+            rates[f"vs_{hand}"] = h
+        return rates
 
-            return {
-                "player_type": "pitcher",
-                "mlb_id": int(mlb_id),
-                "player_name": _safe(latest.get("pitcher_name"), "") or "",
-                "team": _safe(latest.get("team"), "") or "",
-                "hand": _safe(latest.get("pitcher_hand"), "") or "",
-                "games_count": int(len(sub)),
-                "starts_count": int(len(starts)),
-                "recent_games": [_pitcher_game_row(r) for _, r in recent10.iterrows()],
-                "splits": {
-                    "season": {"all": _pitcher_aggregate(starts),
-                               **_vs_hand_block("")},
-                    "last10": {"all": _pitcher_aggregate(recent10),
-                               **_vs_hand_block("_last10")},
-                    "last5":  {"all": _pitcher_aggregate(recent5)},
-                },
-            }
+    return {
+        "player_type":   "pitcher",
+        "mlb_id":        int(mlb_id),
+        "player_name":   _safe(latest.get("pitcher_name"), "") or "",
+        "team":          _safe(latest.get("team"), "") or "",
+        "hand":          _safe(latest.get("pitcher_hand"), "") or "",
+        "games_count":   int(len(sub)),
+        "starts_count":  int(len(starts)),
+        "recent_games":  [_pitcher_game_row(r) for _, r in recent10.iterrows()],
+        "splits": {
+            "season": {"all": _pitcher_aggregate(starts), **_vs_hand_block("")},
+            "last10": {"all": _pitcher_aggregate(recent10), **_vs_hand_block("_last10")},
+            "last5":  {"all": _pitcher_aggregate(recent5)},
+        },
+    }
 
-    return None
+
+def _player_detail_payload(mlb_id: int) -> dict | None:
+    """Build the modal payload. Detects two-way players (Shohei Ohtani et al.)
+    by checking BOTH game-data tables and returns a combined response with the
+    full hitter + pitcher payloads nested, so the front-end can render both."""
+    hitter_payload  = _build_hitter_detail(mlb_id)
+    pitcher_payload = _build_pitcher_detail(mlb_id)
+
+    if hitter_payload and pitcher_payload:
+        return {
+            "player_type": "two_way",
+            "mlb_id":      int(mlb_id),
+            # pitcher table carries the player name; hitter table doesn't
+            "player_name": pitcher_payload.get("player_name") or "",
+            "team":        pitcher_payload.get("team") or hitter_payload.get("team") or "",
+            "hand_bat":    hitter_payload.get("hand", ""),
+            "hand_throw":  pitcher_payload.get("hand", ""),
+            "games_count_bat":   hitter_payload.get("games_count", 0),
+            "games_count_pitch": pitcher_payload.get("starts_count") or pitcher_payload.get("games_count", 0),
+            "hitter":      hitter_payload,
+            "pitcher":     pitcher_payload,
+        }
+
+    return hitter_payload or pitcher_payload
 
 
 # ───── ROUTES ───────────────────────────────────────────────
