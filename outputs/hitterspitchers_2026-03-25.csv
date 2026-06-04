@@ -1,19 +1,21 @@
 player_type,team,opponent,player_name,mlb_id,lineup_spot,pos,lineup_status,proj_pa,proj_ip,proj_outs,proj_runs_allowed,proj_hits_allowed,proj_strikeouts,proj_walks,proj_hits,proj_runs,proj_rbi,proj_hrrbi,proj_hr,used_fallback,confidence_score,proj_pa_confidence_score,proj_hits_confidence_score,proj_hr_confidence_score,proj_strikeouts_confidence_score,proj_runs_confidence_score,proj_rbi_confidence_score,proj_hrrbi_confidence_score,proj_walks_confidence_score,confidence,proj_pa_confidence,proj_hits_confidence,proj_hr_confidence,proj_strikeouts_confidence,proj_runs_confidence,proj_rbi_confidence,proj_hrrbi_confidence,proj_walks_confidence,game_date
-hitter,SF,NYY,Luis Arraez,650333,1,2B,Confirmed,4.66,,,,,0.04,0.02,0.04,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Matt Chapman,656305,2,3B,Confirmed,4.51,,,,,0.04,0.02,0.04,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Rafael Devers,646240,3,DH,Confirmed,4.39,,,,,0.04,0.02,0.04,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Willy Adames,642715,4,SS,Confirmed,4.28,,,,,0.04,0.02,0.03,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Jung Hoo Lee,808982,5,RF,Confirmed,4.2,,,,,0.04,0.02,0.03,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Heliot Ramos,671218,6,LF,Confirmed,4.09,,,,,0.04,0.02,0.03,0.01,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Casey Schmitt,669477,7,1B,Confirmed,4.01,,,,,0.04,0.01,0.03,0.01,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Patrick Bailey,672275,8,C,Confirmed,3.93,,,,,0.04,0.01,0.03,0.01,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,SF,NYY,Harrison Bader,664056,9,CF,Confirmed,4.12,,,,,0.04,0.02,0.03,0.02,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Trent Grisham,663757,1,CF,Confirmed,4.66,,,,,0.04,0.02,0.04,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Aaron Judge,592450,2,RF,Confirmed,4.51,,,,,0.04,0.02,0.04,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Cody Bellinger,641355,3,LF,Confirmed,4.39,,,,,0.04,0.02,0.04,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Ben Rice,700250,4,1B,Confirmed,4.28,,,,,0.04,0.02,0.03,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Giancarlo Stanton,519317,5,DH,Confirmed,4.2,,,,,0.04,0.02,0.03,0.02,0.01,0.07,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Jazz Chisholm Jr.,665862,6,2B,Confirmed,4.09,,,,,0.04,0.02,0.03,0.01,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,José Caballero,676609,7,SS,Confirmed,4.01,,,,,0.04,0.01,0.03,0.01,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Ryan McMahon,641857,8,3B,Confirmed,3.93,,,,,0.04,0.01,0.03,0.01,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
-hitter,NYY,SF,Austin Wells,669224,9,C,Confirmed,4.12,,,,,0.04,0.02,0.03,0.02,0.01,0.06,0.0,True,40,44,40,32,37,35,35,36,38,low,low,low,low,low,low,low,low,low,2026-03-25
+pitcher,SF,NYY,Logan Webb,657277,,,,,5.5,16.0,2.37,4.76,6.65,1.25,,,,,,,,,,,,,,,,,,,,,,,,,2026-03-25
+pitcher,NYY,SF,Max Fried,608331,,,,,5.6,17.0,2.79,5.62,5.6,1.51,,,,,,,,,,,,,,,,,,,,,,,,,2026-03-25
+hitter,SF,NYY,Luis Arraez,650333,1.0,2B,Confirmed,4.29,,,,,0.29,0.24,1.41,0.65,0.51,2.57,0.07,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Matt Chapman,656305,2.0,3B,Confirmed,4.22,,,,,0.71,0.51,1.19,0.69,0.53,2.41,0.21,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Rafael Devers,646240,3.0,DH,Confirmed,4.49,,,,,0.92,0.74,1.38,0.85,0.73,2.97,0.28,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Willy Adames,642715,4.0,SS,Confirmed,4.23,,,,,0.81,0.45,1.03,0.59,0.51,2.12,0.16,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Jung Hoo Lee,808982,5.0,RF,Confirmed,4.52,,,,,0.46,0.26,1.52,0.69,0.61,2.83,0.07,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Heliot Ramos,671218,6.0,LF,Confirmed,4.45,,,,,0.78,0.37,1.27,0.59,0.6,2.46,0.16,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Casey Schmitt,669477,7.0,1B,Confirmed,3.76,,,,,0.7,0.3,1.0,0.48,0.43,1.9,0.15,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Patrick Bailey,672275,8.0,C,Confirmed,4.14,,,,,0.85,0.33,1.24,0.53,0.46,2.23,0.09,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,SF,NYY,Harrison Bader,664056,9.0,CF,Confirmed,3.47,,,,,0.75,0.26,0.97,0.43,0.38,1.77,0.09,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Trent Grisham,663757,1.0,CF,Confirmed,4.04,,,,,1.63,0.3,0.64,0.35,0.26,1.25,0.07,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Aaron Judge,592450,2.0,RF,Confirmed,4.25,,,,,1.79,0.29,0.7,0.43,0.34,1.47,0.16,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Cody Bellinger,641355,3.0,LF,Confirmed,4.17,,,,,0.94,0.15,0.82,0.37,0.33,1.51,0.03,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Ben Rice,700250,4.0,1B,Confirmed,3.63,,,,,1.26,0.12,0.66,0.31,0.27,1.24,0.04,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Giancarlo Stanton,519317,5.0,DH,Confirmed,3.69,,,,,1.94,0.19,0.61,0.33,0.29,1.23,0.09,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Jazz Chisholm Jr.,665862,6.0,2B,Confirmed,3.18,,,,,1.42,0.15,0.6,0.27,0.27,1.14,0.07,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,José Caballero,676609,7.0,SS,Confirmed,2.65,,,,,1.16,0.11,0.43,0.17,0.14,0.75,0.01,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Ryan McMahon,641857,8.0,3B,Confirmed,2.53,,,,,1.41,0.11,0.34,0.14,0.11,0.59,0.0,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
+hitter,NYY,SF,Austin Wells,669224,9.0,C,Confirmed,3.52,,,,,1.45,0.13,0.57,0.24,0.22,1.03,0.04,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high,2026-03-25
