@@ -26,24 +26,24 @@ pitcher,AZ,WSH,Merrill Kelly,518876.0,,,Probable Starter,,5.49,16.0,2.6,4.95,4.6
 pitcher,NYM,SD,Christian Scott,681035.0,,,Probable Starter,,5.32,16.0,2.38,4.13,6.19,2.16,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,SD,NYM,Michael King,650633.0,,,Probable Starter,,5.22,16.0,2.45,4.3,5.73,2.3,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,LAD,LAA,Roki Sasaki,808963.0,,,Probable Starter,,5.15,15.0,2.72,4.99,4.79,2.22,,,,,,,,,,,,,,,,,,,,,,,,
-hitter,SF,CHC,Casey Schmitt,669477.0,1.0,LF,Expected Lineup,4.13,,,,,0.71,0.38,0.99,0.53,0.4,1.91,0.11,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Rafael Devers,646240.0,2.0,1B,Expected Lineup,4.02,,,,,0.82,0.43,0.92,0.47,0.32,1.71,0.04,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Luis Arraez,650333.0,3.0,2B,Expected Lineup,4.17,,,,,0.45,0.48,1.09,0.54,0.43,2.06,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Willy Adames,642715.0,4.0,SS,Expected Lineup,4.15,,,,,0.78,0.41,0.92,0.47,0.37,1.75,0.04,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Jung Hoo Lee,808982.0,5.0,RF,Expected Lineup,4.14,,,,,0.42,0.34,1.07,0.5,0.41,1.98,0.02,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Matt Chapman,656305.0,6.0,3B,Expected Lineup,4.27,,,,,0.94,0.53,0.86,0.43,0.39,1.68,0.09,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Bryce Eldridge,805811.0,7.0,DH,Expected Lineup,4.17,,,,,0.98,0.36,0.76,0.34,0.27,1.37,0.04,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Daniel Susac,691740.0,8.0,C,Expected Lineup,3.24,,,,,0.63,0.38,0.83,0.37,0.29,1.5,0.04,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,SF,CHC,Drew Gilbert,687551.0,9.0,CF,Expected Lineup,3.25,,,,,0.65,0.33,0.68,0.3,0.23,1.22,0.02,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Nico Hoerner,663538.0,1.0,2B,Expected Lineup,4.87,,,,,0.5,0.44,1.49,0.75,0.57,2.81,0.13,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Pete Crow-Armstrong,691718.0,2.0,CF,Expected Lineup,4.27,,,,,0.76,0.41,1.36,0.76,0.62,2.74,0.25,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Alex Bregman,608324.0,3.0,3B,Expected Lineup,4.76,,,,,0.66,0.52,1.27,0.7,0.59,2.56,0.16,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Seiya Suzuki,673548.0,4.0,RF,Expected Lineup,4.58,,,,,0.81,0.45,1.38,0.77,0.7,2.86,0.24,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Ian Happ,664023.0,5.0,LF,Expected Lineup,4.97,,,,,0.96,0.66,1.43,0.82,0.69,2.94,0.2,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Carson Kelly,608348.0,6.0,C,Expected Lineup,4.16,,,,,0.58,0.34,1.01,0.47,0.47,1.96,0.13,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Michael Busch,683737.0,7.0,1B,Expected Lineup,4.8,,,,,0.8,0.6,1.5,0.7,0.59,2.78,0.15,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Miguel Amaya,665804.0,8.0,DH,Expected Lineup,2.83,,,,,0.51,0.23,0.71,0.37,0.34,1.42,0.16,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,CHC,SF,Dansby Swanson,621020.0,9.0,SS,Expected Lineup,4.39,,,,,0.57,0.39,1.2,0.58,0.52,2.3,0.19,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Casey Schmitt,669477.0,1.0,LF,Confirmed Lineup,4.13,,,,,0.71,0.38,0.99,0.53,0.4,1.91,0.11,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Rafael Devers,646240.0,2.0,1B,Confirmed Lineup,4.02,,,,,0.82,0.43,0.92,0.47,0.32,1.71,0.04,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Luis Arraez,650333.0,3.0,2B,Confirmed Lineup,4.17,,,,,0.45,0.48,1.09,0.54,0.43,2.06,0.03,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Willy Adames,642715.0,4.0,SS,Confirmed Lineup,4.15,,,,,0.78,0.41,0.92,0.47,0.37,1.75,0.04,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Jung Hoo Lee,808982.0,5.0,RF,Confirmed Lineup,4.14,,,,,0.42,0.34,1.07,0.5,0.41,1.98,0.02,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Bryce Eldridge,805811.0,6.0,DH,Confirmed Lineup,4.17,,,,,0.98,0.36,0.76,0.34,0.31,1.41,0.04,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Matt Chapman,656305.0,7.0,3B,Confirmed Lineup,4.27,,,,,0.94,0.53,0.86,0.43,0.34,1.64,0.09,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Daniel Susac,691740.0,8.0,C,Confirmed Lineup,3.24,,,,,0.63,0.38,0.83,0.37,0.29,1.5,0.04,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,SF,CHC,Drew Gilbert,687551.0,9.0,CF,Confirmed Lineup,3.25,,,,,0.65,0.33,0.68,0.3,0.23,1.22,0.02,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Nico Hoerner,663538.0,1.0,2B,Confirmed Lineup,4.87,,,,,0.5,0.44,1.49,0.75,0.57,2.81,0.13,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Pete Crow-Armstrong,691718.0,2.0,CF,Confirmed Lineup,4.27,,,,,0.76,0.41,1.36,0.76,0.62,2.74,0.25,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Alex Bregman,608324.0,3.0,3B,Confirmed Lineup,4.76,,,,,0.66,0.52,1.27,0.7,0.59,2.56,0.16,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Seiya Suzuki,673548.0,4.0,RF,Confirmed Lineup,4.58,,,,,0.81,0.45,1.38,0.77,0.7,2.86,0.24,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Ian Happ,664023.0,5.0,LF,Confirmed Lineup,4.97,,,,,0.96,0.66,1.43,0.82,0.69,2.94,0.2,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Carson Kelly,608348.0,6.0,DH,Confirmed Lineup,4.16,,,,,0.58,0.34,1.01,0.47,0.47,1.96,0.13,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Michael Busch,683737.0,7.0,1B,Confirmed Lineup,4.8,,,,,0.8,0.6,1.5,0.7,0.59,2.78,0.15,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Miguel Amaya,665804.0,8.0,C,Confirmed Lineup,2.83,,,,,0.51,0.23,0.71,0.37,0.34,1.42,0.16,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
+hitter,CHC,SF,Dansby Swanson,621020.0,9.0,SS,Confirmed Lineup,4.39,,,,,0.57,0.39,1.2,0.58,0.52,2.3,0.19,False,96.0,99.0,96.0,88.0,93.0,91.0,91.0,92.0,94.0,high,high,high,high,high,high,high,high,high
 hitter,SEA,DET,J.P. Crawford,641487.0,1.0,SS,Expected Lineup,4.41,,,,,0.7,0.61,0.68,0.42,0.26,1.36,0.06,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,SEA,DET,Julio Rodríguez,677594.0,2.0,CF,Expected Lineup,4.38,,,,,0.7,0.5,0.83,0.43,0.28,1.54,0.02,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,SEA,DET,Randy Arozarena,668227.0,3.0,LF,Expected Lineup,4.37,,,,,0.78,0.55,0.86,0.49,0.37,1.71,0.06,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
@@ -94,10 +94,10 @@ hitter,NYY,BOS,Ben Rice,700250.0,2.0,DH,Expected Lineup,4.33,,,,,1.36,0.26,0.83,
 hitter,NYY,BOS,Paul Goldschmidt,502671.0,3.0,1B,Expected Lineup,3.69,,,,,1.04,0.2,0.64,0.3,0.24,1.18,0.01,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,NYY,BOS,Cody Bellinger,641355.0,4.0,LF,Expected Lineup,4.45,,,,,1.0,0.33,0.83,0.42,0.34,1.59,0.05,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,NYY,BOS,Jazz Chisholm Jr.,665862.0,5.0,2B,Expected Lineup,4.08,,,,,1.22,0.32,0.55,0.31,0.24,1.1,0.04,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,NYY,BOS,José Caballero,676609.0,6.0,RF,Expected Lineup,3.23,,,,,0.74,0.18,0.62,0.26,0.25,1.13,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,BOS,José Caballero,676609.0,6.0,SS,Expected Lineup,3.23,,,,,0.74,0.18,0.62,0.26,0.25,1.13,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,NYY,BOS,Ryan McMahon,641857.0,7.0,3B,Expected Lineup,3.17,,,,,1.04,0.15,0.59,0.25,0.21,1.05,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,NYY,BOS,Austin Wells,669224.0,8.0,C,Expected Lineup,3.74,,,,,1.14,0.28,0.5,0.23,0.17,0.9,0.01,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,NYY,BOS,Anthony Volpe,683011.0,9.0,SS,Expected Lineup,4.03,,,,,1.04,0.29,0.76,0.32,0.26,1.34,0.02,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,BOS,S. Jones,,8.0,RF,Expected Lineup,3.53,,,,,1.01,0.17,0.63,0.26,0.22,1.1,0.02,True,32.0,36.0,32.0,24.0,29.0,27.0,27.0,28.0,30.0,low,low,low,low,low,low,low,low,low
+hitter,NYY,BOS,Austin Wells,669224.0,9.0,C,Expected Lineup,3.74,,,,,1.14,0.28,0.5,0.23,0.17,0.9,0.01,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,BAL,TOR,Taylor Ward,621493.0,1.0,LF,Expected Lineup,3.68,,,,,1.38,0.25,0.39,0.23,0.15,0.77,0.04,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,BAL,TOR,Gunnar Henderson,683002.0,2.0,SS,Expected Lineup,3.95,,,,,1.2,0.21,0.47,0.26,0.19,0.91,0.05,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,BAL,TOR,Adley Rutschman,668939.0,3.0,C,Expected Lineup,3.95,,,,,1.32,0.12,0.55,0.24,0.2,1.0,0.0,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
