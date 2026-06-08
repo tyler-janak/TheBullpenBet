@@ -1,7 +1,7 @@
 player_type,team,opponent,player_name,mlb_id,lineup_spot,pos,lineup_status,proj_pa,proj_ip,proj_outs,proj_runs_allowed,proj_hits_allowed,proj_strikeouts,proj_walks,proj_hits,proj_runs,proj_rbi,proj_hrrbi,proj_hr,used_fallback,confidence_score,proj_pa_confidence_score,proj_hits_confidence_score,proj_hr_confidence_score,proj_strikeouts_confidence_score,proj_runs_confidence_score,proj_rbi_confidence_score,proj_hrrbi_confidence_score,proj_walks_confidence_score,confidence,proj_pa_confidence,proj_hits_confidence,proj_hr_confidence,proj_strikeouts_confidence,proj_runs_confidence,proj_rbi_confidence,proj_hrrbi_confidence,proj_walks_confidence
 pitcher,SEA,BAL,Emerson Hancock,676106.0,,,Probable Starter,,5.65,17.0,2.46,4.48,6.5,2.08,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,BOS,TB,Connelly Early,813349.0,,,Probable Starter,,5.23,16.0,2.26,4.23,4.84,1.71,,,,,,,,,,,,,,,,,,,,,,,,
-pitcher,NYY,CLE,Will Warren,701542.0,,,Probable Starter,,5.54,17.0,2.11,4.07,7.15,1.51,,,,,,,,,,,,,,,,,,,,,,,,
+pitcher,NYY,CLE,Will Warren,701542.0,,,Probable Starter,,5.54,17.0,2.11,4.07,7.15,1.5,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,CLE,NYY,Gavin Williams,668909.0,,,Probable Starter,,5.78,17.0,2.43,4.62,6.64,1.91,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,PHI,TOR,Cristopher Sánchez,650911.0,,,Probable Starter,,5.64,17.0,2.37,4.61,6.52,1.81,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,TOR,PHI,Patrick Corbin,571578.0,,,Probable Starter,,5.12,15.0,2.69,4.69,4.18,2.21,,,,,,,,,,,,,,,,,,,,,,,,
@@ -12,7 +12,7 @@ pitcher,SD,CIN,Walker Buehler,621111.0,,,Probable Starter,,5.23,16.0,2.53,4.64,5
 pitcher,WSH,SF,Miles Mikolas,571945.0,,,Probable Starter,,5.04,15.0,2.45,4.34,4.36,1.88,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,SF,WSH,Logan Webb,657277.0,,,Probable Starter,,5.38,16.0,2.66,5.18,5.11,1.76,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,MIL,ATH,Kyle Harrison,690986.0,,,Probable Starter,,5.24,16.0,2.39,4.26,5.48,2.03,,,,,,,,,,,,,,,,,,,,,,,,
-pitcher,ATH,MIL,Jeffrey Springs,605488.0,,,Probable Starter,,5.05,15.0,2.44,4.58,4.94,1.81,,,,,,,,,,,,,,,,,,,,,,,,
+pitcher,ATH,MIL,Jeffrey Springs,605488.0,,,Probable Starter,,5.05,15.0,2.45,4.58,4.94,1.81,,,,,,,,,,,,,,,,,,,,,,,,
 hitter,SEA,BAL,J.P. Crawford,641487.0,1.0,SS,Expected Lineup,4.06,,,,,0.9,0.38,0.53,0.32,0.22,1.07,0.06,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
 hitter,SEA,BAL,Julio Rodríguez,677594.0,2.0,CF,Expected Lineup,4.18,,,,,1.25,0.31,0.69,0.33,0.22,1.25,0.0,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
 hitter,SEA,BAL,Josh Naylor,647304.0,3.0,1B,Expected Lineup,4.36,,,,,0.7,0.43,0.96,0.49,0.39,1.85,0.04,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
