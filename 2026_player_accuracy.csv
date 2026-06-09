@@ -18668,7 +18668,7 @@ game_date,snapshot_date,game_pk,player_type,player_name,mlb_id,team,opponent,pro
 2026-06-08,2026-06-08,822972,hitter,Ryan Vilade,668723,TB,BOS,3.27,0.69,0.15,0.63,0.24,0.41,0.38,,,,3.0,1.0,0.0,0,1,0.0,0.0,,,,,Confirmed,4.0,high,96.0,False,Final,True
 2026-06-08,2026-06-08,823289,hitter,Sal Stewart,701398,CIN,SD,4.48,0.89,0.07,0.76,0.64,0.52,0.39,,,,4.0,1.0,0.0,0,1,0.0,1.0,,,,,Confirmed,3.0,high,96.0,False,Final,True
 2026-06-08,2026-06-08,824829,hitter,Sam Huff,669087,BAL,SEA,3.44,0.59,0.02,0.81,0.22,0.25,0.21,,,,3.0,0.0,0.0,1,0,0.0,0.0,,,,,Confirmed,9.0,high,96.0,False,Final,True
-2026-06-08,2026-06-08,823289,hitter,Samad Taylor,669392,SD,CIN,3.66,0.51,0.08,0.65,0.4,0.29,0.23,,,,4.0,2.0,0.0,2,0,1.0,3.0,,,,,Confirmed,8.0,low,40.0,True,Final,True
+2026-06-08,2026-06-08,823289,hitter,Samad Taylor,669392,SD,CIN,3.66,0.51,0.08,0.65,0.4,0.29,0.23,,,,4.0,1.0,0.0,2,0,1.0,3.0,,,,,Confirmed,8.0,low,40.0,True,Final,True
 2026-06-08,2026-06-08,824998,hitter,Shea Langeliers,669127,ATH,MIL,3.95,0.47,0.07,1.17,0.28,0.28,0.2,,,,7.0,3.0,1.0,3,0,2.0,2.0,,,,,Confirmed,1.0,high,96.0,False,Final,True
 2026-06-08,2026-06-08,824427,hitter,Spencer Jones,682987,NYY,CLE,3.08,0.31,0.01,1.08,0.2,0.15,0.12,,,,4.0,1.0,0.0,3,0,0.0,0.0,,,,,Confirmed,6.0,high,96.0,False,Final,True
 2026-06-08,2026-06-08,824427,hitter,Steven Kwan,680757,CLE,NYY,3.89,0.91,0.06,0.65,0.43,0.42,0.34,,,,5.0,0.0,0.0,0,1,1.0,0.0,,,,,Confirmed,7.0,high,96.0,False,Final,True
