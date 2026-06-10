@@ -18016,7 +18016,7 @@ game_date,snapshot_date,game_pk,player_type,player_name,mlb_id,team,opponent,pro
 2026-06-06,2026-06-06,824351,hitter,Brice Turang,668930,MIL,COL,4.21,0.51,0.07,0.97,0.37,0.31,0.24,,,,5.0,2.0,2.0,1,0,2.0,2.0,,,,,Confirmed,3.0,high,96.0,False,Final,True
 2026-06-06,2026-06-06,823697,hitter,Brooks Lee,686797,MIN,KC,3.92,0.63,0.03,0.91,0.3,0.33,0.22,,,,4.0,0.0,0.0,1,0,0.0,0.0,,,,,Confirmed,2.0,high,82.0,False,Final,True
 2026-06-06,2026-06-06,824915,hitter,Bryan Reynolds,668804,PIT,ATL,3.81,0.57,0.2,1.1,0.39,0.42,0.38,,,,4.0,1.0,0.0,0,0,1.0,0.0,,,,,Confirmed,3.0,high,96.0,False,Final,True
-2026-06-06,2026-06-06,823048,hitter,Bryan Torres,663494,STL,CIN,4.01,0.53,0.08,0.63,0.57,0.32,0.23,,,,4.0,1.0,0.0,0,0,1.0,0.0,,,,,Confirmed,7.0,low,40.0,True,Final,True
+2026-06-06,2026-06-06,823048,hitter,Bryan Torres,663494,STL,CIN,4.01,0.53,0.08,0.63,0.57,0.32,0.23,,,,4.0,2.0,0.0,0,0,1.0,0.0,,,,,Confirmed,7.0,low,40.0,True,Final,True
 2026-06-06,2026-06-06,824669,hitter,Bryce Eldridge,805811,SF,CHC,4.06,0.8,0.05,1.11,0.29,0.36,0.34,,,,4.0,1.0,0.0,2,0,0.0,0.0,,,,,Confirmed,6.0,high,96.0,False,Final,True
 2026-06-06,2026-06-06,823454,hitter,Bryce Harper,547180,PHI,CWS,3.71,0.53,0.01,1.38,0.14,0.24,0.2,,,,4.0,0.0,0.0,2,0,0.0,0.0,,,,,Confirmed,3.0,high,82.0,False,Final,True
 2026-06-06,2026-06-06,823454,hitter,Bryson Stott,681082,PHI,CWS,3.24,0.49,0.0,1.16,0.12,0.19,0.16,,,,4.0,0.0,0.0,1,1,0.0,0.0,,,,,Confirmed,7.0,high,82.0,False,Final,True
@@ -18248,7 +18248,7 @@ game_date,snapshot_date,game_pk,player_type,player_name,mlb_id,team,opponent,pro
 2026-06-06,2026-06-06,822808,pitcher,Kyle Bradish,680694,BAL,TOR,,,,5.65,2.31,,,5.44,4.4,2.49,,,,3,3,,,4.0,12.0,9.0,5.0,,,,,,Final,True
 2026-06-06,2026-06-06,824669,pitcher,Landen Roupp,694738,SF,CHC,,,,6.41,2.07,,,5.37,4.05,2.29,,,,5,3,,,5.666666666666667,17.0,3.0,1.0,,,,,,Final,True
 2026-06-06,2026-06-06,823048,pitcher,Matthew Liberatore,669461,STL,CIN,,,,5.2,2.31,,,5.24,4.39,2.54,,,,4,3,,,4.333333333333333,13.0,4.0,3.0,,,,,,Final,True
-2026-06-06,2026-06-06,823048,pitcher,Nick Lodolo,666157,CIN,STL,,,,4.48,1.69,,,5.12,4.65,2.46,,,,3,1,,,5.0,15.0,9.0,4.0,,,,,,Final,True
+2026-06-06,2026-06-06,823048,pitcher,Nick Lodolo,666157,CIN,STL,,,,4.48,1.69,,,5.12,4.65,2.46,,,,3,1,,,5.0,15.0,10.0,4.0,,,,,,Final,True
 2026-06-06,2026-06-06,823292,pitcher,Nolan McLean,690997,NYM,SD,,,,7.4,1.62,,,5.58,4.24,2.19,,,,5,3,,,6.0,18.0,3.0,1.0,,,,,,Final,True
 2026-06-06,2026-06-06,823859,pitcher,Shane McClanahan,663556,TB,MIA,,,,6.18,1.91,,,5.24,4.2,2.3,,,,6,2,,,5.0,15.0,8.0,4.0,,,,,,Final,True
 2026-06-06,2026-06-06,824915,pitcher,Spencer Strider,675911,ATL,PIT,,,,5.77,2.02,,,5.29,4.14,2.33,,,,3,2,,,5.0,15.0,5.0,3.0,,,,,,Final,True
@@ -18745,7 +18745,7 @@ game_date,snapshot_date,game_pk,player_type,player_name,mlb_id,team,opponent,pro
 2026-06-09,2026-06-09,823290,hitter,Bryce Johnson,669369,SD,CIN,3.11,0.28,0.07,0.99,0.1,0.15,0.14,,,,2.0,0.0,0.0,1,0,0.0,0.0,,,,,Confirmed,7.0,high,96.0,False,Final,True
 2026-06-09,2026-06-09,822805,hitter,Bryson Stott,681082,PHI,TOR,3.81,0.61,0.14,1.14,0.42,0.35,0.34,,,,4.0,2.0,0.0,0,0,0.0,1.0,,,,,Confirmed,6.0,high,96.0,False,Final,True
 2026-06-09,2026-06-09,824267,hitter,Byron Buxton,621439,MIN,DET,4.25,0.71,0.17,1.38,0.35,0.45,0.35,,,,5.0,1.0,1.0,4,0,1.0,1.0,,,,,Confirmed,1.0,high,82.0,False,Final,True
-2026-06-09,2026-06-09,823214,hitter,CJ Abrams,682928,WSH,SF,4.45,0.8,0.08,0.71,0.78,0.51,0.36,,,,5.0,0.0,0.0,1,0,1.0,0.0,,,,,Confirmed,4.0,high,96.0,False,Final,True
+2026-06-09,2026-06-09,823214,hitter,CJ Abrams,682928,WSH,SF,4.45,0.8,0.08,0.71,0.78,0.51,0.36,,,,5.0,1.0,0.0,1,0,1.0,0.0,,,,,Confirmed,4.0,high,96.0,False,Final,True
 2026-06-09,2026-06-09,822969,hitter,Caleb Durbin,702332,BOS,TB,3.79,0.71,0.08,0.58,0.12,0.31,0.29,,,,3.0,1.0,0.0,0,0,1.0,0.0,,,,,Confirmed,7.0,high,96.0,False,Final,True
 2026-06-09,2026-06-09,824023,hitter,Cam Smith,701358,HOU,LAA,3.66,0.43,0.02,0.86,0.2,0.19,0.17,,,,4.0,0.0,0.0,1,1,0.0,0.0,,,,,Confirmed,6.0,high,96.0,False,Final,True
 2026-06-09,2026-06-09,823620,hitter,Carson Benge,701807,NYM,STL,4.01,0.95,0.06,0.81,0.24,0.46,0.35,,,,4.0,1.0,0.0,1,0,0.0,0.0,,,,,Confirmed,1.0,high,96.0,False,Final,True
