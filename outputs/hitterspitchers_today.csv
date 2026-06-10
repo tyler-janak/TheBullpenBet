@@ -2,7 +2,7 @@ player_type,team,opponent,player_name,mlb_id,lineup_spot,pos,lineup_status,proj_
 pitcher,BOS,TB,Jake Bennett,687562,,,Probable Starter,,5.09,15.0,2.57,4.64,4.01,2.08,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,TB,BOS,Drew Rasmussen,656876,,,Probable Starter,,5.42,16.0,2.33,4.28,6.44,1.77,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,NYY,CLE,Carlos Rodón,607074,,,Probable Starter,,5.18,16.0,2.36,4.4,5.7,1.81,,,,,,,,,,,,,,,,,,,,,,,,
-pitcher,CLE,NYY,Parker Messick,800048,,,Probable Starter,,5.4,16.0,2.28,4.35,6.42,1.69,,,,,,,,,,,,,,,,,,,,,,,,
+pitcher,CLE,NYY,Parker Messick,800048,,,Probable Starter,,5.4,16.0,2.28,4.35,6.42,1.68,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,WSH,SF,Foster Griffin,656492,,,Probable Starter,,5.53,17.0,2.37,4.43,5.33,1.83,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,SF,WSH,Robbie Ray,592662,,,Probable Starter,,5.35,16.0,2.46,4.27,5.4,2.31,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,CIN,SD,Brady Singer,663903,,,Probable Starter,,5.17,15.0,2.62,4.86,4.07,1.93,,,,,,,,,,,,,,,,,,,,,,,,
