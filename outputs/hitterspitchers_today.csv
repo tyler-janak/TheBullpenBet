@@ -14,6 +14,7 @@ pitcher,CIN,AZ,Nick Lodolo,666157,,,Probable Starter,,5.2,16.0,2.41,4.63,4.84,1.
 pitcher,ATL,NYM,Spencer Strider,675911,,,Probable Starter,,5.27,16.0,2.35,4.12,5.73,2.07,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,NYM,ATL,Nolan McLean,690997,,,Probable Starter,,5.51,17.0,2.21,4.24,7.45,1.66,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,NYY,TOR,Ryan Weathers,677960,,,Probable Starter,,5.51,17.0,2.25,4.28,6.61,1.64,,,,,,,,,,,,,,,,,,,,,,,,
+pitcher,TOR,NYY,Trey Yesavage,702056,,,Probable Starter,,5.13,15.0,2.41,4.14,5.46,2.22,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,LAD,CWS,Roki Sasaki,808963,,,Probable Starter,,5.25,16.0,2.67,4.9,5.15,2.14,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,CWS,LAD,Anthony Kay,641743,,,Probable Starter,,5.18,16.0,2.46,4.41,4.81,1.95,,,,,,,,,,,,,,,,,,,,,,,,
 pitcher,PHI,MIL,Andrew Painter,691725,,,Probable Starter,,5.17,15.0,2.58,4.77,4.84,1.87,,,,,,,,,,,,,,,,,,,,,,,,
@@ -132,15 +133,15 @@ hitter,NYM,ATL,Marcus Semien,543760,6.0,2B,Expected Lineup,3.96,,,,,1.06,0.34,0.
 hitter,NYM,ATL,Brett Baty,683146,7.0,3B,Expected Lineup,3.39,,,,,1.12,0.3,0.4,0.3,0.28,0.98,0.22,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,NYM,ATL,MJ Melendez,669004,8.0,DH,Expected Lineup,3.09,,,,,0.9,0.3,0.34,0.27,0.26,0.86,0.21,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,NYM,ATL,Francisco Alvarez,682626,9.0,C,Expected Lineup,3.55,,,,,1.05,0.3,0.47,0.31,0.29,1.07,0.2,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
-hitter,NYY,TOR,Trent Grisham,663757,1.0,CF,Expected Lineup,3.95,,,,,0.65,0.22,0.97,0.5,0.4,1.86,0.12,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,Ben Rice,700250,2.0,DH,Expected Lineup,4.34,,,,,0.76,0.24,1.16,0.58,0.46,2.19,0.12,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,Paul Goldschmidt,502671,3.0,1B,Expected Lineup,3.86,,,,,0.59,0.23,0.91,0.44,0.38,1.73,0.05,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,Cody Bellinger,641355,4.0,LF,Expected Lineup,4.58,,,,,0.65,0.38,1.2,0.63,0.55,2.38,0.13,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,Jazz Chisholm Jr.,665862,5.0,2B,Expected Lineup,4.24,,,,,0.77,0.33,0.92,0.51,0.45,1.87,0.14,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,Spencer Jones,682987,6.0,RF,Expected Lineup,3.01,,,,,1.04,0.45,0.35,0.23,0.18,0.75,0.06,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,José Caballero,676609,7.0,SS,Expected Lineup,3.42,,,,,0.45,0.19,0.83,0.36,0.33,1.52,0.08,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,Ryan McMahon,641857,8.0,3B,Expected Lineup,3.17,,,,,0.64,0.14,0.9,0.39,0.37,1.67,0.11,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
-hitter,NYY,TOR,J.C. Escarra,641555,9.0,C,Expected Lineup,3.1,,,,,1.09,0.28,0.37,0.2,0.15,0.72,0.04,False,74.0,78.0,74.0,66.0,71.0,69.0,69.0,70.0,72.0,medium,medium,medium,medium,medium,medium,medium,medium,medium
+hitter,NYY,TOR,Trent Grisham,663757,1.0,CF,Expected Lineup,3.31,,,,,1.07,0.13,0.35,0.18,0.14,0.66,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,Ben Rice,700250,2.0,DH,Expected Lineup,3.96,,,,,1.51,0.23,0.58,0.29,0.21,1.07,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,Paul Goldschmidt,502671,3.0,1B,Expected Lineup,3.41,,,,,1.15,0.17,0.36,0.18,0.14,0.68,0.01,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,Cody Bellinger,641355,4.0,LF,Expected Lineup,4.03,,,,,1.16,0.31,0.52,0.29,0.22,1.03,0.04,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,Jazz Chisholm Jr.,665862,5.0,2B,Expected Lineup,3.61,,,,,1.32,0.26,0.31,0.2,0.15,0.66,0.05,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,Spencer Jones,682987,6.0,RF,Expected Lineup,2.86,,,,,1.07,0.22,0.25,0.13,0.1,0.48,0.01,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,José Caballero,676609,7.0,SS,Expected Lineup,2.86,,,,,0.8,0.16,0.39,0.18,0.15,0.71,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,Ryan McMahon,641857,8.0,3B,Expected Lineup,2.83,,,,,1.12,0.12,0.34,0.16,0.13,0.63,0.03,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
+hitter,NYY,TOR,J.C. Escarra,641555,9.0,C,Expected Lineup,3.14,,,,,1.12,0.12,0.31,0.13,0.11,0.54,0.01,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,TOR,NYY,George Springer,543807,1.0,DH,Expected Lineup,3.7,,,,,0.95,0.09,1.02,0.55,0.49,2.06,0.22,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,TOR,NYY,Vladimir Guerrero Jr.,665489,2.0,1B,Expected Lineup,3.84,,,,,0.86,0.17,1.05,0.62,0.55,2.22,0.29,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
 hitter,TOR,NYY,Ernie Clement,676391,3.0,SS,Expected Lineup,3.38,,,,,0.65,0.06,0.87,0.46,0.45,1.79,0.17,False,88.0,92.0,88.0,80.0,85.0,83.0,83.0,84.0,86.0,high,high,high,high,high,high,high,high,high
